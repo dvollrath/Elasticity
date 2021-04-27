@@ -1,0 +1,35 @@
+48&Communications&513&Broadcasting and telecommunications\\
+48&Communications&514&Data processing, internet publishing, an\\
+49&         Electric, gas, and sanitary ser&22&Utilities\\
+F&Wholesale trade&42&Wholesale trade\\
+G&Retail trade&44RT&Retail trade\\
+G&Retail trade&722&Food services and drinking places\\
+60&Depository institutions&521CI&Federal Reserve banks, credit intermedia\\
+61&Nondepository institutions&521CI&Federal Reserve banks, credit intermedia\\
+62&Security and commodity brokers&523&Securities, commodity contracts, and inv\\
+63&Insurance carriers&524&Insurance carriers and related activitie\\
+64&            Insurance agents, brokers, a&524&Insurance carriers and related activitie\\
+65&Real Estate /2/&531&Real estate\\
+67&Holding and other investment offices&525&Funds, trusts, and other financial vehic\\
+70&Hotels and other lodging places&721&Accommodation\\
+72&Personal services&81&Other services, except government\\
+73&Business services&562&Waste management and remediation service\\
+73&Business services&561&Administrative and support services\\
+73&Business services&55&Management of companies and enterprises\\
+73&Business services&5415&Computer systems design and related serv\\
+73&Business services&532RL&Rental and leasing services and lessors \\
+73&Business services&511&Publishing industries, except internet (\\
+78&Motion pictures&512&Motion picture and sound recording indus\\
+79&Amusement and recreation services&713&Amusements, gambling, and recreation ind\\
+79&Amusement and recreation services&711AS&Performing arts, spectator sports, museu\\
+80&Health services&621&Ambulatory health care services\\
+80&Health services&622HO&Hospitals and nursing and residential ca\\
+81&Legal services&5411&Legal services\\
+82&Educational services&61&Educational services\\
+83&Social services&624&Social assistance\\
+87&Other services&81&Other services, except government\\
+87&Other services&5412OP&Miscellaneous professional, scientific, \\
+&Federal general government&GFG&Federal general government\\
+&Federal government enterprises&GFE&Federal government enterprises\\
+&State and local general government&GSLG&State and local general government\\
+&State and local government enterprises&GSLE&State and local government enterprises\\

@@ -1,0 +1,522 @@
+\documentclass[11pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsmath}
+\usepackage{verbatim}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{setspace}
+\usepackage{lscape}
+\usepackage{longtable}
+\usepackage[top=1.25in,bottom=1.25in,left=1in,right=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{epsfig}
+\usepackage{fancyhdr}
+\usepackage{booktabs}
+\usepackage{dcolumn}
+\usepackage{arydshln}
+\usepackage{natbib}
+\usepackage{tabularx}
+\usepackage{subfigure}
+\usepackage{hyperref}
+
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+
+\renewcommand{\thetable}{A.\arabic{table}}
+\renewcommand{\thesection}{A.\arabic{section}}
+\renewcommand{\theequation}{A.\arabic{equation}}
+\makeatletter
+\renewcommand{\l@section}{\@dottedtocline{1}{1.5em}{2.6em}}
+\renewcommand{\l@subsection}{\@dottedtocline{2}{4.0em}{3.6em}}
+\renewcommand{\l@subsubsection}{\@dottedtocline{3}{7.4em}{4.5em}}
+\makeatother
+
+\setcounter{MaxMatrixCols}{10}
+\newcolumntype{d}[1]{D{.}{.}{-2.#1}}
+\newenvironment{proof}[1][Proof]{\noindent\textbf{#1.} }{\ \rule{0.5em}{0.5em}}
+\setlength{\columnsep}{.2in}
+%\psset{unit=1cm}
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}
+
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+
+\begin{document}
+\begin{titlepage}
+\vspace{2in} \noindent {\large \today}
+
+\vspace{.5in} \noindent {\Large \textbf{\strut APPENDICES: The Elasticity of Aggregate Output with Respect to Capital and Labor}}
+
+\vspace{.25in} \noindent {\large Dietrich Vollrath}
+
+\vspace{.05in} \noindent University of Houston
+
+\vfill \noindent \textsc{Abstract} \hrulefill
+
+\vspace{.05in} \noindent These appendices contain information on data matching, assumptions, and calculations used in the main paper. Additional results are also reported.
+ 
+\vspace{.1in} \hrule
+
+\vspace{.1in} \noindent {\small Contact information: 201C McElhinney Hall, U. of Houston, Houston, TX 77204, devollrath@uh.edu.}
+\end{titlepage}
+
+\pagebreak 
+
+\section{Data and code}
+\onehalfspacing All of the code and raw data for this paper are publicly available. The site \url{https://github.com/dvollrath/LaborShare} contains both. The README file contained there includes instructions for replicating all tables, figures, and calculations in the paper. 
+
+\section{Matching historical industry data to input/output tables}
+As described in Section 3 of the main text, the first issue with creating the data series used in the estimates of $\epsilon_{Kt}$ is matching various data sources from the national accounts with different industrial classification schemes. 
+
+Figure \ref{TAB_series} is identical to Table 1 in the main text, replicated here for convenience. It shows the classification schemes used for various pieces of data. In each case the input/output is treated as the ``master'' and the other series are matched to it. 
+
+\begin{table}[!htb]
+\begin{center}
+\label{TAB_series}
+\caption{Industrial classification of data by year}
+\begin{tabular}{lrrrr}
+\midrule
+	    &             & Value-added   & \\
+Series  & I/O tables  & components & Capital stock \\ 
+\midrule
+1948-62 & NAICS 2012 (47 ind) & SIC 1972 & BEA/NAICS 2012 \\
+1963-86 & NAICS 2012 (65 ind) & SIC 1972 & BEA/NAICS 2012 \\
+1987-96 & NAICS 2012 (65 ind) & SIC 1987 & BEA/NAICS 2012 \\
+1997-2018 & NAICS 2012 (71 ind) & NAICS 2012 & BEA/NAICS 2012 \\ 
+\midrule
+\end{tabular}
+\end{center}
+{\footnotesize Notes: This table shows the classifications used for each range of years. The complete mapping of industry data across sources is provided in the Appendix. All data are from the BEA. }
+\end{table}
+
+For each industry in a given year in the I/O table, I need information on both value-added components (value-added, labor compensation, proprietors income, gross operating surplus, taxes on production, depreciation) and capital stocks (stock and price indices for structures, equipment, IP). The industry classifications for the value-added components and capital data are not NAICS 2012, so to bring that information over I need to match the other classifications listed in Table \ref{TAB_series} to NAICS 2012. 
+
+The literal matches I use can be found in Tables \ref{TAB_match1} through \ref{TAB_match6}, which are shown at the end of this appendix, as they are quite long. These tables show for each series (48-62, 63-86, 87-96) which SIC industry is matched to which NAICS 2012 industry. Each series is broken into two tables (Part 1 and Part 2) to aid in legibility. 
+
+\subsection{Baseline matching}
+There are three types of matches that can be found in these tables:
+
+\subsubsection{One SIC to one NAICS:} These are the straightforward cases where the SIC industry lines up directly with a NAICS industry. For example for 1947-62 the SIC industry ``Construction'' (SIC 1972 code C) is matched to NAICS industry ``Construction'' (NAICS code 23). 
+
+For these matches, obtaining the value-added components for the IO industry (coded using NAICS) is straightforward, and follows equation (12) in the text. I've reproduced the equation here, changing some of the notation to make the matching process clearer. First, ``ELEM'' refers to a data element (e.g. compensation, proprietors income, production taxes, etc.). Second, the NAICS superscript refers to the NAICS industry that this element is calculated for. The superscript SIC refers to the match SIC industry. 
+
+\begin{equation}
+	ELEM_{it}^{NAICS} = VALU_{it}^{NAICS} \times \frac{ELEM_{jt}^{SIC}}{VALU_{jt}^{SIC}}. \label{EQ_match}
+\end{equation}
+
+In the case of a one-to-one match of SIC to NAICS, this equation is simple to process. I use the ratio of the given data element in SIC to the value-added in SIC ($ELEM_{jt}^{SIC}/VALU_{jt}^{SIC}$) to multiple by the reported value-added of the NAICS industry, $VALU_{it}^{NAICS}$, to obtain the size of the data element for the NAICS industry, $ELEM_{it}^{NAICS}$. 
+
+The assumption at work here is that because of the different classification systems the absolute size of value-added in SIC and NAICS matches will not be identical. However, what I am assuming is that the breakdown of value-added in a SIC industry is informative about the breakdown of value-added in the matched NAICS industry. This will be imperfect, given that the scope of the industries is technically different. 
+
+\subsubsection{One SIC to many NAICS:} This is a case where the NAICS is more detailed than the SIC. An example for 1947-62 is the SIC industry ``Retail trade'' (SIC code G) which I match to NAICS industries ``Retail trade'' (NAICS code 44RT) and ``Food service and drinking places'' (NAICS code 722). 
+
+Here, what I am doing is using the \textit{ratios} from same SIC industry to infer the value-added components for multiple NAICS industries. Referring back to equation (\ref{EQ_match}) and the example given, I'm assuming that the ratio $ELEM_{jt}^{SIC}/VALU_{jt}^{SIC}$ from SIC ``Retail trade'' is a good proxy for the ratio of that element to value-added in NAICS `Retail trade'' and ``Food service and drinking places''. The proportional breakdown of value-added across different components in those two NAICS industries is thus the same, as they all are assumed to have similar breakdowns to the SIC industry. 
+
+In this case I am losing detail, as the NAICS industries presumably have at least some differences in the breakdown of value-added components. I have experimented with several versions of the matching. For example, I've matched ``Food service and drinking places'' in the NAICS to ``Amusement and recreation services'' in the SIC. But these changes have not created any meaningful differences in the elasticity estimates.
+
+\subsubsection{Many SIC to one NAICS:} The final case is where there are multiple SIC industries matched to a single NAICS. An example here is ``Banking'' (SIC code 60), ``Credit agencies'' (SIC code 61), ``Security and commodity brokers'' (SIC code 62), ``Insurance carriers'' (SIC code 63), and ``Insurance agents, brokers'' (SIC code 64) all being matched to NAICS industry ``Finance and Insurance'' (NAICS code 52). 
+
+In this case SIC has more detail than NAICS, but I have no way of taking advantage of that detail. To get the value-added components for the NAICS industries I therefore sum up the value-added elements for the SIC industries, and use the ratio for those sums. In the example just given, I first the sum of labor compensation in SIC industries 60, 61, 62, and 63. I then find the sum of value-added in SIC industries 60, 61, 62, and 63. The ratio of this sum of labor compensation to sum of value-added is used as the ratio $ELEM_{jt}^{SIC}/VALU_{jt}^{SIC}$. I then apply this ratio according to equation (\ref{EQ_match}) to find labor compensation for the matched NAICS industry 52. 
+
+There is a loss of information here simply because of the lack of detail in the IO tables for these years. Again, reasonable alternative matches do not appear to impact the elasticity estimates in a meaningful way.
+
+\subsection{Government}
+In the match Tables \ref{TAB_match1}-\ref{TAB_match6} one will note that there is no SIC code associated with any of the government industries: Federal general government, Federal government enterprises, State and local general government, or State and local government enterprises. Those industries do not have specific SIC codes assigned in the data obtained from the BEA. 
+
+In each case there is a straightforward match, however, to a NAICS industry of the same level. In the code implementing this the matching is done on the text, as opposed to a code per se, but otherwise these are straight one-for-one matches.
+
+\subsection{BEA capital stock data}
+Theoretically, the BEA reports capital stock data using a NAICS industrial classification system. However, their classification is not precisely identical to the NAICS system found in the input/output tables. The vast majority of industries in the I/O table do have a direct match, but there are exceptions that I outline here. 
+
+For most industries, the BEA capital stock data reports a NAICS code in four digits, with different levels of disaggregation indicated by non-zeros. For example, 3200 refers to ``Manufacturing'', while 3210 refers to ``Wood products'', and one could disaggregate further to 3211 for a specific type of wood product. The I/O tables report the highest level digits, without trailing zeroes. Hence the I/O table has a NAICS code of 321 for ``Wood products''. It does not contain an entry for NAICS code 32, as the point of the I/O table is to show the disaggregated relationships. Matching in this case is straightforward, as it simply has to take into account the trailing zeros. This works for the vast majority of industries. 
+
+There are exceptions, of course. In most cases these are simply differences in transcription involving letters (e.g. 113F matching to 113FF), but there are still one-to-one matches from the BEA capital data to the I/O table.
+
+\begin{itemize}
+	\item BEA code 110C is matched to I/O code 111CA (Farms)
+	\item BEA code 113F is matched to I/O code 113FF (Forestry, fishing, and related)
+	\item BEA code 336M is matched to I/O code 3361MV (Motor vehicles)
+	\item BEA code 336O is matched to I/O code 3364OT (Other transport equipment)
+	\item BEA code 338A is matched to I/O code 339 (Miscellaneous manufacturing)
+	\item BEA code 311A is matched to I/O code 311FT (Food, beverage, and tobacco products)
+	\item BEA code 487S is matched to I/O code 487OS (Other transportation)
+	\item BEA code 5320 is matched to I/O code 532RL (Rental and leasing services)
+\end{itemize}
+
+There is one case where two industries in the BEA capital data (5210 and 5220) are matched to a single I/O industry (521CL, Federal Reserve Banks). In this case the capital stock data from the BEA is simply summed up, and the total capital stock is applied to the I/O industry 521CL. 
+
+There are two cases where a single industry in the BEA capital data is matched to multiple industries in the I/O table. The first case is where BEA code 5310 is matched to both ORE (Other real estate) and HS (Housing) in the I/O tables. This is only the case for the period 1997-2018. In this case I need to allocate the data on capital for BEA code 5310 to two different I/O industries. I assign the capital data to the two I/O industries in proportion to their value-added. This means I am assuming the capital/output ratio, depreciation/output ratio, and investment/output ratio are the same in both ORE and HS. 
+	
+The second case is where BEA code 44RT is matched to four different retail industries in the I/O table, 441 (Motor vehicle and parts dealers), 445 (Food and beverage stores), 452 (General merchandise stores), 4A0 (Other retail). I use the same strategy with this group. I split the capital, depreciation, and investment data on BEA industry 44RT to the four industries in proportion to their value-added.
+
+\section{Series breaks at matching}
+As noted in the prior section, and summarized in Table \ref{TAB_series}, the sources used differ across time periods. It is possible that the estimates of $\epsilon_{Kt}$ differ over time based simply on the matching process or vintage of data. 
+
+Figure \ref{FIG_cap_break} shows that there are no distinct breaks in the estimated elasticity series at the break points between different data series. That is, form 1962 to 1963, for example, none of the four baseline estimates of $\epsilon_{Kt}$ appear to show any distinct jump that might be associated with changes in data series or the matching process.
+
+\begin{figure}[!htb]
+\begin{center}
+\caption{Baseline estimates of capital elasticity, $\epsilon_{Kt}$, denoting data series breaks}
+\label{FIG_cap_break}
+\includegraphics[width=1.0\textwidth]{fig_cap_break_comparison.eps}
+\end{center}
+\vspace{-.5cm}\singlespacing {\footnotesize \textbf{Notes}: The estimate of the aggregate capital elasticity, $\epsilon_K$, is made using equation (9) under various assumptions explained in the text. The primary data source for all estimates is the Bureau of Economic Analysis, with input-output tables, capital stocks by industry, compensation by industry, and value-added by industry using different industrial classifications merged according to a methodology described in this Appendix. The year ranges at the bottom of the figure refer to the periods used in the matching of data across sources described in Table \ref{TAB_series}.
+}
+\end{figure}
+
+\section{Calculation differences in no-profit scenario}
+\cite{bfshortnote,bfprodge} demonstrate how to calculate $\epsilon_{Kt}$ using arbitrary frictions/markups in industries. In their theoretical work they also demonstrate that if one assumes zero economic profits, then the elasticity $\epsilon_{Kt} = s^{Cost}_{Kt}$. 
+
+While there is no issue with the theoretical conclusion, it practice the calculation of $\epsilon_{Kt}$ using their general structure in equation (9) leads to slightly different estimates that what is found using $s^{Cost}_{Kt}$ directly. In the main text I use the cost share in the tables and figures. Here I show that the discrepancies in the two methods are not fundamental to the conclusions of the paper.
+
+\begin{figure}[!htb]
+\begin{center}
+\caption{Comparison of $\epsilon_{Kt}$ calculation methods, no-profit assumption}
+\label{FIG_cap_noprofit}
+\includegraphics[width=1.0\textwidth]{fig_cap_noprofit_comparison.eps}
+\end{center}
+\vspace{-.5cm}\singlespacing {\footnotesize \textbf{Notes}: The ``Matrix method'' estimate of the aggregate capital elasticity, $\epsilon_{Kt}$, is made using equation (9) under the assumption of no-profits, as explained in the text. The ``Cost share method'' estimate matches the results in the main text, and uses the theoretical finding in \cite{bfshortnote} that $\epsilon_{Kt} = s^{Cost}_{Kt}$ when economic profits are zero.
+}
+\end{figure}
+
+Figure \ref{FIG_cap_noprofit} plots $\epsilon_{Kt}$ using $s^{Cost}_{Kt}$, as in the main text, and also calculated using equation (9) in the main text (the ``Matrix method''). As one can see, the matrix method yields estimates just slightly above the cost share method, but the general pattern is similar. 
+
+The discrepancy appears to come from two sources. One is that the input-output matrix is highly asymmetric, and in trying to invert a 71x71 matrix (as in the later periods) the determinant becomes very sensitive to rounding errors. A second is that the input-output matrix excludes an ``other'' industry from the national accounts that allows for scrap parts and the like as an intermediate good. This industry is only included as a supplier, not a user of intermediates, so there is no way to include it in the calculations. The final reason is that Baqaee and Farhi's theory is a first-order approximation, and the $\epsilon_{Kt} = s^{Cost}_{Kt}$ result holds in the limit. 
+
+\section{Proprietors income}
+In the main text the amount of proprietors income that is considered a labor cost is calculated using equation (13) according to the formula used by \cite{gommerupert2004}. Here I show alternative estimates of the upper and lower bounds to $\epsilon_{Kt}$ when different assumptions about proprietors income are used. 
+
+Figure \ref{FIG_cap_prop} plots the baseline upper (no-profit) and lower (depreciation-only) bounds in black lines, as usual. The first alternative is to assume that all proprietors income is in fact a labor cost, so that $COST_{iLt} = COMP_{it} + PROP_{it}$. The bounds with this assumption are either the gray dashed line (no-profit) or gray solid line (depreciation-only). As can be seen this lowers the estimated capital elasticity bounds, because the more value-added is assumed to be a labor cost. The modification for both bounds is minor.
+
+\begin{figure}[!htb]
+\begin{center}
+\caption{Estimates of capital elasticity, different proprietors income assumptions}
+\label{FIG_cap_prop}
+\includegraphics[width=1.0\textwidth]{fig_cap_prop_comparison.eps}
+\end{center}
+\vspace{-.5cm}\singlespacing {\footnotesize \textbf{Notes}: The estimate of the capital elasticity $\epsilon_{Kit}$, is made using equation (9) in the main text. The no-profit upper bounds differ by the assumption about proprietors income. The basline is ``split'' where proprietors income is split between labor and capital costs according to equation (13) in the main text. ``Labor cost'' means all proprietors income is assumed to be a labor cost, and ``capital cost'' means all proprietors income is assumed to be a capital cost. The same distinctions apply to the depreciation-only lower bounds.
+}
+\end{figure}
+
+The opposite assumption is that all proprietors income is either a capital cost or economic profit. Mechanically, this is equivalent to assuming that $COST_{iLt} = COMP_{it}$. The estimates of $\epsilon_{Kt}$ under these assumptions are the gray o's (no-profit) or gray x's (depreciation-only). In the depreciation-only case this makes no significant difference. However, under the no-profit assumption the estimated capital elasticity is much higher, averaging about 0.4 from 1948-1995, and approaching 0.45 by 2018. The reason for this is simply that with lower labor costs, more costs are assigned to capital in the no-profit case. 
+
+\section{User cost details}
+As described in the text, one of the alternative series used for estimating $\epsilon_{Kt}$ involves a user cost formula, as in \cite{halljorg1967}, and similar to what is used in \cite{Barkai000,rognlie2015}. This appendix section provides more detail on the construction of those user costs of capital. 
+
+The cost of capital is, replicating the equation from the main text,
+
+\begin{equation}
+	COST^{User}_{iKt} = \sum_{j \in st,eq,ip} K_{ijt} R_{ijt}.
+\end{equation}
+
+where there are three types of capital $j$ for each industry $i$ at time $t$. The stock, $K_{ijt}$, comes from the BEA \citep{beacap,beagov}. The rate of return for each industry/capital type/time, $R_{ijt}$ is calculated according to the following formula, also from the main text.
+
+\begin{equation}
+	R_{ijt} = (Int_{it} - E[\pi_{ijt}] + \delta_{ijt})\frac{1-z_{jt} \tau_t}{1-\tau_t}
+\end{equation}
+
+\subsection{Nominal interest rate}
+The nominal rate $Int_{it}$ is industry/time specific, but not specific to the type of capital. Hence I assume that within each industry all capital is financed at the same nominal rate.
+
+That nominal rate is a combination of several nominal rates, which can vary by the type of financing. 
+
+\begin{equation}
+    Int_{it} = \sum_m s_{imt} Int_{mt}
+\end{equation} 
+
+where $m$ is the type of financing, and $s_{imt}$ is the share of financing of type $m$ used by industry $i$ at time $t$. $Int_{mt}$ is the nominal interest rate of asset type $m$. Hence the industry-specific nature of the nominal interest rate comes from its mix of financing across types, but each industry faces the same nominal rate on a given financing type. For example, all corporate AAA bonds are assumed to have the same rate ($Int_{mt}$), but industries vary in what share of their financing ($s_{imt}$) comes from corporate AAA bonds. 
+
+The financing types $m$ used are 10-year Treasury bonds, municipal bonds, corporate AAA bonds, corporate Baa bonds, 30-year mortgage rate, Fed Funds rate, the 10-year Treasury plus the S\&P 500 dividend rate as a proxy for equity returns \citep{fedint,fredmort,moodys}.
+
+For private industries, I use the integrated macroeconomic accounts of the U.S. \citep{beaimap} to find industry-level balances of liabilities from corporate bonds, corporate paper, loans, and equity. Specifically, I use Table S.5.a-A (annual totals). Corporate paper is series FL103169100, corporate bonds are series FL103163003, loans are series FL104123005, and equity is series FL103181005. I sum these four liabilities, and then form shares $s_{imt}$ by dividing the specific liability by this total. Note that these shares are common to all private industries. The distinction across industries $i$ will come as a difference between private industries, housing, and government. 
+
+One note is that the integrated account only begin in 1960. I extrapolate values for 1948-1959 by taking the average shares $s_{imt}$ for 1960-1969, and using those for each year 1948-1959. I am thus assuming that the structure of private business financing was the same 1948-1959. 
+
+For any federal government industry, I assume all financing is coming from 10-year Treasury bonds, so that $s_{Fed,T-bond,t} = 1$ for federal industries, and zero for all other kinds of financing. For state and local government, all financing is assumed to come from municipal bonds, or $s_{SL,Muni,t} = 1$ and zero on all other sources. For housing I assume all financing comes from 30-year mortgages, or $s_{HS,Mort,t}=1$ and all other sources are zero. 
+
+The actual nominal interest on each source of financing, $Int_{mt}$, are drawn from several sources \citep{fedint,fredmort,moodys,nberhistory}. A single rate for each year is obtained.
+
+\begin{itemize}
+	\item The corporate bond rate is equal to the first observation of Moody's AAA rate in a given year, retrieved from FRED
+	\item The corporate paper rate is set equal to the first observation of the Fed Funds rate in a given year, retrieved from FRED
+	\item The loan rate is set equal to the first observation of the Moody's Baa rate in a given year, retrieved from FRED.
+	\item The equity rate is set equal to the first observation of the 10-year Treasury bond rate in a given year, retrieved from FRED, plus the S\&P 500 dividend yield, also obtained from FRED.
+	\item The 10-year Treasury rate is equal to the first observation of the 10-year Treasury bond rate in a given year, retrieved from FRED, for 1953-2018. For 1948-1953, the historical series of federal bond yields from the NBER is used. 
+	\item The municipal bond rate is equal to the first observation of the corporate Baa rate in a given year, retrieved from FRED, minus two percentage points
+	\item The 30-year mortgage rate is equal to the first observation of the mortgage rate in a given year, obtained from FRED for 1971-2018. This is combined with historical mortgage rates from the NBER for 1949-1965. Rates from 1966-1970 are imputed from the prime lending rate (obtained from FRED) plus 1 percentage point. The rate for 1948 is set to 4.32 percent, identical to the rate for 1949.
+\end{itemize}
+
+\subsection{Expected inflation}
+The second term in the user cost formula is $E[\pi_{ijt}]$, meaning there is an expected inflation for industry $i$ on capital type $j$ at time $t$. From the BEA capital stock data \citep{beacap} I obtain a price index for each capital type $j$ in each industry $i$ at time $t$. For the basic user cost formula, I calculate actual inflation in period $t$, and set $E[\pi_{ijt}] = \pi_{ijt}$. The following section shows results if I use forward-looking price changes or backward-looking prices changes in the user cost formula.
+
+\subsection{Depreciation}
+BEA capital stock data \citep{beacap} includes an amount of depreciation by capital type $j$ for industry $i$ at time $t$, $DEPR_{ijt}$ In addition I have the capital stock of type $j$ for industry $i$ at time $t$, $K_{ijt}$, from the same source. The depreciation rate in the user cost formula is found as $\delta_{ijt} = DEPR_{ijt}/K_{ijt}$.
+
+\subsection{Depreciation allowance}
+The user cost formula contains an adjustment for depreciation allowance in the tax code by capital type, $z_{jt}$. Data from \cite{stan} contains information on this allowance by country, and I use the U.S. values here. The data runs only from 1979-2012, and for 2018. For 2013-2017, I use the 2012 value for each capital type: 0.35 for structures, 0.63 for intellectual property, and 0.877 for equipment. Prior to 1979, I use a value of 0.561 for structures (matching the 1979 value), 0.98 for equipment (matching the 1979 value), and 0 for intellectual property (matching the 1979 value). 
+
+\subsection{Corporate tax rate}
+The corporate tax rate is assumed to be the same across industries, but can vary with time, $\tau_t$. The only deviation is that the federal and state/local government industries are assumed to face a zero tax rate. I find the effective corporate tax rate by using aggregate profits after tax ($After$), and aggregate profits before ($Before$) tax, and setting $\tau_t = (Before - After)/Before$. 
+
+\section{User cost inflation expectations}
+Within the user cost of capital calculation, the expected inflation rate, $E[\pi_{ijt}]$, appears. In the baseline calculation this expected inflation for capital type $j$ in industry $i$ at time $t$ is assumed to be the current inflation rate, or $E[\pi_{ijt}] = \pi_{ijt}$. 
+
+There are multiple alternatives that one could consider. In Figure \ref{FIG_cap_user_inflation} I plot the baseline along with two alternative series. In the first, expected inflation is assumed to be a three-year forward-looking average, or $E[\pi_{ijt}] = (\pi_{ij,t+1} + \pi_{ij,t+2} + \pi_{ij,t+3})/3$. In the second a three-year backward-looking average, or $E[\pi_{ijt}] = (\pi_{ij,t-1} + \pi_{ij,t-2} + \pi_{ij,t-3})/3$
+
+\begin{figure}[!htb]
+\begin{center}
+\caption{Estimates of capital elasticity, different user-cost assumptions}
+\label{FIG_cap_user_inflation}
+\includegraphics[width=1.0\textwidth]{fig_cap_user_comparison.eps}
+\end{center}
+\vspace{-.5cm}\singlespacing {\footnotesize \textbf{Notes}: The estimate of the capital elasticity $\epsilon_{Kit}$, is made using equation (9) in the main text. The black line uses the user cost of capital assumption, as described in the main text, with expected inflation equal to current inflation. The series marked with x's uses a three-year forward-looking average of inflation in capital types to form expected inflation. The series marked with o's uses a three-year backward-looking average of inflation in capital types to form expected inflation. 
+}
+\end{figure}
+
+As can be seen in the figure, while the three series are offset from one another temporally, there is not a distinct difference in the implied capital elasticity across the three series. 
+
+\section{Housing and government}
+In section 6.1 I calculate $\epsilon_{Kt}$ for the private business sector, which excludes owner-occupied housing and government industries. In this appendix I show summary statistics on the cost shares of those industries, which helps to illustrate why they (and housing in particular) pull the elasticity estimate up so much when included. 
+
+Panel A of Table \ref{TAB_ratios} shows the ratios $s^{COST}_{Kt}$ and $s^{VA}_{Kt}$ for owner-occupied housing. The cost ratio for capital is 0.942 on average under the no-profit assumption, and is 0.797 even in the depreciation only assumption. The capital cost share of housing is massive compared to any other industry, and hence when housing is included, as in the baseline estimates of $\epsilon_{Kt}$, this elasticity is larger. Once housing is excluded, the estimate of $\epsilon_{Kt}$ falls, even absent any input-output relationships. 
+
+\begin{table}[!htb]
+\begin{center}
+\caption{Capital costs as share of factor costs and value-added, housing and government}
+\label{TAB_ratios}
+{\footnotesize
+\begin{tabularx}{\textwidth}{lXXXXXXXX}
+\midrule
+        & \multicolumn{8}{c}{Summary statistics, 1948-2018:} \\ \cmidrule(lr){2-9} 
+        & \multicolumn{4}{c}{Capital costs/Factor costs, $s^{Cost}_{Kt}$} & \multicolumn{4}{c}{Capital costs/Value-added, $s^{VA}_{Kt}$} \\ \cmidrule(lr){2-5} \cmidrule(lr){6-9} 
+ &  Mean & Median  & Minimum & Maximum  &  Mean & Median  & Minimum & Maximum \\
+Variant & (1) & (2) & (3) & (4) & (5) & (6) & (7) & (8) \\
+\midrule
+\input{tab_cost_hsgov.txt}
+\midrule
+\end{tabularx}
+}
+\end{center}
+\vspace{-.5cm}\singlespacing {\footnotesize \textbf{Notes}: The panels of the table refer to different sectors of the economy. Owner-occupied housing refers to NAICS codes HS, ORE, and 531. Government refers to NAICS codes GFGD, GFGN, GFE, GSLG, GSLE, and GFG, which covers federal, state, and local government, both general and enterprises. In each row, the assumption made to calculate capital costs is labeled, as described in the text. Columns (1)-(4) are summary statistics over 1948-2018 for the total estimated capital costs divided by total factor costs (the sum of capital costs and labor costs). Columns (5)-(9) are summary statistics over 1948-2018 for total capital costs divided by value-added. 
+}
+\end{table}
+
+In comparison the government industries, as a whole, have cost shares that are quite similar to the overall economy, and hence their inclusion or exclusion has little impact on the overall estimate of $\epsilon_{Kt}$. The reason that the private business sector has a much lower $\epsilon_{Kt}$ than the overall economy is due to housing, not the government.
+
+\section{De-capitalizing IP}
+In section 6.2 of the main paper I calculate $\epsilon_{Kt}$ estimates after de-capitalizing intellectual property from the national accounts, as in \cite{ksz2020}. The details of that de-capitalizing process are as follows.
+
+For each industry $i$, value-added without IP is $VALU_{it}^{NoIP} = VALU_{it} - INV_{i,IP,t}$, where $INV_{i,IP,t}$ is own-account investment spending on IP. Second, total investment by industry $i$ is set to $INV_{it}^{NoIP} = INV_{it} - INV_{i,IP,t}$. Third, total depreciation by industry $i$ is set to $DEPR_{it}^{IP} = DEPR_{it} - DEPR_{i,IP,t}$. Finally, the stock of capital in industry $i$ is set to $K^{NoIP}_{it} = K_{it} - K{i,IP,t}$. 
+
+What these adjustments do not account for are IP products that are purchased from other industries. In the national aggregates, \cite{ksz2020} have information on total flows of these purchases, and can make adjustments for it. In the input/output accounts at the industry level, there is no information on these flows, and so there is no way to make this adjustment. Thus my de-capitalization process is not complete, and I am understating the effect of de-capitalization on the elasticity estimates.
+
+\section{Elasticities by type of capital}
+Within the main paper I focus on the elasticity of GDP with respect to aggregate capital, $\epsilon_{Kt}$. But the national accounts data include information on three types of capital: structures, intellectual property, and equipment. It is feasible to calculate separate elasticities for each type separately: structures ($\epsilon_{st,t}$), equipment ($\epsilon_{eq,t}$), and intellectual property ($\epsilon_{ip,t}$). 
+
+To construct these estimates, one simply has to expand the matrix $\Lambda$ in equation (6) to include separate columns denoting the cost shares of each type of capital for each industry, and ensure that there are rows of zeroes included in $\Lambda$ for each type. All the capital data for the three types is available from the BEA, so the information is available. For the depreciation lower bound, the investment cost assumption, and the user cost assumption, the calculations for the separate elasticities are straightforward. 
+
+The only issue arises with the no-profit upper bound. In this case, the \textit{total} cost of capital is calculated from equation (14) by subtracting labor costs (and taxes) from value-added. This does not provide any information on how those implied capital costs are allocated to structures, equipment, and intellectual property. 
+
+To address this, I calculate two different versions of the no-profit upper bound for each capital type elasticity. The first version uses the reported current-cost stock of a capital type relative to the total current-cost stock of capital to allocate the total costs of capital. More specifically, for capital type $j \in (st,eq,ip)$ in industry $i$ at time $t$ I calculate
+
+\begin{equation}
+	COST_{ijt}^{Stock,NoProf} = \left(VALU_{it} - TAX_{it} - COST_{iLt}\right)\frac{K_{ijt}}{\sum_{j \in (st,eq,ip)} K_{ijt}}.
+\end{equation}
+
+The second approach uses investment costs to do the allocation of total capital costs in the no-profit assumption. Using the same indices, I have
+
+\begin{equation}
+	COST_{ijt}^{Inv,NoProf} = \left(VALU_{it} - TAX_{it} - COST_{iLt}\right)\frac{INV_{ijt}}{\sum_{j \in (st,eq,ip)} INV_{ijt}}.
+\end{equation}
+
+Table \ref{TAB_type} gives the summary statistics for the three types of capital, under each possible assumption regarding their individual costs. Panel A shows the estimates for structures. The two no-profit upper bound estimates show a distinct difference. Allocating capital costs by the size of the stocks (row 1 in Panel A), the average value of $\epsilon_{st,t}$ is 0.219, while allocating costs by investment spending (row 2 in Panel A) yields an average value of $\epsilon_{st,t}$ of 0.156. In the case of the allocation by stocks, there is an increase in the elasticity of 0.034 over the period 1948-2018, while using investment costs the increase is small, only 0.012.
+
+\begin{figure}[!htb]
+\begin{center}
+\caption{Estimates of capital elasticity, by type of capital}
+\label{FIG_cap_types}
+\includegraphics[width=1.0\textwidth]{fig_cap_type_comparison.eps}
+\end{center}
+\vspace{-.5cm}\singlespacing {\footnotesize \textbf{Notes}: The estimate of the capital elasticity for type $i$, $\epsilon_{Kit}$, is made using equation (9) in the text. The no-profit upper bounds are calculated by allocating total capital income to each capital type in proportion to investment spending on that capital type in a given year. The depreciation lower bounds are calculated by using observed data on depreciation by capital type. 
+}
+\end{figure}
+
+The other estimates based on investment costs directly and on user costs yield average estimates of 0.137 and 0.149, respectively. In investment cost estimate \textit{falls} over time, although the absolute change is not large. The depreciation cost lower bound indicates an elasticity below 0.10 for structures, with a rise over time. 
+
+In Panel B the estimates for the equipment elasticity, $\epsilon_{eq,t}$, appear much more stable. The average no-profit upper bound is either 0.091 (using stocks to allocate costs) or 0.108 (using investment costs to allocate costs). Estimates using investment costs directly and user costs give estimates of 0.093 and 0.097, respectively. The depreciation based lower bound is 0.080, on average. Hence the plausible range of values for $\epsilon_{eq,t}$ is quite small compared to structures. In addition, the fitted increase in $\epsilon_{eq,t}$ under all assumptions is quite small. 
+
+\begin{table}[!htb]
+\begin{center}
+\caption{Estimates of U.S. capital elasticity, $\epsilon_{iK}$, by capital type}
+\label{TAB_type}
+{\footnotesize
+\begin{tabularx}{\textwidth}{lXXXXXXX}
+\midrule
+        & \multicolumn{4}{c}{Summary statistics, $\epsilon_{Kit}$, 1948-2018:}  & \multicolumn{3}{c}{Fitted change 1948-2018:} \\ \cmidrule(lr){2-5} \cmidrule(lr){6-8}
+ &  Mean & Median  & Minimum & Maximum  & $\Delta \hat{\epsilon}_{Ki,48-18}$ & Slope ($\hat{\beta}_1$) & R-squared \\
+Variant & (1) & (2) & (3) & (4) & (5) & (6) & (7) \\
+\midrule
+\input{tab_capital_summary.txt}
+\midrule
+\end{tabularx}
+}
+\end{center}
+\vspace{-.5cm}\singlespacing {\footnotesize \textbf{Notes}: The calculation of $\epsilon_{Kit}$ is described in the text. The panels of the table differ in the type of capital (structures, equipment, intellectual property) the elasticity is calculated for. Within each panel, the "No-profit (naive)" variation splits the total capital cost across the three capital types according to the size of hte capital stocks. The "No-profit (user)" splits total capital cost across the capital types using the user cost of capital. User cost, investment cost, and depreciation cost variants use costs of capital for that type calculated directly, according to methods described in the text. The fitted change is estimated from a simple OLS regression of $\epsilon_{Kt}$ against time for the given variant, with $\hat{\beta}_1$ showing the estimated change per year, and $\Delta \hat{\epsilon}_{K,48-18} = 70\times\hat{\beta}_1$ being the estimated overall change from 1948 to 2018. The R-squared is from the simple OLS regression.
+}
+\end{table}
+
+Finally, in Panel C the intellectual property elasticity, $\epsilon_{ip,t}$, are also bunched together narrowly. Given the very small implied size of the IP capital stock in early years, the no-profit assumption that allocates costs by stocks gives an estimate of only 0.027, on average, which is actually \textit{below} the lower-bound depreciation cost estimate of 0.034. The no-profit upper bound based on investment costs as weights yields an average estimate of 0.040, giving a very narrow range for the IP capital elasticity. Moreover, in each case in Panel C there is a clear tendency for the elasticity $\epsilon_{ip,t}$ to rise over time by around 0.055. In practice all the different assumptions yield estimates of $\epsilon_{ip,t}$ in 1948 of around 0.011, rising to around 0.07-0.11 by 2018. Regardless of how the estimates are made, the indication is that the elasticity with respect to IP rose by a factor of five or six over time, although it remains smaller than the ranges implied for equipment or structures. A significant part of the increase in aggregate $\epsilon_{Kt}$ over time is due to the rise in importance of intellectual property capital.
+
+\section{Markup comparison}
+In making assumptions about capital costs I am also implicitly making assumptions about the markup at the industry level. In particular, let $\mu_{it}$ be the value-added markup for industry $i$ at time $t$,
+
+\begin{equation}
+	\mu_{it} = \frac{VALU_{it}}{COST_{iLt}+COST_{iKt}}.
+\end{equation}
+
+Knowing those industry-level markups I can calculate an aggregate markup, $\mu_t$ according to the following formula from \cite{edmondetal2018},
+
+\begin{equation}
+	\mu_t = \left(\sum_{i \in J} \frac{VALU_{it}}{VALU_t}\frac{1}{\mu_{it}} \right)^{-1} \label{EQ_markup}
+\end{equation}
+
+where $VALU_t$ is total value-added. This geometric average of the markups using value-added weights could be replaced by a simple average using costs as the weights. Either method delivers an identical results. 
+
+\begin{figure}[!htb]
+\begin{center}
+\caption{Estimates of capital elasticity, by type of capital}
+\label{FIG_markup}
+\includegraphics[width=1.0\textwidth]{fig_cap_markup_comparison.eps}
+\end{center}
+\vspace{-.5cm}\singlespacing {\footnotesize \textbf{Notes}: The estimated markups are calculated using equation (\ref{EQ_markup}). The first three series (no-profit, depreciation, investment cost) refer to the capital cost assumption used to calculate the industry-level markups that are used to calculate the aggregate markup. The fourth series (Compustat) is from \cite{edmondetal2018} and is the aggregate markup calculated from firm-level data drawn from Compustat.
+}
+\end{figure}
+
+In Figure \ref{FIG_markup} I plot several series of aggregate markups calculated using (\ref{EQ_markup}) under different assumptions about capital costs. The no-profit assumption yields an aggregate markup of one, by construction, and that is plotted as the horizontal dashed line. Under the depreciation cost assumption capital costs are low, implying that value-added is high relative to costs, and hence there is a high markup. This represents an upper bound on the aggregate markup for the entire economy. Using investment costs to calculate capital costs yields the intermediate series shown (in x's).
+
+I have also plotted the aggregate markup series calculated by \cite{edmondetal2018} using firm-level data from Computstat. As can be seen this leaves the implied bounds some time in the 1980s. However, this series is not quite comparable to the ones I have calculated, given that it is based on a subset of firms in Compustat. Firms in that dataset, which are publicly traded, are likely to be self-selected high markup firms who chose to list themselves on public exchanges. Hence the Computstat series does not imply the bounds I've placed are wrong, it indicates that the composition of the units in the aggregate markup calculation matters.
+
+
+
+\onehalfspacing
+%\renewcommand{\refname}{\textbf{REFERENCES}}
+%\setlength{\bibsep}{1pt}
+{\small
+\bibliographystyle{aea}
+\bibliography{Elasticity.bib}
+}
+
+
+\begin{table}[!htb]
+\begin{center}
+\label{TAB_match1}
+\caption{Matching of SIC 1972 to NAICS, 1948-1962, Part 1}
+{\footnotesize
+\begin{tabular}{llll}
+\midrule
+\multicolumn{2}{c}{SIC 1972:} & \multicolumn{2}{c}{NAICS 1948-62:} \\ \cmidrule(lr){1-2} \cmidrule(lr){3-4}
+Code  & Code text  & Code & Code text \\ 
+\midrule
+\input{tab_match_sic72_4762part1.txt}
+\midrule
+\end{tabular}
+}
+\end{center}
+{\footnotesize Notes: This table shows the the SIC 1972 industry matched to each NAICS industry for the years 1948-62. There are cases where the same SIC 1972 industry is matched to multiple NAICS industries, and where the same NAICS industry is matched to multiple SIC 1972 industries. The consequences of that are explained in the text. The matching is the authors based on crosswalks and personal judgement.}
+\end{table}
+
+
+\begin{table}[!htb]
+\begin{center}
+\label{TAB_match2}
+\caption{Matching of SIC 1972 to NAICS, 1948-1962, Part 2}
+{\footnotesize
+\begin{tabular}{llll}
+\midrule
+\multicolumn{2}{c}{SIC 1972:} & \multicolumn{2}{c}{NAICS 1948-62:} \\ \cmidrule(lr){1-2} \cmidrule(lr){3-4}
+Code  & Code text  & Code & Code text \\ 
+\midrule
+\input{tab_match_sic72_4762part2.txt}
+\midrule
+\end{tabular}
+}
+\end{center}
+{\footnotesize Notes: This table shows the the SIC 1972 industry matched to each NAICS industry for the years 1948-62. There are cases where the same SIC 1972 industry is matched to multiple NAICS industries, and where the same NAICS industry is matched to multiple SIC 1972 industries. The consequences of that are explained in the text. The matching is the authors based on crosswalks and personal judgement.}
+\end{table}
+
+
+\begin{table}[!htb]
+\begin{center}
+\label{TAB_match3}
+\caption{Matching of SIC 1972 to NAICS, 1963-86, Part 1}
+{\footnotesize
+\begin{tabular}{llll}
+\midrule
+\multicolumn{2}{c}{SIC 1972:} & \multicolumn{2}{c}{NAICS 1963-86:} \\ \cmidrule(lr){1-2} \cmidrule(lr){3-4}
+Code  & Code text  & Code & Code text \\ 
+\midrule
+\input{tab_match_sic72_6386part1.txt}
+\midrule
+\end{tabular}
+}
+\end{center}
+{\footnotesize Notes: This table shows the the SIC 1972 industry matched to each NAICS industry for the years 1963-86. There are cases where the same SIC 1972 industry is matched to multiple NAICS industries, and where the same NAICS industry is matched to multiple SIC 1972 industries. The consequences of that are explained in the text. The matching is the authors based on crosswalks and personal judgement.}
+\end{table}
+
+
+\begin{table}[!htb]
+\begin{center}
+\label{TAB_match4}
+\caption{Matching of SIC 1972 to NAICS, 1963-86, Part 2}
+{\footnotesize
+\begin{tabular}{llll}
+\midrule
+\multicolumn{2}{c}{SIC 1972:} & \multicolumn{2}{c}{NAICS 1963-86:} \\ \cmidrule(lr){1-2} \cmidrule(lr){3-4}
+Code  & Code text  & Code & Code text \\ 
+\midrule
+\input{tab_match_sic72_6386part2.txt}
+\midrule
+\end{tabular}
+}
+\end{center}
+{\footnotesize Notes: This table shows the the SIC 1972 industry matched to each NAICS industry for the years 1963-86. There are cases where the same SIC 1972 industry is matched to multiple NAICS industries, and where the same NAICS industry is matched to multiple SIC 1972 industries. The consequences of that are explained in the text. The matching is the authors based on crosswalks and personal judgement.}
+\end{table}
+
+
+\begin{table}[!htb]
+\begin{center}
+\label{TAB_match5}
+\caption{Matching of SIC 1987 to NAICS, 1987-96, Part 1}
+{\footnotesize
+\begin{tabular}{llll}
+\midrule
+\multicolumn{2}{c}{SIC 1987:} & \multicolumn{2}{c}{NAICS 1987-96:} \\ \cmidrule(lr){1-2} \cmidrule(lr){3-4}
+Code  & Code text  & Code & Code text \\ 
+\midrule
+\input{tab_match_sic87_8796part1.txt}
+\midrule
+\end{tabular}
+}
+\end{center}
+{\footnotesize Notes: This table shows the the SIC 1987 industry matched to each NAICS industry for the years 1987-96. There are cases where the same SIC 1987 industry is matched to multiple NAICS industries, and where the same NAICS industry is matched to multiple SIC 1987 industries. The consequences of that are explained in the text. The matching is the authors based on crosswalks and personal judgement.}
+\end{table}
+
+
+\begin{table}[!htb]
+\begin{center}
+\label{TAB_match6}
+\caption{Matching of SIC 1987 to NAICS, 1987-96, Part 2}
+{\footnotesize
+\begin{tabular}{llll}
+\midrule
+\multicolumn{2}{c}{SIC 1987:} & \multicolumn{2}{c}{NAICS 1987-96:} \\ \cmidrule(lr){1-2} \cmidrule(lr){3-4}
+Code  & Code text  & Code & Code text \\ 
+\midrule
+\input{tab_match_sic87_8796part2.txt}
+\midrule
+\end{tabular}
+}
+\end{center}
+{\footnotesize Notes: This table shows the the SIC 1987 industry matched to each NAICS industry for the years 1987-96. There are cases where the same SIC 1987 industry is matched to multiple NAICS industries, and where the same NAICS industry is matched to multiple SIC 1987 industries. The consequences of that are explained in the text. The matching is the authors based on crosswalks and personal judgement.}
+\end{table}
+
+\end{document}

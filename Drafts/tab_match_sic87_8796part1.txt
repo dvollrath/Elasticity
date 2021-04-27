@@ -1,0 +1,34 @@
+01-02&Farms&111CA&Farms\\
+07-09&            Agricultural services, fores&113FF&Forestry, fishing, and related activitie\\
+B&Mining&213&Support activities for mining\\
+10&Metal mining&212&Mining, except oil and gas\\
+12&Coal mining&212&Mining, except oil and gas\\
+13&Oil and gas extraction&211&Oil and gas extraction\\
+14&            Nonmetallic minerals, except&327&Nonmetallic mineral products\\
+C&Construction&23&Construction\\
+24&Lumber and wood products&321&Wood products\\
+25&Furniture and fixtures&337&Furniture and related products\\
+33&Primary metal industries&331&Primary metals\\
+34&Fabricated metal products&332&Fabricated metal products\\
+35&Industrial machinery and equipment&333&Machinery\\
+36&Electronic and other electric equipment&335&Electrical equipment, appliances, and co\\
+36&Electronic and other electric equipment&334&Computer and electronic products\\
+371&Motor vehicles and equipment&3361MV&Motor vehicles, bodies and trailers, and\\
+37ex371&Other transportation equipment&3364OT&Other transportation equipment\\
+39&Miscellaneous manufacturing industries&339&Miscellaneous manufacturing\\
+20&Food and kindred products&311FT&Food and beverage and tobacco products\\
+22&Textile mill products&313TT&Textile mills and textile product mills\\
+23&Apparel and other textile products&315AL&Apparel and leather and allied products\\
+26&Paper and allied products&322&Paper products\\
+27&Printing and publishing&323&Printing and related support activities\\
+28&Chemicals and allied products&325&Chemical products\\
+29&Petroleum and coal products&324&Petroleum and coal products\\
+30&Rubber and miscellaneous plastics produc&326&Plastics and rubber products\\
+40&Railroad transportation&482&Rail transportation\\
+41&Local and interurban passenger transit&485&Transit and ground passenger transportat\\
+42&Trucking and warehousing&493&Warehousing and storage\\
+42&Trucking and warehousing&484&Truck transportation\\
+44&Water transportation&483&Water transportation\\
+45&Transportation by air&481&Air transportation\\
+46&            Pipelines, except natural ga&486&Pipeline transportation\\
+47&Transportation services&487OS&Other transportation and support activit\\
