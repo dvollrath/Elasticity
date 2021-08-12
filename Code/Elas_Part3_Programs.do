@@ -242,6 +242,16 @@ program sample_nogovhs
 	qui drop if inlist(code,"GSLE","GSLG") // state and local
 end
 
+// No government or housing or farming
+capture program drop sample_nonfarm
+program sample_nonfarm
+	qui drop if inlist(code,"HS","ORE","531") // housing
+	qui drop if inlist(code,"GFE","GFG","GFGD","GFGN") // federal industries
+	qui drop if inlist(code,"GSLE","GSLG") // state and local
+	qui drop if inlist(code,"111CA","113FF") // farming, fishery, forestry
+end
+
+
 // No IP
 capture program drop intel_noip
 program intel_noip

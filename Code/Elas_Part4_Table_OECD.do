@@ -26,7 +26,7 @@ keep if cou_count==r(max)
 sort cou year
 
 capture file close f_result
-file open f_result using "./Drafts/tab_oecd_summary2.txt", write replace
+file open f_result using "./Drafts/tab_oecd_summary.txt", write replace
 
 gen name = ""
 replace name = "Austria" if cou=="AUT"

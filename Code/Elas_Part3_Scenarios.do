@@ -42,6 +42,11 @@ local run22 = "all userback3 split ip"
 
 local run23 = "all noprofinv split ip"
 
+local run24 = "nonfarm noprofit split ip"
+local run25 = "nonfarm deprcost split ip"
+local run26 = "nonfarm invcost split ip"
+local run27 = "nonfarm usercost split ip"
+
 // Create working files to hold estimates of elasticities
 clear
 save "./Work/USA_scenario_sample_epsilon.dta", emptyok replace

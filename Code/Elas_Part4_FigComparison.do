@@ -76,6 +76,23 @@ twoway rarea cost_capdeprcost cost_capnoprofit year if sample=="all" & prop=="sp
 	legend(ring(0) pos(2) cols(1) region(lcolor(white)) order(- "Private business only:" 2 "Range" 5 "Bounds" - " " "GDP (Priv. bus. plus housing and gov.):" 1 "Range" 3 "Bounds"))
 graph export "./Drafts/fig_cap_priv_comparison.eps", as(eps) replace fontface("Times New Roman")
 
+// Non-farm sector
+twoway rarea cost_capdeprcost cost_capnoprofit year if sample=="all" & prop=="split" & ip=="ip", color(gray) fintensity(10) lwidth(0) ///
+	|| rarea cost_capdeprcost cost_capnoprofit year if sample=="nonfarm" & prop=="split" & ip=="ip", color(gray) fintensity(40) lwidth(0) ///
+	|| line cost_capnoprofit year if sample=="all" & prop=="split" & ip=="ip", lcolor(black) lpattern(dash) /// lwidth(medthick) ///
+	|| line cost_capdeprcost year if sample=="all" & prop=="split" & ip=="ip", lcolor(black) lpattern(dash) /// lwidth(medthick) ///
+	|| line cost_capnoprofit year if sample=="nonfarm" & prop=="split" & ip=="ip", lcolor(black)  ///
+	|| line cost_capdeprcost year if sample=="nonfarm" & prop=="split" & ip=="ip",  lcolor(black) ///	
+	|| line alpha year if sample=="all" & prop=="split" & ip=="ip", lcolor(black) lpattern(dot) /// lwidth(medthick) ///
+	ytitle("Capital elasticity") xtitle("Year") ///
+	ylabel(0(.1)1, nogrid format(%9.1f) angle(0)) ///
+	xlabel(1950(10)2010 2018) ///
+	graphregion(color(white)) ///
+	xscale(range(1950 2020)) ///
+	text(.33 2020 "1/3") ///
+	legend(ring(0) pos(2) cols(1) region(lcolor(white)) order(- "Private business only:" 2 "Range" 5 "Bounds" - " " "GDP (Priv. bus. plus housing and gov.):" 1 "Range" 3 "Bounds"))
+graph export "./Drafts/fig_cap_nonfarm_comparison.eps", as(eps) replace fontface("Times New Roman")
+
 // Decapitalize IP
 twoway rarea cost_capdeprcost cost_capnoprofit year if sample=="all" & prop=="split" & ip=="ip", color(gray) fintensity(10) lwidth(0) ///
 	|| rarea cost_capdeprcost cost_capnoprofit year if sample=="all" & prop=="split" & ip=="noip", color(gray) fintensity(40) lwidth(0) ///
