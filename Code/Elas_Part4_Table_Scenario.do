@@ -51,6 +51,8 @@ foreach s in noprofit invcost usercost deprcost {
 	restore
 }
 
+capture file close f_result
+
 // Excluding owner housing and government
 file write f_result "\\" _n // make space for next section of table
 file write f_result "\multicolumn{8}{l}{Panel B: Private business sector} \\" _n
@@ -83,5 +85,5 @@ foreach s in noprofit invcost usercost deprcost {
 		file_calc // call program to make calculations and write to file
 	restore
 }
-*/
+
 capture file close f_result

@@ -17,44 +17,11 @@ local run2 = "all deprcost split ip ignore"
 local run3 = "all invcost split ip ignore"
 local run4 = "all usercost split ip ignore"
 
-/*
-local run5 = "nogovhs noprofit split ip"
-local run6 = "nogovhs deprcost split ip"
-local run7 = "nogovhs invcost split ip"
-local run8 = "nogovhs usercost split ip"
-
-local run9 = "all noprofit split noip"
-local run10 = "all deprcost split noip"
-local run11 = "all invcost split noip"
-local run12 = "all usercost split noip"
-
-local run13 = "nogovhs noprofit split noip"
-local run14 = "nogovhs deprcost split noip"
-local run15 = "nogovhs invcost split noip"
-local run16 = "nogovhs usercost split noip"
-
-local run17 = "all noprofit alllab ip"
-local run18 = "all noprofit allcap ip"
-local run19 = "all deprcost alllab ip"
-local run20 = "all deprcost allcap ip"
-
-local run21 = "all userfor3 split ip"
-local run22 = "all userback3 split ip"
-
-local run23 = "all noprofinv split ip"
-
-local run24 = "nonfarm noprofit split ip"
-local run25 = "nonfarm deprcost split ip"
-local run26 = "nonfarm invcost split ip"
-local run27 = "nonfarm usercost split ip"
-*/
-
-
 // Create working files to hold estimates of elasticities
 clear
-save "./Work/USA_scenario_sample_epsilon.dta", emptyok replace
+save "./Work/USA_scenario_tr_epsilon.dta", emptyok replace
 clear
-save "./Work/USA_scenario_sample_industry.dta", emptyok replace
+save "./Work/USA_scenario_tr_industry.dta", emptyok replace
 
 // Run script to ensure programs are loaded
 do "./Code/Elas_Part3_Programs.do"
@@ -71,11 +38,6 @@ while "`run`i''" != "" { // keep looping while run locals exist
 			
 	// Create sample and costs using passed parameters
 	use "./Work/USA_scenario_baseline.dta", clear // start with baseline data
-//	sample_all
-//	labor_split
-//	intel_ip
-//	used_asfactor
-//	capital_noprofit
 	
 	sample_`1' // call program to select sample
 	labor_`3' // call program to set labor costs
@@ -83,6 +45,8 @@ while "`run`i''" != "" { // keep looping while run locals exist
 	used_`5' // call program to deal with used/other industries
 	capital_`2' // call program to set capital costs
 			
+	keep if inrange(year,1997,2018) // limit to range of TR tables
+	
 	qui gen scenario = "`2'" // record parameters as variables for output file
 	qui gen sample = "`1'"
 	qui gen prop = "`3'"
@@ -93,10 +57,12 @@ while "`run`i''" != "" { // keep looping while run locals exist
 	
 	calc_share // call program to calculate VA and factor cost shares of different inputs
 			
-	calc_loop // call program to go year-by-year and do calculation
+	calc_tr // call program to go year-by-year and do calculation
 		// This produces "./Work/USA_scenario_sample_industry.dta"
 			
-	calc_save // save calculated elasticities from vectors to dataset
+	clear
+	svmat Epsilon, names(col) // save stored elasticities to memory
+	qui drop if year==0 // eliminates initial row
 	
 	qui gen scenario = "`2'" // record parameters as variables for output file
 	qui gen sample = "`1'"
@@ -104,17 +70,15 @@ while "`run`i''" != "" { // keep looping while run locals exist
 	qui gen ip = "`4'"
 	qui gen used = "`5'"
 	
-	//calc_noprofit // make adjustment in noprofit cases to match share data
-
-	qui append using "./Work/USA_scenario_sample_epsilon.dta"
-	qui save "./Work/USA_scenario_sample_epsilon.dta", replace
+	qui append using "./Work/USA_scenario_tr_epsilon.dta"
+	qui save "./Work/USA_scenario_tr_epsilon.dta", replace
 
 	local i = `i' + 1 // increment
 } // end while loop
 
 // Save off working results files to permanent storage, if desired
-use "./Work/USA_scenario_sample_industry.dta", clear
-save "./Work/USA_scenario_sample_industry.dta", replace
+use "./Work/USA_scenario_tr_industry.dta", clear
+save "./Work/USA_scenario_tr_industry.dta", replace
 
-use "./Work/USA_scenario_sample_epsilon.dta", clear
-save "./Work/USA_scenario_sample_epsilon.dta", replace
+use "./Work/USA_scenario_tr_epsilon.dta", clear
+save "./Work/USA_scenario_tr_epsilon.dta", replace

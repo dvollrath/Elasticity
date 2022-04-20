@@ -2,6 +2,26 @@
 Programs to do sample selection and capital assumptions
 */
 
+
+/////////////////////////////////////////////////////////
+// Treatment of Used/Other industries from Use table
+/////////////////////////////////////////////////////////
+
+// Treat used/other as factors of production
+capture program drop used_asfactor
+program used_asfactor
+	qui capture drop cost_used cost_other
+	qui gen cost_used = ioused
+	qui gen cost_other = ioother
+end
+
+// Ignore used/other entirely
+capture program drop used_ignore
+program used_ignore
+	qui capture drop cost_used cost_other
+	qui capture drop ioused ioother
+end
+
 /////////////////////////////////////////////////////////
 // Proprietors income assumptions
 /////////////////////////////////////////////////////////
@@ -143,14 +163,17 @@ program capital_noprofit
 		qui gen K_`j' = ratio_stock`j'00_va*iova // stock is K/VA ratio times VA
 	}
 	
+	qui egen cost_noncapital = rowtotal(cost_*) // all costs not from capital (labor, other, used)
+	
 	// capital costs are not obvious, set according to size of capital stock			  
 	qui capture drop cost_st
-	qui gen cost_st = (iova - cost_comp)*K_st/(K_st + K_eq + K_ip)
+	qui gen cost_st = (iova - cost_noncapital)*K_st/(K_st + K_eq + K_ip)
 	qui capture drop cost_eq
-	qui gen cost_eq = (iova - cost_comp)*K_eq/(K_st + K_eq + K_ip)
+	qui gen cost_eq = (iova - cost_noncapital)*K_eq/(K_st + K_eq + K_ip)
 	qui capture drop cost_ip
-	qui gen cost_ip = (iova - cost_comp)*K_ip/(K_st + K_eq + K_ip)
+	qui gen cost_ip = (iova - cost_noncapital)*K_ip/(K_st + K_eq + K_ip)
 
+	qui capture drop cost_noncapital
 end
 
 
@@ -174,15 +197,19 @@ program capital_noprofuser
 		qui replace cost_`j' = 0 if cost_`j'<0 & !missing(cost_`j') // eliminate negative costs
 	}
 
+	qui egen cost_noncapital = rowtotal(cost_*) // all costs not from capital (labor, other, used)
+	
 	// Use no-profit assumption for total capital costs, but weight according to user cost			  
-	qui replace cost_st = (iova - cost_comp)*cost_st/(cost_st + cost_eq + cost_ip)
-	qui replace cost_eq = (iova - cost_comp)*cost_eq/(cost_st + cost_eq + cost_ip)
-	qui replace cost_ip = (iova - cost_comp)*cost_ip/(cost_st + cost_eq + cost_ip)
+	qui replace cost_st = (iova - cost_noncapital)*cost_st/(cost_st + cost_eq + cost_ip)
+	qui replace cost_eq = (iova - cost_noncapital)*cost_eq/(cost_st + cost_eq + cost_ip)
+	qui replace cost_ip = (iova - cost_noncapital)*cost_ip/(cost_st + cost_eq + cost_ip)
 
 	foreach j in st eq ip { 
 		qui replace cost_`j' = 0 if missing(cost_`j') // or I/O calcs won't work
 		qui replace cost_`j' = 0 if cost_`j'<0 & !missing(cost_`j') // eliminate negative costs
 	}
+	
+	qui capture drop cost_noncapital
 end
 
 // No profits - investment cost weights
@@ -197,10 +224,12 @@ program capital_noprofinv
 	gen cost_ip = ratio_invip_va*iova
 	}
 
+	qui egen cost_noncapital = rowtotal(cost_*) // all costs not from capital (labor, other, used)
+	
 	// Use no-profit assumption for total capital costs, but weight according to inv cost			  
-	qui replace cost_st = (iova - cost_comp)*cost_st/(cost_st + cost_eq + cost_ip)
-	qui replace cost_eq = (iova - cost_comp)*cost_eq/(cost_st + cost_eq + cost_ip)
-	qui replace cost_ip = (iova - cost_comp)*cost_ip/(cost_st + cost_eq + cost_ip)
+	qui replace cost_st = (iova - cost_noncapital)*cost_st/(cost_st + cost_eq + cost_ip)
+	qui replace cost_eq = (iova - cost_noncapital)*cost_eq/(cost_st + cost_eq + cost_ip)
+	qui replace cost_ip = (iova - cost_noncapital)*cost_ip/(cost_st + cost_eq + cost_ip)
 
 	qui replace cost_st = 0 if missing(cost_st)
 	qui replace cost_eq = 0 if missing(cost_eq)
@@ -209,6 +238,7 @@ program capital_noprofinv
 	qui replace cost_eq = 0 if cost_eq<0 & !missing(cost_eq)
 	qui replace cost_ip = 0 if cost_ip<0 & !missing(cost_ip)
 	
+	qui capture drop cost_noncapital
 end
 
 /////////////////////////////////////////////////////////
@@ -348,7 +378,11 @@ program calc_epsilon
 	// get value-added shares
 	qui summ iova // get total va
 	qui gen iovashare = iova/r(sum) // get va as share of total va
-	
+
+	// get final use shares
+	qui summ iofu // get total va
+	qui gen iofushare = iofu/r(sum) // get fu as share of total fu
+
 	// Create cost matrix, va matrix, and use to calculate elasticities
 	mkmat cost*, matrix(IO) rownames(code) // make IO matrix
 	mat zeros = J(colsof(IO)-rowsof(IO),colsof(IO),0) // create zero rows for all included factors
@@ -360,11 +394,16 @@ program calc_epsilon
 	mat zeros = J(rowsof(IO)-rowsof(VA),1,0) // make additional rows for VA vector
 	mat VA = VA\zeros // add rows
 	mat rownames VA = `names'
-	
+
+	mkmat iofushare, matrix(FU) rownames(code) // make VA vector
+	mat zeros = J(rowsof(IO)-rowsof(FU),1,0) // make additional rows for VA vector
+	mat FU = FU\zeros // add rows
+	mat rownames FU = `names'
+		
 	mat Ident = I(rowsof(IO)) // identity matrix
 		
 	mat Leon = inv(Ident - IO) // Leontief inverse
-	mat elasticity = VA'*Leon // calculate elasticities
+	mat elasticity = FU'*Leon // calculate elasticities
 	
 	local num_intermediates = _N // save the number of intermediate industries
 	mat factors = elasticity[1,`num_intermediates'+1...] // save off factor elasticities
@@ -431,7 +470,7 @@ program calc_loop
 		mat yearEpsilon = header,factors // combine header with `factors' matrix from calc_merge
 		mat Epsilon = Epsilon\yearEpsilon // combine current year results with overall results
 		
-		qui keep sample scenario series prop code ip year iova iovashare iogo markupgo markupva epsilon ///
+		qui keep sample scenario series prop code used ip year iova io*share iogo markupgo markupva epsilon ///
 			cost_* Lcost* total_costs
 		qui append using "./Work/USA_scenario_sample_industry.dta"
 		qui save "./Work/USA_scenario_sample_industry.dta", replace
@@ -479,3 +518,90 @@ program calc_inputs
 		mkmat input*, matrix(Inputs) // save matrix of revenue shares, labor costs, and capital stocks
 	restore
 end
+
+// TR loop to work through years of calculations
+capture program drop calc_tr
+program calc_tr
+	// Set up for year-by-year calculation of elasticities
+	qui summ year // get years spanned in this scenario
+	local from = r(min)
+	local to = r(max)
+
+	qui ds cost* // show all variables with the "cost" prefix - these are factors of production
+	local nfactors: word count `r(varlist)' // save number of factors in local
+	mat Epsilon = J(1,`nfactors'+`nfactors'+2,0) // create matrix with space for year, series, elas for factors, VA shares for factors
+	local names = "" // initialize names for results matrix
+	di "`names'"
+	foreach var of varlist `r(varlist)' {
+		local v = substr("`var'",6,.)
+		local names = "`names'" + " share_" +  "`v'"
+	}
+	di "`names'"
+	mat colnames Epsilon = year series `r(varlist)' `names' // name cols with appropriate headers
+	
+	// Loop through years
+	forvalues y = `from'(1)`to' { // for years in scenario
+		qui use "./Work/USA_scenario_calculate.dta", clear // assumes this was created
+		qui keep if year==`y' // process one year at a time
+		local series = series[1] // store the series identifier as a number for year y	
+		qui save "./Work/USA_costs.dta", replace // temporary file of costs for year y
+		
+		insheet using "./CSV/USA_tr_`y'.csv", names clear // get TR table for year y
+		mkmat io*, matrix(TR) rownames(code) // save TR table as matrix
+		qui gen sortorder = _n // to ensure rows in order after the merge 
+		qui merge 1:1 code using "./Work/USA_costs.dta" // match up cost data with TR table
+		qui sort sortorder
+		qui drop sortorder
+		mkmat iogo, matrix(X) rownames(code) // save raw final output vector
+		mkmat iova, matrix(V) rownames(code) // save raw value-added vector
+		mkmat cost*, matrix(Ctran) rownames(code) // save factor cost matrix
+		mat C = Ctran' // transpose cost matrix
+		mat e = J(rowsof(TR),1,1) // vector of ones
+		mat ec = J(rowsof(C),1,1)
+		
+		mat cva = C*inv(diag(V)) // costs as share of VA from table
+		
+		// Solve for industry VA consistent with TR and industry GO
+		di "Solve for Z"
+		mat Z = (I(rowsof(TR)) - inv(TR))*diag(X)
+		mat Vcalc = X - Z'*e // value added consistent with gross output and TR
+		mat C = cva*diag(Vcalc) // factor costs consistent with TR
+		
+		di "Solve for T"
+		mat T = e'*Z + ec'*C // total costs
+		mat TRC = inv(I(colsof(T))-Z*inv(diag(T))) // TR based on *costs*
+		
+		//mat A = I(rowsof(TR)) - inv(TR) // 
+		//mat Vcalc = X - diag(X)*A'*e // VA consistent
+
+		// Solve for industry FU consistent with TR and GO
+		di "Solve for F"
+		mat F = inv(TR)*X // this is implicitly what final use is given TR - negatives are OKAY - some FU is negative
+		mat f = F*inv(e'*F) // calculates shares of final use
+		
+		// Solve for elasticity given TR, cost shares of gross output, final use shares
+		//mat c = C*inv(diag(X)) // costs as share of gross output
+		//mat elasticity = c*TR*f // BF calculation
+
+		di "Solve for E"
+		mat elasticity = C*inv(diag(T))*TRC*f
+
+		//mat SVA = C*e*inv(e'*V)
+		//mat SCOST = C*e*inv(e'*C*e)
+		
+		// Solve for cost shares of value-added
+		mat S = C*e*inv(e'*Vcalc)
+						
+		mat factors = elasticity' // save off factor elasticities
+		mat shares = S' // save of VA shares
+		
+		mat header = [`y',`series'] // create header information to save
+		mat yearEpsilon = header,factors,shares // combine header with `factors' matrix from calc_merge
+		mat Epsilon = Epsilon\yearEpsilon // combine current year results with overall results
+		
+		qui keep sample scenario series prop code used ip year iova iogo 
+		qui append using "./Work/USA_scenario_tr_industry.dta"
+		qui save "./Work/USA_scenario_tr_industry.dta", replace
+	} // end for each year
+end
+

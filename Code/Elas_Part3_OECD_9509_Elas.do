@@ -46,10 +46,10 @@ foreach file of local fileList { // for each of the IO files
 			
 			qui summ emp // total employment
 			local emp = r(sum)
-			qui summ dvalu // total VA from IO table
-			local va = r(sum)
-			qui replace dvalu = dvalu/r(sum) // shares of total VA
-			qui replace dvalu = 0 if missing(dvalu) // fill in 0s if missing
+			qui summ dfu // total FU from IO table
+			local fu = r(sum)
+			qui replace dfu = dfu/r(sum) // shares of total FU
+			qui replace dfu = 0 if missing(dfu) // fill in 0s if missing
 
 			egen total_costs = rowtotal(cost*) // get total costs including intermediates
 			foreach v of varlist cost* { // for each element of costs
@@ -65,16 +65,16 @@ foreach file of local fileList { // for each of the IO files
 			local names: colnames IO // get names from columns (includes factors)
 			mat rownames IO = `names'
 			
-			mkmat dvalu, matrix(VA) rownames(dcode) // make VA vector
-			mat zeros = J(rowsof(IO)-rowsof(VA),1,0) // make additional rows for VA vector
-			mat VA = VA\zeros // add rows
-			mat rownames VA = `names'
+			mkmat dfu, matrix(FU) rownames(dcode) // make VA vector
+			mat zeros = J(rowsof(IO)-rowsof(FU),1,0) // make additional rows for VA vector
+			mat FU = FU\zeros // add rows
+			mat rownames FU = `names'
 			
 			mat Ident = I(rowsof(IO)) // identity matrix
 			mat Leon = inv(Ident - IO) // Leontief inverse
-			mat elasticity = VA'*Leon // calculate elasticities
+			mat elasticity = FU'*Leon // calculate elasticities
 
-			file write f_result "`country', `year', `assump'," (el(elasticity,1,`num_intermediates'+1)) "," (el(elasticity,1,`num_intermediates'+2)) "," (`va') "," (`emp') _n		
+			file write f_result "`country', `year', `assump'," (el(elasticity,1,`num_intermediates'+1)) "," (el(elasticity,1,`num_intermediates'+2)) "," (`fu') "," (`emp') _n		
 						
 		} // end foreach assumption
 	} // end else

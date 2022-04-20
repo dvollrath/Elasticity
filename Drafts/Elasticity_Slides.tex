@@ -73,7 +73,7 @@
 \author[Vollrath]{Dietrich Vollrath \inst{1}}
 \institute[UH]{\inst{1} University of Houston}
 
-\date[April 2021]{}
+\date[April 2022]{}
 
 %-------------------------------------------Slides---------------------------------------------------%
 
@@ -199,10 +199,10 @@ where labor and capital are treated as ``industries'' that provide an input to o
 
 
 \begin{frame}{Theoretical setting}
-Value-added shares of GDP, $VA = \sum_{j=1}^J va_j$, 
+Final use shares of GDP. Let $GDP = \sum_{j=1}^J F_j$, where $F_j$ is final use of $j$, then
 
 \begin{equation}
-  \gamma_j = \frac{va_j}{VA}.
+  \gamma_j = \frac{F_j}{GDP}.
 \end{equation}
 
 Collect in a vector,
@@ -221,7 +221,7 @@ Collect in a vector,
 \end{frame}
 
 \begin{frame}{Theoretical setting}
-Calculate ``cost-based'' Domar weights - value-added weights times the Leontief inverse. 
+Calculate ``cost-based'' Domar weights - final-use weights times the Leontief inverse. 
 
 \begin{equation}
   E = \Gamma' (I - \Lambda)^{-1} \label{EQ_E}
@@ -245,7 +245,7 @@ The structure of $E$ is as follows,
 
 
 \begin{frame}{Theoretical setting}
-Baqaee and Farhi prove that the entries $\epsilon_K$ and $\epsilon_L$ are the elasticity of aggregate output (GDP) with respect to the aggregate stock of $K$ and $L$. 
+Baqaee and Farhi prove that the entries $\epsilon_K$ and $\epsilon_L$ are the elasticity of GDP with respect to the aggregate stock of $K$ and $L$. 
 
 \begin{itemize}
   \item Domar weights capture elasticity of GDP w.r.t. productivity in industry $i$, capturing downstream and upstream effects
@@ -264,7 +264,7 @@ Solow (1957)
 \begin{itemize}
   \item No I/O structure: $\lambda_{ij} = 0$ for any two industries
   \item Zero profits: $\lambda_{iK} = RK_i/VA_i$ and $\lambda_{iL} = wL_i/VA_i$
-  \item Result is that $\epsilon_K = RK/VA$ and $\epsilon_L = wL/VA$
+  \item Result is that $\epsilon_K = RK/Y$ and $\epsilon_L = wL/Y$
 \end{itemize}
 
 \end{frame}
@@ -290,7 +290,7 @@ Hulten (1978)
 \begin{itemize}
   \item I/O structure: $\lambda_{ij} \neq 0$ for any two industries
   \item Zero profits: $\lambda_{iK} = RK_i/VA_i$ and $\lambda_{iL} = wL_i/VA_i$
-  \item Result is that $\epsilon_K = RK/VA$ and $\epsilon_L = wL/VA$
+  \item Result is that $\epsilon_K = RK/Y$ and $\epsilon_L = wL/Y$
   \item Envelope result. No distortions so I/O structure is irrelevant
 \end{itemize}
 
@@ -366,7 +366,7 @@ Gives an \textit{upper bound} for $\epsilon_K$. Note this will be the \textit{lo
 
 \begin{frame}{Implementation}
 \begin{center}
-\includegraphics[width=0.8\textwidth]{fig_cap_1_comparison.eps}
+\includegraphics[width=0.8\textwidth]{fig_cap_base_comparison.eps}
 \end{center}
 \end{frame}
 
@@ -383,7 +383,7 @@ Gives an \textit{lower bound} for $\epsilon_K$. Note this will be the \textit{up
 
 \begin{frame}{Implementation}
 \begin{center}
-\includegraphics[width=0.8\textwidth]{fig_cap_2_comparison.eps}
+\includegraphics[width=0.8\textwidth]{fig_cap_base_comparison.eps}
 \end{center}
 \end{frame}
 
@@ -400,7 +400,7 @@ Calculate $\epsilon_K$ and $\epsilon_L$.
 
 \begin{frame}{Implementation}
 \begin{center}
-\includegraphics[width=0.8\textwidth]{fig_cap_3_comparison.eps}
+\includegraphics[width=0.8\textwidth]{fig_cap_all_comparison.eps}
 \end{center}
 \end{frame}
 
@@ -503,7 +503,7 @@ Define the following aggregate cost share for capital:
   s^{Cost}_{Kt} = \frac{\sum_{j \in J} COST_{jKt}}{\sum_{j \in J} COST_{jKt} + COST_{jLt}}. \label{EQ_scost}
 \end{equation}
 
-If there were no I/O relatonships, then $\epsilon_{Kt} \rightarrow s^{Cost}_{Kt}$. 
+If there are zero profits, then $\epsilon_{Kt} \rightarrow s^{Cost}_{Kt}$. 
 
 \end{frame}
 
@@ -518,15 +518,15 @@ If there were no I/O relatonships, then $\epsilon_{Kt} \rightarrow s^{Cost}_{Kt}
 From the calculation of $E$,
 
 \begin{equation}
-  \epsilon_{Kt} = \sum_{i \in J} va_{it} \ell_{iKt}
+  \epsilon_{Kt} = \sum_{i \in J} \gamma_{it} \ell_{iKt}
 \end{equation}
 
-where $va_{it}$ are value-added shares and $\ell_{iKt}$ are Leontief inverse entries. 
+where $\gamma_{it}$ are final-use shares and $\ell_{iKt}$ are Leontief inverse entries. 
 
 \vspace{.25in} Do an Olley-Pakes type decomposition of $\epsilon_{Kt}$
 
 \begin{equation}
-  \epsilon_{Kt} = \overline{\ell}_{Kt} + \sum_{i \in J} (va_{it} - \overline{va}_{t})(\ell_{iKt}-\overline{\ell}_{Kt}), \label{EQ_op}
+  \epsilon_{Kt} = \overline{\ell}_{Kt} + \sum_{i \in J} (\gamma_{it} - \overline{\gamma}_{t})(\ell_{iKt}-\overline{\ell}_{Kt}), \label{EQ_op}
 \end{equation}
 
 where $\overline{\ell}_{Kt}$ is mean industry elasticity, and summation is covariance of industry elasticity and size of industry.
@@ -609,6 +609,20 @@ For a typical growth accounting exercise:
 \begin{frame}{Growth Accounting}
 \begin{center}
 \includegraphics[width=0.9\textwidth]{fig_tfp_comparison.eps}
+\end{center}
+\end{frame}
+
+\begin{frame}{Growth Accounting}
+\begin{center}
+\begin{tabular}{lcccc}
+\midrule
+        & \multicolumn{4}{c}{Assumption on capital costs:} \\ \cmidrule(lr){2-5}
+ &  No-profit (BLS) & User cost & Inv. cost & Depr. cost \\
+Years & (1) & (2) & (3) & (4) \\
+\midrule
+\input{tab_tfp_scenario.txt}
+\midrule
+\end{tabular}
 \end{center}
 \end{frame}
 

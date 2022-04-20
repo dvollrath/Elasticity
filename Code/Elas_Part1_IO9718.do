@@ -11,10 +11,12 @@ save "./Work/USA_naics9718_va.dta", emptyok replace // create empty dataset
 
 forvalues y = 1997/2018 { // for each year
 	import excel using "./Data/USA/IOUse_Before_Redefinitions_PRO_1997-2018_Summary.xlsx", ///
-		clear sheet("`y'") cellrange(A6:BU90)
+		clear sheet("`y'") cellrange(A6:CS90)
 	
 	drop B // drop text column
-	
+	drop BV-CR // drop detailed columns on final use (BL is actual final use column)
+	destring CS, force replace // force final use to numeric (replaces ... from Excel)
+
 	foreach v of varlist C-BU { // for all variables
 		local iocode = `v'[1] // get the naics code from the first row
 		rename `v' io`iocode' // rename using the naics code
@@ -30,21 +32,28 @@ forvalues y = 1997/2018 { // for each year
 	preserve // save the actual IO table entries
 		drop if inlist(code,"Used","Other","T005","T006","T008") // drop misc and summary rows
 		drop if inlist(code,"V001","V002","V003") // drop compensation, gos, taxes
+		mkmat CS, matrix(FINAL) // save final use into own vector
+		drop CS // remove BL so that it isn't saved into I/O entries		
 		export delimited using "./CSV/USA_io_`y'.csv", replace
 	restore
 
-	keep if inlist(code,"T006","T008","V001","V002","V003") // keep VA,GO,Comp,taxes,GOS
+	drop CS // get rid of final use as no VA or GO values for this column	
+	keep if inlist(code,"Used","Other","T006","T008","V001","V002","V003") // keep VA,GO,Comp,taxes,GOS
 	// because of the funky nature of the codes, have to be creative in transposing/reshaping
 	mkmat io*, matrix(Temp) // save data into matrix
 	mat Transpose = Temp' // transpose
 	clear // empty the dataset
 	svmat Transpose // save back the tranposed matrix
-	rename Transpose1 ioCOMP // give real names
-	rename Transpose2 ioTXPI // give real names
-	rename Transpose3 ioGOS
-	rename Transpose4 ioVA
-	rename Transpose5 ioGO
-	
+	rename Transpose1 ioUsed // give real names
+	rename Transpose2 ioOther // give real names	
+	rename Transpose3 ioCOMP // give real names
+	rename Transpose4 ioTXPI // give real names
+	rename Transpose5 ioGOS
+	rename Transpose6 ioVA
+	rename Transpose7 ioGO
+	svmat FINAL // save back final use
+	rename FINAL1 ioFU // give real names
+		
 	// create variable with iocodes and create year variable
 	local rownames : rowfullnames Transpose // get rownames, which are the naics codes
 	local c : word count `rownames' // count how many codes there are
