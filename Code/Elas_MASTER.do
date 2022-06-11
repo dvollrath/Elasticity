@@ -121,6 +121,7 @@ do "./Code/Elas_Part4_FigNoIP.do" // de-capitalized IP
 do "./Code/Elas_Part4_FigPrivBus.do" // private business only
 
 // these are for appendix
+do "./Code/Elas_Part4_FigBreaks.do" // show baseline with series breaks noted
 do "./Code/Elas_Part4_FigPropInc.do" // diff prop income treatments
 do "./Code/Elas_Part4_FigNegCost.do" // excluding negative costs
 do "./Code/Elas_Part4_FigMarkCap.do" // comparing markups to capital cost shares
@@ -137,4 +138,8 @@ do "./Code/Elas_Part4_TabHouseGov.do" // cost ratios for Gov and housing
 do "./Code/Elas_Part4_TabMatch.do" // table of matches from NAICS to BEA
 do "./Code/Elas_Part4_TabRobust.do" // comparing to BEA total requirements table results
 do "./Code/Elas_Part4_TabImport.do" // comparing to results excluding imports
+
+// numeric results for paper
+do "./Code/Elas_Part4_NumBasics.do" // writes basic summary stats to Tex tags for paper
+do "./Code/Elas_Part4_NumVA.do" // summary stats on correlation of Value-added between BEA and my calc
 

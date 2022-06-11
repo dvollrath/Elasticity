@@ -1,5 +1,5 @@
 /*
-Calculate Elasticities
+Calculate Elasticities USING BEA TOTAL REQUIREMENTS TABLE
 - Script takes a given set of industry factor costs for a year and calculates elasticity
 - Assumes that a dataset of industry-level data is present
 

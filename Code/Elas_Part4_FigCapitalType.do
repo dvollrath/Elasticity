@@ -2,10 +2,11 @@
 Figures for different types of capital
 */
 
-use "./Work/USA_scenario_annual_results_all.dta", clear
+use "./Work/USA_scenario_annual_results_all.dta", clear // pull in all results
 
 keep if inrange(year,1948,2018)
 
+// Figure showing investment cost series for all three capital types
 twoway line elas_st year if scenario==3, lcolor(black) /// lwidth(medthick) ///
 	|| scatter elas_eq year if scenario==3, connect(line) msymbol(dh) mcolor(black) lpattern(dash) lcolor(black) ///
 	|| line elas_ip year if scenario==3, lcolor(black) lpattern(dash) ///
@@ -39,7 +40,7 @@ gen elas_eq_invcost = elas_eq
 gen elas_ip_invcost = elas_ip
 keep year elas_st* elas_eq* elas_ip*
 
-
+// Structures
 twoway rarea elas_st_deprcost elas_st_noprofit year, color(gray) fintensity(10) lwidth(0) ///
 	|| line elas_st_deprcost year, lcolor(black) /// lwidth(medthick) ///
 	|| line elas_st_noprofit year, lcolor(black) lpattern(dash) /// lwidth(medthick) ///
@@ -55,7 +56,7 @@ twoway rarea elas_st_deprcost elas_st_noprofit year, color(gray) fintensity(10) 
 graph save "./Work/st.gph", replace
 graph export "./Drafts/fig_cap_st_comparison.eps", as(eps) replace fontface("Times New Roman")
 
-
+// Equipment
 twoway rarea elas_eq_deprcost elas_eq_noprofit year, color(gray) fintensity(10) lwidth(0) ///
 	|| line elas_eq_deprcost year, lcolor(black) /// lwidth(medthick) ///
 	|| line elas_eq_noprofit year, lcolor(black) lpattern(dash) /// lwidth(medthick) ///
@@ -71,7 +72,7 @@ twoway rarea elas_eq_deprcost elas_eq_noprofit year, color(gray) fintensity(10) 
 graph save "./Work/eq.gph", replace	
 graph export "./Drafts/fig_cap_eq_comparison.eps", as(eps) replace fontface("Times New Roman")
 
-
+// Intellectual property
 twoway rarea elas_ip_deprcost elas_ip_noprofit year, color(gray) fintensity(10) lwidth(0) ///
 	|| line elas_ip_deprcost year, lcolor(black) /// lwidth(medthick) ///
 	|| line elas_ip_noprofit year, lcolor(black) lpattern(dash) /// lwidth(medthick) ///
@@ -87,5 +88,6 @@ twoway rarea elas_ip_deprcost elas_ip_noprofit year, color(gray) fintensity(10) 
 graph save "./Work/ip.gph", replace
 graph export "./Drafts/fig_cap_ip_comparison.eps", as(eps) replace fontface("Times New Roman")
 
+// Combine three capital graphs into single main figure
 graph combine "./Work/st.gph" "./Work/eq.gph" "./Work/ip.gph", iscale(.6) col(1) graphregion(color(white))
 graph export "./Drafts/fig_cap_combined_comparison.eps", as(eps) replace fontface("Times New Roman")

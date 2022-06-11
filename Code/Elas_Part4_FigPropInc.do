@@ -1,5 +1,5 @@
 /*
-Figures for baseline results
+Figure for different assumptions on proprietors income
 */
 
 use  "./Work/USA_scenario_annual_results_all.dta", clear // baseline no-profit results

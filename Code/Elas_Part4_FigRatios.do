@@ -20,10 +20,11 @@ scatter elas_cap fcshare_cap if scenario==2, msymbol(dh) mcolor("gs8%50") ///
 	legend(ring(0) pos(4) region(lcolor(white)) cols(1) order(- "Capital cost assumption:" 1 "Depreciation costs" 2 "Investment costs" 3 "User costs" 4 "45-degree line"))
 graph export "./Drafts/fig_cap_total_comparison.eps", as(eps) replace fontface("Times New Roman")
 
-gen diff = elas_cap-fcshare_cap
-gen diffsq = diff^2
-bysort scenario: egen sum_diffsq = sum(diffsq)
-gen rmse = (sum_diffsq/71)^(.5)
+// Summary statistics on differences
+gen diff = elas_cap-fcshare_cap // difference in cost share and elasticity
+gen diffsq = diff^2 // squared difference
+bysort scenario: egen sum_diffsq = sum(diffsq) // summ difference across scenario
+gen rmse = (sum_diffsq/71)^(.5) // RMSE for the scenario
 
 summ diff if scenario==2
 summ diff if scenario==3

@@ -1,5 +1,5 @@
 /*
-Figures for baseline results
+Figure for private business sector (excluding housing and government)
 */
 
 use "./Work/USA_scenario_1_annual_results.dta", clear // baseline no-profit results

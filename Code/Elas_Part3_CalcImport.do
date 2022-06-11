@@ -1,5 +1,5 @@
  /*
-Calculate Elasticities
+Calculate Elasticities EXCLUDING IMPORTS
 - Script takes a given set of industry factor costs for a year and calculates elasticity
 - Assumes that a dataset of industry-level data is present
 */
@@ -23,7 +23,7 @@ capture matrix drop V U Fc Xc Xi E SVA SVC Return Include Costs Yi P
 	
 // import use, make, gross output, and final use matrices/vectors for given year
 	qui insheet using "./CSV/USA_P_`y'.csv", clear
-	mkmat *, matrix(P) // make matrix
+	mkmat *, matrix(P) // import matrix
 	qui insheet using "./CSV/USA_V_`y'.csv", clear
 	mkmat *, matrix(V) // make matrix
 	qui insheet using "./CSV/USA_U_`y'.csv", clear

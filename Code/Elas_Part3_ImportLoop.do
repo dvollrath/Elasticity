@@ -1,5 +1,5 @@
 /*
-Robust Loop to calculate elasticities using BEA Total Requirements Table
+Robust Loop to calculate elasticities excluding imports from Use Table
 */
 
 

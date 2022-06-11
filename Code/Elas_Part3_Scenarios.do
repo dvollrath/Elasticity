@@ -1,22 +1,25 @@
 /*
 Set up scenarios to calculate elasticities for
 */
+
+// The scenarios are controlled by the "scenarios.csv" text file
+// That file sets flags on what to include/exclude, and how to calculate various costs
 capture file close scenario
 file open scenario using "./Data/USA/scenarios.csv", read text // control file for scenarios
 file read scenario line // reads header line
-local control = subinstr("`line'",","," ",.)
-local ncontrol: word count `control' // number of control fields
+local control = subinstr("`line'",","," ",.) // sub spaces for commas
+local ncontrol: word count `control' // count number of control fields
 
 file read scenario line // read first scenario
 
 while r(eof)==0 { // while there are lines in the scenario file
-	local fcontrols = subinstr("`line'",","," ",.) // save scenario control options
+	local fcontrols = subinstr("`line'",","," ",.) // save scenario control options with spaces
 	local scenario = word("`fcontrols'",1) // save 1st control as scenario ID number
 
 	forvalues i = 2(1)`ncontrol' { // cycle through remaining controls, assign locals
 		local name = word("`control'",`i') // name of control (housing, gov, capital, etc..)
 		local value = word("`fcontrols'",`i') // value of control (Yes, No, noprofit, etc.)
-		local `name' = "`value'"
+		local `name' = "`value'" // build a local with name, that holds value
 	}
 	
 	// start with baseline data

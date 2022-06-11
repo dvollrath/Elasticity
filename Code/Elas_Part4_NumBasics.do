@@ -1,5 +1,6 @@
 /*
 Summary stats of elasticities for different purposes
+- Each statistic is written to a TEX file that is used in the main paper to report a result
 */
 
 use "./Work/USA_scenario_annual_results_all.dta", clear // start with file of all annual results
@@ -122,9 +123,6 @@ summ elas_cap if scenario==1
 file write f_result "{\newcommand{\basemeannoprofit}{" %4.3f (r(mean)) "}" _n
 file write f_result "{\newcommand{\baseminnoprofit}{" %4.3f (r(min)) "}" _n
 file write f_result "{\newcommand{\basemaxnoprofit}{" %4.3f (r(max)) "}" _n
-
-summ elas_cap if scenario==13
-
 
 file close f_result
 

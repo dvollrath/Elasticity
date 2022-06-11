@@ -26,11 +26,3 @@ twoway line elas_cap year if scenario==2, lcolor(black) /// lwidth(medthick) ///
 	xline(1996.5, lpattern(dot) lcolor(black)) ///
 	legend(ring(0) pos(2) cols(1) region(lcolor(white)) order(- "Boundary capital cost assumption:" 2 "No economic profits" 1 "Depreciation only"  - " " "Alternative capital cost assumption:" 3 "Investment cost" 4 "User cost"))
 graph export "./Drafts/fig_cap_break_comparison.eps", as(eps) replace fontface("Times New Roman")
-
-xtset scenario year
-gen elas_cap_diff = elas_cap - L.elas_cap
-
-summ elas_cap_diff if scenario==1 & year==1997
-summ elas_cap_diff if scenario==2 & year==1997
-summ elas_cap_diff if scenario==3 & year==1997
-summ elas_cap_diff if scenario==4 & year==1997

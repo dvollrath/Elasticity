@@ -1,5 +1,5 @@
 /*
-Create table of results comparing estimates w/ and w/o imports, by assumption
+Create table of results comparing estimates using BEA total requirements table, by assumption
 */
 
 // Create file to hold table rows

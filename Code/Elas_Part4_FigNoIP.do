@@ -1,5 +1,5 @@
 /*
-Figures for baseline results
+Figure excluding IP
 */
 
 use "./Work/USA_scenario_1_annual_results.dta", clear // baseline no-profit results
