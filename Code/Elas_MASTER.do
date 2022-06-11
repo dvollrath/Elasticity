@@ -26,16 +26,23 @@ graph set window fontface "Times New Roman"
 //        - this is data input and cleaning, no meaningful calculations
 //        - exceptions are several extrapolations for depreciation allowances
 ////////////////////////////////////////////////////////////////////////
-// industry-level data
-do "./Code/Elas_Part1_IO4762.do" // I/O data, naics codes differ by years
-do "./Code/Elas_Part1_IO6396.do" // same
-do "./Code/Elas_Part1_IO9718.do" // same
+// industry/year data
+do "./Code/Elas_Part1_USE4762.do" // Use tables and industry VA, GO, commod FU
+do "./Code/Elas_Part1_USE6396.do" // same
+do "./Code/Elas_Part1_USE9718.do" // same
+
+do "./Code/Elas_Part1_MAKE4762.do" // Make tables
+do "./Code/Elas_Part1_MAKE6396.do" // same
+do "./Code/Elas_Part1_MAKE9718.do" // same
+
+do "./Code/Elas_Part1_IMPORT9718.do" // Imported intermediate tables
+
 do "./Code/Elas_Part1_Cap4718.do" // Capital stock and depr rate data
 do "./Code/Elas_Part1_Gov4718.do" // Gov capital and depr rate data
 do "./Code/Elas_Part1_VA4797.do" // Compensation/VA data 
 do "./Code/Elas_Part1_Emp9818.do" // FTE, FTPT, and prop income by industry for 98-18
 
-// annual data
+// yearly data
 do "./Code/Elas_Part1_AnnInfl.do" // get inflation data by capital type
 do "./Code/Elas_Part1_AnnAllow.do" // get depr allowance by capital type
 do "./Code/Elas_Part1_AnnBalance.do" // get balance sheet items
@@ -48,10 +55,6 @@ do "./Code/Elas_Part1_MFP.do" // import data from Fernald
 
 // sic-naics-bea crosswalks
 do "./Code/Elas_Part1_Maps.do" // create CSVs of these maps
-
-// OECD data scraping
-do "./Code/Elas_Part1_STAN.do"
-do "./Code/Elas_Part1_OECDIO.do"
 
 ////////////////////////////////////////////////////////////////////////
 // Part 2 - pulls in CSV files from Part 1
@@ -77,14 +80,13 @@ do "./Code/Elas_Part2_CapRatios.do"
 // merge Comp/va and K/va ratios to naics/year level
 do "./Code/Elas_Part2_Merge.do"
 
-// create nominal return data for use in calculating R
+// calculate nominal return data for use in calculating R
 do "./Code/Elas_Part2_Nominal.do"
 
 // merge naics/year comp/va, K/va data with nominal return data
 do "./Code/Elas_Part2_MergeNominal.do"
 
-// OECD merging of sources
-do "./Code/Elas_Part2_STAN_ratios.do"
+// - produces file "./Work/USA_scenario_baseline.dta" that is used for scenarios in Part 3
 
 ////////////////////////////////////////////////////////////////////////
 // Part 3 - pulls in merged naics/year file from Part 2
@@ -93,43 +95,46 @@ do "./Code/Elas_Part2_STAN_ratios.do"
 //        - run script that calculates markups in different scenarios/samples
 //
 ////////////////////////////////////////////////////////////////////////
-do "./Code/Elas_Part3_Programs.do" // loads programs
-	// this script is where new assumptions or samples get entered
-	
-do "./Code/Elas_Part3_Scenarios.do" // calculates elasticities for various assumptions
+do "./Code/Elas_Part3_Scenarios.do" // creates data file of costs for each scenario in control file
 
-do "./Code/Elas_Part3_TFP_Calc.do" // does TFP growth calculations using prior results
+do "./Code/Elas_Part3_MainLoop.do" // evaluate each scenario file, calculate elasticities
+do "./Code/Elas_Part3_MergeResults.do" // merge results files from each individual scenario
 
-// OECD calculation
-do "./Code/Elas_Part3_OECD_0515_Elas.do"
-do "./Code/Elas_Part3_OECD_9509_Elas.do"
+do "./Code/Elas_Part3_RobustLoop.do" // evaluate main scenarios using BEA total requirement table
+do "./Code/Elas_Part3_ImportLoop.do" // evaluate main scenarios excluding imported intermediates
+
+do "./Code/Elas_Part3_TFP_Calc.do" // calculate alternative TFP estimates using elasticities
 
 ////////////////////////////////////////////////////////////////////////
 // Part 4 - reporting and figures
 //        - pulls in results files from different scenarios
 ////////////////////////////////////////////////////////////////////////
 
-// these are mainly for main paper
-do "./Code/Elas_Part4_FigComparison.do" // main script for main figures comparing assumptions
-do "./Code/Elas_Part4_FigDecomp.do" // Olley-Pakes decomp of elasticity figure 
-do "./Code/Elas_Part4_FigCosts.do" // comparison of cost ratios and elasticities
+// these are for main paper
+do "./Code/Elas_Part4_FigBaseline.do" // main script for main figures comparing assumptions
+do "./Code/Elas_Part4_FigOlleyPakes.do" // Olley-Pakes decomp of elasticity figure 
+do "./Code/Elas_Part4_FigRatios.do" // comparison of cost ratios and elasticities
 do "./Code/Elas_Part4_FigTFP.do" // comparison of TFP under different assumptions
+do "./Code/Elas_Part4_FigMarkup.do" // markups under different assumptions
+do "./Code/Elas_Part4_FigCapitalType.do" // elasticities for diff capital types
+do "./Code/Elas_Part4_FigNoIP.do" // de-capitalized IP
+do "./Code/Elas_Part4_FigPrivBus.do" // private business only
 
 // these are for appendix
-do "./Code/Elas_Part4_FigCapital.do" // different types of capital
-do "./Code/Elas_Part4_FigMarkup.do" // markups under different assumptions
-do "./Code/Elas_Part4_FigNoProfit.do" // compare calculation methods for no-profit assumption
+do "./Code/Elas_Part4_FigPropInc.do" // diff prop income treatments
+do "./Code/Elas_Part4_FigNegCost.do" // excluding negative costs
+do "./Code/Elas_Part4_FigMarkCap.do" // comparing markups to capital cost shares
 
 // these are for main paper
-do "./Code/Elas_Part4_Table_Scenario.do" // main table of summary stats
-do "./Code/Elas_Part4_Table_Costs.do" // summary table of cost ratios
-do "./Code/Elas_Part4_Table_TFP.do" // table of TFP growth by decade
+do "./Code/Elas_Part4_TabBaseline.do" // main table of summary stats
+do "./Code/Elas_Part4_TabCosts.do" // summary table of cost ratios
+do "./Code/Elas_Part4_TabCapitalType.do" // summ table for diff cap types
+do "./Code/Elas_Part4_TabTFP.do" // table of TFP growth by decade
 
 // appendix tables
-do "./Code/Elas_Part4_Table_Capital.do" // summary table by capital type
-do "./Code/Elas_Part4_Table_Housing.do" // summary table for housing/gov
-do "./Code/Elas_Part4_Table_Match.do" // table of matches from NAICS to BEA
+do "./Code/Elas_Part4_TabAnnual.do" // annual estimates for baseline
+do "./Code/Elas_Part4_TabHouseGov.do" // cost ratios for Gov and housing
+do "./Code/Elas_Part4_TabMatch.do" // table of matches from NAICS to BEA
+do "./Code/Elas_Part4_TabRobust.do" // comparing to BEA total requirements table results
+do "./Code/Elas_Part4_TabImport.do" // comparing to results excluding imports
 
-// OECD results
-do "./Code/Elas_Part4_FigOECDRange.do"  // main figure for OECD results
-do "./Code/Elas_Part4_Table_OECD.do"  // main table of OECD results

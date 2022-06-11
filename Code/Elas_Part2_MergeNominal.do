@@ -11,7 +11,7 @@ Naics/year files
 use "./Work/USA_naics4718_merged.dta", clear
 
 merge m:1 bearate year using "./Work/USA_annual_Rcalc.dta"
-keep if _merge==3 // failures will be years with Rcalc data but not in 1947-2018 window
+keep if _merge==3  // failures will be years with Rcalc data but not in 1947-2018 window
 drop _merge
 
 save "./Work/USA_scenario_baseline.dta", replace

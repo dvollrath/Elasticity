@@ -1,3 +1,378 @@
+To help in the exposition, take the matrix $\Lambda$ from the main text equation (6) and split it into four blocks
+\begin{equation}
+	\Lambda = 
+	\begin{bmatrix}
+		L & W \\
+		\mathbf{0} & \mathbf{0} \\
+	\end{bmatrix} \label{EQ_Lambda}
+\end{equation} 
+where $L_{JJ}$ is the $J \times J$ matrix with entries $\lambda_{ij}$, the cost to industry $i$ of intermediate good $j$ as a share of total costs in industry $i$. $W$ is the $J \times 2$ matrix with rows of $[\lambda_{iK}, \lambda_{iL}]$, factor costs of capital and labor in industry $i$ as a share of total costs. One could readily extend this to allow for $n$ factors of production. The bottom left block is a $2 \times J$ block of zeroes, and the bottom right block is a $2 \times 2$ block of zeroes.
+
+Similarly, let the vector $\Gamma$ from equation (8) of the main text be written as $\Gamma' = [F \mathbf{0}]$, where $F$ is a $J \times 1$ vector of final use shares with entries $\gamma_j$, followed by a vector of 2 zeroes. 
+
+Next, define a ``cost requirement'' matrix $R$ as follows
+\begin{equation}
+	R = (I - L)^{-1},
+\end{equation}
+where $I$ is $J \times J$ identity matrix. $R$ is like a traditional Leontief inverse, but is based on intermediates as a share of total \textit{costs}, as opposed to a share of total revenues. Denote the typical entry in $R$ as $r_{ij}$.
+
+As in equation (9) of the main text, the vector of elasticities $E$ is formed by $E = \Gamma'(I-\Lambda)^{-1}$. Some tedious but straightforward matrix algebra demonstrates that the two factor elasticities in $E$ can be written as
+\begin{equation}
+	[\epsilon_K \text{ } \epsilon_L] = F'RW. 
+\end{equation}
+Without any loss of generality, focus solely on the estimated elasticity for capital, $\epsilon_K$. Going through the matrix multiplication above, this yields.
+\begin{equation}
+	\epsilon_K = \sum_{j \in J} \lambda_{Kj} \sum_{i in J} \gamma_i r_{ij}. \label{EQ_eK}
+\end{equation}
+The elasticity is a weighted sum of the individual $\lambda_{Kj}$ terms, the share of capital in total costs for industry $j$. Assuming cost minimization at the industry level, these $\lambda_{Kj}$ terms are equal to the elasticity of gross output in industry $j$ with respect to capital. The weights reflect the costs that industry $j$ incurs in producing. The $r_{ij}$ terms tell us how many dollars of costs from industry $j$ are required for each dollar of final use in industry $i$. The $\gamma_i$ terms show what share of final use is spent on industry $i$. The second summation is then the share of total costs required from industry $j$, and this is multiplied through by the individual $\lambda_{Kj}$ elasticities to give the overal elasticity with respect to capital. 
+
+Consider the situation with no intermediate good purchases. In this case $R$ is an identity matrix (because $L$ is a matrix of zeroes). The diagonal $r_{ii}$ terms are all ones, but all off-diagonal terms are zero, implying that $\epsilon_K = \lambda_{K1}\gamma_1 + ... + \lambda_{KJ}\gamma_J$, and the elasticity is simply a final-use weighted sum of the industry-specific elasticities. Adding intermediate purchases changes the weights to account for the fact that an industry may be repsonsible for a large fraction of costs in the economy by supplying other industries (the size of their purchases depends on their own share of final use). 
+
+How does the expression in (\ref{EQ_eK}) compare to the cost share of capital in all factor costs? It is possible derive an expression in a similar format. First, let the $J \times 1$ vector $M$ contain the gross output markup, $\mu_j$ for each industry. By definition, $\mu_j$ equals gross output divided by total costs in industry $j$. Further, let $\hat{M}$ be a $J \times J$ matrix with the markups along the diagonal, and zeroes elsewhere. Finally, $\hat{M}^{-1}$ is a diagonal matrix with entries $1/\mu_j$ along the diagonal, and zeroes elsewhere. 
+
+Referring back to the matrix $L$ above, let 
+\begin{equation}
+	\tilde{L} = \hat{M}^{-1}L,
+\end{equation}
+where the typical entry in $\tilde{L}$ is $\lambda_{ij}/\mu_i$. In words, an entry in row $i$ of $\tilde{L}$ are spending by $i$ on intermediates from industry $j$ as a share of total revenues in $i$. Using $\tilde{L}$, one can form the Leontief inverse
+\begin{equation}
+	\tilde{R} = (I - \tilde{L})^{-1}. 
+\end{equation}
+
+The share of each factor in \textit{total} costs, $s^T_K$ and $s^T_L$, is
+\begin{equation}
+	[s^T_K \text{ } s^T_L] = F'\tilde{R}\hat{M}^{-1}W.
+\end{equation}
+The term $F'\tilde{R}$ tells us total revenue of each industry, and then post-multiplying by $\hat{M}^{-1}$ yields the total costs to each industry. Multiplication by the factor cost shares of total costs in $W$ gives the shares of total costs in aggregate. 
+
+It is helpful to look specifically at the term determing the total cost share of capital, $s^T_K$,
+\begin{equation}
+	s^T_K = \sum_{j \in J} \lambda_{Kj} \sum_{i in J} \frac{\gamma_i}{\mu_i} \frac{\tilde{r}_{ij}}{\mu_j}. \label{EQ_sTK}
+\end{equation}
+This is a similar weighted sum to the elasticity in (\ref{EQ_eK}), but with the relevant 
+
+
+
+\section{User cost inflation expectations}
+Within the user cost of capital calculation, the expected inflation rate, $E[\pi_{ijt}]$, appears. In the baseline calculation this expected inflation for capital type $j$ in industry $i$ at time $t$ is assumed to be the current inflation rate, or $E[\pi_{ijt}] = \pi_{ijt}$. 
+
+There are multiple alternatives that one could consider. In Figure \ref{FIG_cap_user_inflation} I plot the baseline along with two alternative series. In the first, expected inflation is assumed to be a three-year forward-looking average, or $E[\pi_{ijt}] = (\pi_{ij,t+1} + \pi_{ij,t+2} + \pi_{ij,t+3})/3$. In the second a three-year backward-looking average, or $E[\pi_{ijt}] = (\pi_{ij,t-1} + \pi_{ij,t-2} + \pi_{ij,t-3})/3$
+
+\begin{figure}[!htb]
+\begin{center}
+\caption{Estimates of capital elasticity, different user-cost assumptions}
+\label{FIG_cap_user_inflation}
+\includegraphics[width=1.0\textwidth]{fig_cap_user_comparison.eps}
+\end{center}
+\vspace{-.5cm}\singlespacing {\footnotesize \textbf{Notes}: The estimate of the capital elasticity $\epsilon_{Kit}$, is made using equation (9) in the main text. The black line uses the user cost of capital assumption, as described in the main text, with expected inflation equal to current inflation. The series marked with x's uses a three-year forward-looking average of inflation in capital types to form expected inflation. The series marked with o's uses a three-year backward-looking average of inflation in capital types to form expected inflation. 
+}
+\end{figure}
+
+As can be seen in the figure, while the three series are offset from one another temporally, there is not a distinct difference in the implied capital elasticity across the three series. 
+
+
+
+Prior to discussing the bounds and elasticity estimates, the handling of the Use Tables and proprietor's income are discussed.
+
+\subsection{Used Intermediates and Non-comparable Imports}
+As mentioned in the prior section, the Use Tables from the BEA are not square, and include two commodities that have no equivalent industry. Those commodities - ``Scrap, used, and secondhand goods'' and ``Noncomparable imports'' - are intermediates that are not produced by any other industry or that have no equivalent domestic production during the same period. In practice, the use of both of these intermediate inputs is very small.\footnote{Two exceptions are Primary Metals, which may have scrap/used inputs around 10\% of all intermediate costs, and Air Transportation, which may have noncomparable imports of around 15\% of all intermediate costs in a given year. The overall results of the paper are unaffected by dropping either or both industries from the calculations.} Given that these two commodities are used as inputs by industries, but are not produced by any other industry, they are similar in nature to factors of production like labor and capital, and I treat them as such.
+
+What this means is that the matrix $\Lambda$ in equation (\ref{EQ_Lambda}) is $J+4$ by $J+4$, with addition columns containing values for $\lambda_{i,Used}$ and $\lambda_{i,Noncomp}$, the share of total costs accounted for by used/scrap and noncomparable imports, respectively, for a given industry $i$. Additional rows of zeros are included at the bottom of $\Lambda$ to account for these ``industries'' in the same way that zero rows for labor and capital were included. The calculation of $E$ in equation (\ref{EQ_E}) will generate a $J + 4 \times 1$ vector of elasticities including those for $\epsilon_{Kt}$, $\epsilon_{Lt}$, $\epsilon_{Used,t}$, and $\epsilon_{Noncomp,t}$. Those four elasticities will sum to one, given the assumption of constant returns to scale cost functions for each industry. In practice, the estimated size of $\epsilon_{Used,t}$ and $\epsilon_{Noncomp,t}$ is so small that they never sum to more than 0.02 in any given year.
+
+Treating Scrap/Used and Noncomparable imports as factors of production requires an adjustment to the value added of each industry reported in the Use Table (which considers them intermediate inputs). From the Use Table I have value-added, $VALU_{it}^{IO}$, and I calculate the value-added for use in the calculations that follow, $VALU_{it}$, as 
+\begin{equation}
+  VALU_{it} = VALU_{it}^{IO} + COST_{i,Used,t} + COST_{i,Noncomp,t}.
+\end{equation}
+In practice this adjustment is miniscule given the small size of Scrap/used and Noncomparable imports across industries, and it only impacts the estimated elasticities under the no-profit assumption discussed below.
+
+
+Moreover, the Use Tables show the cost of intermediate \textit{commodities} purchased by each industry in each year. While the commodities are classified according to the same NAICS 2012 system as the industries, it is not necessarily the case that the amount of commodity $j$ purchased by industry $i$ in year $t$ is identical to the output of industry $j$ sold to industry $i$ in year $t$ (i.e. commodity $j$ could in theory be produced by multiple industries, and the output of industry $j$ could consist of different commodities). In addition, Use Tables include two additional commodities (``Scrap, used, and secondhand goods'' and ``Noncomparable imports'') that have no equivalent industries. The Use Tables thus have $J$ industries but $J+2$ commodities, meaning they are not square, as the BF methodology requires. 
+
+Despite this, the Use Tables form the baseline input/output table that I use to do the elasticity calculations. While the definitional distinction between industries and commodities exists, in practice it does not introduce a significant bias into the estimates of the elasticities. Entries in the Use Tables (for the $J$ industries with matching commodities) are used to find the $COST_{ijt}$ referenced in the prior section. The Appendix demonstrates that using the Use Tables in this manner (treating commodities as industries) introduces a bias on the order of 0.005 or smaller into the elasticity estimates.\footnote{In Section \ref{SEC_trends} the small bias will also be apparent when comparing the elasticity estimates to aggregate cost ratios under certain assumptions about profits and capital costs.} The ``non-squareness'' of the Use Tables is managed by treating the two additional commodities as factors of production similar to capital and labor, purchased by other industries but requiring no inputs themselves. Section \ref{SEC_bounding} provides more detail on that assumption, which also has a very small quantitative effect on the outcomes. For the cost of these small biases in the elasticity estimates, the benefit is that the Use Tables are available annually back to 1948, providing the longest possible time series.
+
+
+The purpose of this section is to explain where that bias comes from, and then to show that the bias is very small in practice by comparing my baseline estimates to theoretically correct elasticity estimates from 1997-2018 based on Total Requirements tables. Given the small demonstrated size of the bias, I preferred in the main text to keep the biased estimates as they allowed me to extend the estimates back to 1948.
+
+The source of the biases is the Use Tables, which in the parlance of input/output accounting are asymmetric. They show spending by industries on various commodities (as opposed to spending by industries on the output of other industries). One aspect of this asymmetry is that there are more commodities than industries. ``Scrap, used, and secondhand goods'' and ``Noncomparable imports'' are the additional commodities, while all other commodities are coded to correspond to industries. Thus the Use table is not square. This non-squareness can be handled relatively easily by including ``industries'' for scrap/used and noncomparable imports, which as explained in the main text, is equivalent to treating these two commodities as factors of production.
+
+The more fundamental issue with the Use Tables is that gross output of commodities is not equivalent to gross output of industries. Spending by industry $i$ on commodity $j$ does not correspond to the spending by industry $i$ on products from industry $j$, even though the commodity and industry denoted by $j$ may be coded the same (e.g. ``Communications'') Commodities can be produced by multiple industries, and industries can produce multiple commodities. Let the original Use table have $G$ industries and $J$ commodities, with $G<J$. By including zero industry columns for the extra commodities (e.g. Scrap/used and Noncomparable imports) one can create a $J \times J$ Use Table that is square. 
+
+Denote that square $J \times J$ Use Table by $U$, with each element $u_{ij}$ referring to the spending on commodity $i$ by industry $j$. In addition, let $V_I$ be the $J \times 1$ vector of value-added by industry, with entry $v_j$ being the value-added of industry $j$. Let $F_C$ be the $J \times 1$ vector of final use by commodity, with entry $f_i$ being the final use of commodity $i$. Given this, the following two relationships hold,
+\begin{eqnarray*}
+	X_C &=& Ue + F_C \\
+	X_I &=& U'e + V_I,
+\end{eqnarray*}
+where $e$ is a $J \times 1$ vector of 1's, $X_C$ is a vector of gross output of each \textit{commodity}, and $X_I$ is a vector of gross output of each \textit{industry}. The elements of $X_I$ and $X_C$ do not match, althought their sums are equal ($e'X_C = e'X_I$), implying that aggregate gross output is identical regardless of whether it is summed up across commodities or industries.
+
+In contrast, a symmetric input/output table (which is what BF assume) ensures the equivalence of the vectors of gross output. Let $Z$ be a $J \times J$ symmetric table of industry-by-industry input costs, with $z_{ij}$ being the spending by industry $j$ on inputs from \textit{industry} $i$. Then it is case that
+\begin{eqnarray}
+	X_I &=& Ze + F_I \\
+	X_I &=& Z'e + V_I, \label{EQ_TR_Z}
+\end{eqnarray}
+where $F_I$ is a $J \times 1$ vector of final use of each \textit{industry}. Regardless of the approach (final use or value-added) the symmetric input/output table produces the same vector of industry gross output, $X_I$.\footnote{One could also look at a matrix of commodity-by-commodity costs, $D$, such that $X_C = De + F_C$ and $X_C = D'e + V_C$. For the purposes of computing the elasticities, the industry-by-industry matrix is required.}
+
+The bias in the elasticity estimates produced by using the Use Table will be driven by the discrepancy between $X_C$ and $X_I$. To see how this bias arises in the calculation of the elasticities, it is helpful to first reconstruct how BF do the calculation using the symmetric I/O matrix $Z$.  
+
+With $Z$ defined as above, let the $M \times J$ matrix $C$ be the actual factor costs paid by industry, with entry $c_{ij}$ being the amount spent by industry $j$ to a factor of production $i$ (e.g. wages or capital costs or any other factor payment), and $M$ is the total number of factors of production used. 
+
+Let the $J \times 1$ vector $f$ be final use by industry as a share of total final use, so that
+\begin{equation*}
+	f_I = F_I (e'F_I)^{-1}
+\end{equation*}
+Using $f_I$, let 
+\begin{equation*}
+	\Gamma = \begin{bmatrix}
+		f_I  \\
+		\mathbf{0}  \\
+	\end{bmatrix}
+\end{equation*}
+be the $(J+M) \times 1$ vector of final use shares including the $M \times 1$ vector of zeroes to capture the final use of each factor of production.
+
+Total costs (intermediate purchases plus factor costs) are captured in a $J\times 1$ vector $T$, defined as
+\begin{equation*}
+	T = e_J'Z + e_M'C
+\end{equation*}
+where $e_J$ is a $J\times 1$ vector of 1's and $e_M$ is a $M\times 1$ vector of 1's. The elements of $T$, $T_i$, capture the total \textit{costs} of production for an industry $i$ (as opposed to the gross output).
+
+To do the BF calculation, as in the main text, the first step is to form the matrix $\Lambda$, which here can be written in block form as
+\begin{equation*}
+	\Lambda' = 	\begin{bmatrix}
+		Z\hat{T}^{-1} & \mathbf{0}  \\
+		C\hat{T}^{-1} &\mathbf{0}  \\
+	\end{bmatrix}.
+\end{equation*}
+The $\hat{T}$ notation indicates a matrix with the elements of $T$ along the diagonal, and zeroes in all other positions. The $J\times J$ upper-left block is intermediate spending as a share of total costs by industry $j$ (a column) on industry $i$ (a row). The $M\times J$ lower-left block is spending on factor $m$ (a row) as a share of total costs by industry $j$ (a column). The upper-right block is a $J\times M$ set of zeroes, and the lower-right block is a $M\times M$ set of zeroes. These zero blocks are the entries accounting for the factor ``industries'' in the BF setting. Hence the overall $\Lambda$ matrix is square and is $J+M$ by $J+M$. Note that because of the construction of $Z$ and $C$, the above equation is for $\Lambda'$, the transpose of the $\Lambda$ matrix described in the main text.
+
+The elasticity calculation from BF is
+\begin{equation*}
+	E = (I - \Lambda')^{-1}\Gamma, 
+\end{equation*}
+where $I$ is a $J \times J$ identity matrix. This is simply transposed from what is in the main text. Using this and the structure of $\Lambda$, some tedious but straightforward matrix algebra reveals that
+\begin{equation*}
+	E = \begin{bmatrix}
+		\left(I-Z\hat{T}^{-1}\right)^{-1}f_I \\
+		C\hat{T}^{-1} \left(I-Z\hat{T}^{-1}\right)^{-1}f_I \\
+	\end{bmatrix},
+\end{equation*}
+The top block of $E$ is a $J \times 1$ vector of cost-based Domar weights for each industry (cost-based because of the presence of $T$) while the bottom block is a $M \times 1$ vector of cost-based Domar weights for each factor of production, which BF show are equivalent to the elasticity of aggregate output with respect to each factor.
+
+Given the focus of the paper, it is the bottom block of $E$ that matters. To consolidate notation, define $E_M$ as
+\begin{equation}
+	E_M = C\hat{T}^{-1} \left(I-Z\hat{T}^{-1}\right)^{-1}f_I, \label{EQ_EM_Z}
+\end{equation}
+so that it is simply the $M \times 1$ vector of the elasticities with respect to factors of production (e.g. $\epsilon_K$, $\epsilon_L$, etc.). The first part of this, $C\hat{T}^{-1}$, is an $M \times J$ matrix of factor costs as a share of total costs. This is multiplied through by $\left(I-Z\hat{T}^{-1}\right)^{-1}$, which is a $J \times J$ cost-based total requirements matrix informing us to how many dollars of \textit{costs} a dollar of spending in industry $j$ generates throughout the economy. Finally, the vector $f_I$ measures shares of final use, and weights each industry by their overall contribution to total output. 
+
+At this point all I've done is specify in block form how the vector of elasticities, $E_M$, is calculated within the BF framework. To verify that this calculation delivers the correct theoretical outcome, I require one more relationship. Given $X_I = Ze + F_I$, one can solve for
+\begin{equation*}
+	F_I = (I - Z\hat{X_I}^{-1})\hat{X_I}e,
+\end{equation*}
+where $\hat{X_I}$ is the diagonal matrix with elements of $X_I$ along the diagonal (and zeroes elsewhere). 
+
+Under the no-profit scenario, total costs will be equal to gross output, and therefore $T = X_I$. Using that in the block solution for the factor elasticities we have
+\begin{eqnarray*}
+	E_M &=& C\hat{X_I}^{-1} \left(I-Z\hat{X_I}^{-1}\right)^{-1}f_I \\
+				&=& C\hat{X_I}^{-1} \left(I-Z\hat{X_I}^{-1}\right)^{-1} F_I (e'F_I)^{-1} \\
+				&=& C\hat{X_I}^{-1} \left(I-Z\hat{X_I}^{-1}\right)^{-1}(I - Z\hat{X_I}^{-1})\hat{X_I}e (e'F_I)^{-1} \\
+				&=& Ce(e'F_I)^{-1}.
+\end{eqnarray*}
+The final line says that the factor elasticities are equal to $Ce(e'F_I)^{-1}$. This term is simply factor costs as a share of total value-added.\footnote{In the notation of the main text, the elements of $Ce(e'F_I)^{-1}$ are $s^{VA}_{m}$, where $m$ denotes the factor.} To see this, note that $Ce$ creates a $M \times 1$ vector of total factor costs (e.g. total labor costs, total capital costs, etc..) across all industries. $(e'F_I)$ is the sum of final use, which must equal the sum of value-added, and $(e'F_I)^{-1}$ is simply the inverse of total value-added. As BF discuss in their work, when there are zero profits, the elasticities with respect to factors of production are simply equal to the total factor cost as a share of value-added. 
+
+That all serves as set-up to explain where the bias in my baseline calculation of the elasticities comes from. The distinction in the baseline, as mentioned above, is that I'm using the Use Table, and therefore it is the case that $X_C = Ue +F_C$, with a consequence that $F_C = (I - U\hat{X_C}^{-1})\hat{X_C}e$, with $f_C$ being the final-use shares of commodities. Further, using the Use Table $U$ in place of $Z$ in the calculations yields an expression for total costs of
+\begin{equation*}
+	T^{Use} = e_J'U + e_M'C
+\end{equation*}
+and ultimately an expression for the vector of elasticities that is
+\begin{equation}
+	E_M^{Use} = C\hat{T^{Use}}^{-1} \left(I-U\hat{T^{Use}}^{-1}\right)^{-1}f_C. \label{EQ_EM_USE}
+\end{equation}
+
+Under the no-profit scenario given the Use Table, while it is true that total costs $T^{Use}$ are equal to gross output, total costs are equal to \textit{industry} gross output, or $T^{Use} = X_I$. Thus under the no-profit scenario, using the Use table to do the calculations, it will be the case that
+\begin{eqnarray*}
+	E_M^{Use} &=& C\hat{X_I}^{-1} \left(I-U\hat{X_I}^{-1}\right)^{-1}f_C \\
+				&=& C\hat{X_I}^{-1} \left(I-U\hat{X_I}^{-1}\right)^{-1} F_C (e'F_C)^{-1} \\
+				&=& C\hat{X_I}^{-1} \left(I-U\hat{X_I}^{-1}\right)^{-1}(I - U\hat{X_C}^{-1})\hat{X_C}e (e'F_C)^{-1}
+\end{eqnarray*}
+As one can see, it is no longer the case that the interior matrices cancel, as they are based on different vectors of gross output. Therefore $E_M^{Use}$ in the no-profit scenario is not equal to $Ce(e'F_C)^{-1}$, factor costs as a share of value-added. The bias in my baseline calculations is thus a consequence of the Use Tables, and their implication that $X_I \neq X_C$. The size of that bias depends on how different $X_I$ and $X_C$ are from one another. To the extent that the concepts of industries and commodities differ, they will not match, but in practice the distinction will turn out to not be that great.
+
+The actual size of that bias can be assessed in two ways. First, in the no-profit scenario it is possible to compare the estimates of elasticities to factor costs as a share of value-added, as was done in Section 5.2 of the main paper. There, the bias was seen to be on the order of 0.005. Second, for 1997-2018 it is possible to use the BEA's Total Requirements tables as the basis for the calculation of the elasticities. These Total Requirement tables are explicitly industry-by-industry, and implicitly define a matrix $Z$ that fulfills the conditions in equation (\ref{EQ_TR_Z}). For that subset of years I can compute $E_M$ from equation (\ref{EQ_EM_Z}) in the ``proper'' way with an industry-by-industry input/output matrix, and compare that to $E_M^{Use}$, computed from equation (\ref{EQ_EM_USE}) using the Use Table as in my baseline in the main text. Both methods can be computed under any of the scenarios for capital costs.
+
+\begin{table}[!htb]
+\begin{center}
+\caption{Comparison of $\epsilon_{Kt}$ estimates under different input/output assumptions}
+\label{TAB_compare1}
+{\footnotesize
+\begin{tabularx}{\textwidth}{XXXXXXX}
+\midrule
+        & \multicolumn{3}{c}{No-profit scenario:} & \multicolumn{3}{c}{Depreciation scenario:} \\ \cmidrule(lr){2-4} \cmidrule(lr){5-7} 
+ & Require & Use   &            & Require&  Use  & \\
+ & Table  & Table  & Difference & Table  &  Table & Difference \\
+Year & (1) & (2) & (3) & (4) & (5) & (6) \\
+\midrule
+\input{tab_tr_summary1.txt}
+\midrule
+\end{tabularx}
+}
+\end{center}
+\vspace{-.5cm}\singlespacing {\footnotesize \textbf{Notes}: The table shows the estimates, by year, of $\epsilon_{Kt}$, based on different assumptions regarding the input/output tables used and the assumption on capital costs (no-profits and depreciation costs only). Columns (1) and (4) use the Total Requirements tables, and equation (\ref{EQ_EM_Z}) to calculate the elasticity. This method is consistent with the \cite{bfshortnote,bfprodge} methodology. Columns (2) and (5) use the Use Table, as in the main text, and equation (\ref{EQ_EM_USE}). As described in the text of this Appendix, this produces a bias in the estimates of $\epsilon_{Kt}$ due to the fact that Use tables are industry-by-commodity (and not industry-by-industry). Columns (3) and (6) show the difference in the estimates using the two methods. Due to rounding, the differences in (3) and (6) may not be exactly equal to the differences between the preceding columns. 
+}
+\end{table}
+
+\begin{table}[!htb]
+\begin{center}
+\caption{Comparison of $\epsilon_{Kt}$ estimates under different input/output assumptions}
+\label{TAB_compare2}
+{\footnotesize
+\begin{tabularx}{\textwidth}{XXXXXXX}
+\midrule
+        & \multicolumn{3}{c}{Investment cost scenario:} & \multicolumn{3}{c}{User cost scenario:} \\ \cmidrule(lr){2-4} \cmidrule(lr){5-7} 
+ & Require & Use   &            & Require&  Use  & \\
+ & Table  & Table  & Difference & Table  &  Table & Difference \\
+Year & (1) & (2) & (3) & (4) & (5) & (6) \\
+\midrule
+\input{tab_tr_summary2.txt}
+\midrule
+\end{tabularx}
+}
+\end{center}
+\vspace{-.5cm}\singlespacing {\footnotesize \textbf{Notes}: The table shows the estimates, by year, of $\epsilon_{Kt}$, based on different assumptions regarding the input/output tables used and the assumption on capital costs (investment cost and user cost). Columns (1) and (4) use the Total Requirements tables, and equation (\ref{EQ_EM_Z}) to calculate the elasticity. This method is consistent with the \cite{bfshortnote,bfprodge} methodology. Columns (2) and (5) use the Use Table, as in the main text, and equation (\ref{EQ_EM_USE}). As described in the text of this Appendix, this produces a bias in the estimates of $\epsilon_{Kt}$ due to the fact that Use tables are industry-by-commodity (and not industry-by-industry). Columns (3) and (6) show the difference in the estimates using the two methods. Due to rounding, the differences in (3) and (6) may not be exactly equal to the differences between the preceding columns. 
+}
+\end{table}
+
+Tables \ref{TAB_compare1} and \ref{TAB_compare2} report the results, by year, of the calculation of the capital elasticity, $\epsilon_{Kt}$ (which is an element of $E_M$ or $E_M^{Use}$) using the Total Requirements and Use Tables, for different scenarios of capital costs. In Table \ref{TAB_compare1}, for example, in 1997 using the Total Requirements table and the no-profit assumption on capital costs, I receive an estimate of $\epsilon_{Kt}$ of 0.3566. In column (2), the estimate of the capital elasticity in 1997 with the Use Table is 0.3545, a difference of only 0.0021. Reading down the rows one can see that the bias introduced by using the Use Table is, on average, 0.0045. Looking at columns (4)-(6), one can examine the bias introduced by using the Use Table under the assumption that capital costs are made up of depreciation only. Here again, the average bias is only 0.0045. In Table \ref{TAB_compare2} results using the investment cost assumption for capital costs and the depreciation cost assumption are shown. There the average bias is 0.0045 and 0.0032, respectively. 
+
+Overall, what Tables \ref{TAB_compare1} and \ref{TAB_compare2} show is that despite the theoretical inaccuracy that arises from the Use Tables, the actual impact of that is small. Implicitly, this is suggesting that the vectors of $X_I$ and $X_C$ in the Use Table are not very different. This is perhaps not surprising, as even though the Use Table is industry-by-commodity, the commodities themselves are coded as if they were industries. In practice, the distinction between a commodity and an industry in the Use Tables is not large. 
+
+The small scale of the bias in these Tables led me to prefer the Use Table method, as it allows me to estimate elasticities going back to 1948 (as opposed to only 1997).
+
+
+
+	// Loop through industry-level files to save single file of all industry-level results
+	qui clear
+	qui save "./Work/USA_scenario_`scenario'_industry_results.dta", emptyok replace
+	forvalues y = `ymin'(1)`ymax' { // for each year in the scenario passed
+		qui append using "./Work/USA_scenario_temp_industry_`y'.dta"
+	}
+	qui save "./Work/USA_scenario_`scenario'_industry_results.dta", replace
+
+\begin{figure}[!htb]
+\begin{center}
+\caption{Estimates of aggregate capital elasticity, OECD countries, 2005-2015}
+\label{FIG_cap_oecd}
+\includegraphics[width=1.0\textwidth]{fig_cap_oecd_comparison.eps}
+\end{center}
+\vspace{-.5cm}\singlespacing {\footnotesize \textbf{Notes}: The estimate of the aggregate capital elasticity, $\epsilon_{Kt}$, is made using equation (\ref{EQ_E}) for each OECD country in the sample under two assumptions: no profits (x's) and depreciation costs (o's) only. The U.S. estimates were made using OECD data and assumptions, as described in the text. The dashed lines are medians of the U.S. estimates under depreciation-only and no-profit assumptions.
+}
+\end{figure}
+
+\clearpage
+
+
+\begin{table}[!htb]
+\begin{center}
+\caption{Estimates of capital elasticity, $\epsilon_K$, for OECD countries 2005-15}
+\label{TAB_oecd}
+{\footnotesize
+\begin{tabularx}{\textwidth}{lrrrrrr}
+\midrule
+        & \multicolumn{3}{c}{Mean 2005-15 $\overline{\epsilon}_K$:}  & \multicolumn{3}{c}{Change $\Delta \epsilon_{K,05-15}$:} \\ \cmidrule(lr){2-4} \cmidrule(lr){5-7}
+        & \multicolumn{3}{c}{Capital cost assumption:} & \multicolumn{3}{c}{Capital cost assumption:} \\
+        & Depreciation  &            & No-profit & Depreciation  &            & No-profit \\
+        & lower bound & Investment & upper bound & lower bound & Investment & upper bound \\
+Country & (1) & (2) & (3) & (4) & (5) & (6) \\
+\midrule
+\input{tab_oecd_summary.txt}
+\midrule
+\end{tabularx}
+}
+\end{center}
+\vspace{-.5cm}\singlespacing {\footnotesize \textbf{Notes}: The calculation of $\epsilon_{Kt}$ is described in the text. The value of $\epsilon_{Kt}$ is calculated under three different assumptions: depreciation costs only, investment cost, and no-profits. Each is described in more detail in the text. Means in columns (1)-(3) are across the years 2005-15 for a given country. The differences in columns (4)-(6) are $\epsilon_{K,2015} - \epsilon_{K,2005}$. The two OECD rows show the mean and median, respectively, across all years and all countries listed above those rows. The differences in the OECD rows refer to differences in those means and medians, respectively. The ``United States (OECD data)'' row uses data from STAN and the OECD, the same source as for the other OECD countries. Information on investment (gross fixed capital formation) was not available in STAN for the U.S., and hence those estimates of $\epsilon_{Kt}$ are missing. The "United States (BEA data)" row uses data directly from the BEA, as described in the earlier section of the paper. Differences in the OECD and BEA calculations for the U.S. are, in part, due to differences in treatment of proprietors income.
+}
+\end{table}
+
+\clearpage 
+
+\section{Comparison with the OECD}
+Given the time series for the U.S., a natural question is whether the values of $\epsilon_{Kt}$ (and of $\epsilon_{Lt}$) are of similar sizes in other countries. I use data from the OECD STAN database \citep{stan} and input/output tables (OECD, 2020) \nocite{oecdio} to calculate values of $\epsilon_{Kt}$ for a set of 20 OECD countries in the period 2005-2015. The limited time frame compared to the baseline U.S. case is due to lack of full data for OECD countries prior to 2005. The OECD dataset does include the U.S., however, and so this will provide a separate point of comparison to the baseline estimates.
+
+There are other limitations to the OECD data. First, there is no information regarding proprietors income, and hence there is no way to apply the \cite{gommerupert2004} adjustment to recover total labor compensation. The OECD does report total compensation, total employees, and the total number of self-employed workers. Using that information I create compensation measures for industry $i$ in country $m$ in year $t$ as follows,
+
+\begin{equation}
+	COST_{miLt} = COMP_{mit} + SELF_{mit} \left(\frac{COMP_{mit}}{EMPL_{mit}}\right).
+\end{equation}
+
+$COMP_{mit}$ is reported labor compensation, $SELF_{mit}$ is the number of self-employed workers, and $EMPL_{mit}$ is the number of regular workers. This adjustment thus uses the average wage to value the labor compensation of self-employed workers. As \cite{gommerupert2004} point out, this likely understates labor compensation to the extent that self-employed workers are owner-operators who likely bring more skill or human capital to the firm. This implies that the estimates of $\epsilon_{mLt}$ will likely be understated, and the estimates of $\epsilon_{mKt}$ overstated for the OECD countries.
+
+The second limitation on the OECD data is a lack of information on the financial structure of liabilities by industry in different countries, preventing me from calculating a user cost of capital measure comparable to what I used for the U.S.. In the absence of this information, I only make comparisons using the no-profit, depreciation cost, and investment cost assumptions. For the U.S. I calculate $\epsilon_{mKt}$ using the OECD data and method for handling self-employment so that it is comparable to other OECD countries. I will also compare this U.S. calculation to the one done previously using BEA data.
+
+Caveats aside, the process for calculation is again using equation (\ref{EQ_E}). Table \ref{TAB_oecd} provides the mean value of $\epsilon_{mKt}$ from 2005-2015 for each country, and the absolute change from 2005 to 2015 in each country, for the three available assumptions regarding capital costs. In addition, two rows at the end of the table show the mean over all OECD countries from 2005-2015, as well as the median across all OECD countries from 2005-2015. The final row of the table reports the values for the U.S. made using the baseline data from the BEA discussed in the prior sections of the paper, for comparison.
+
+The values for the U.S. from the two sources deviate to some extent. The depreciation cost lower bound is 0.266 using the OECD, and 0.256 using the baseline BEA data, which are quite close. The no-profit upper bound is 0.431 using the OECD, and only 0.381 using the baseline BEA data. The difference in the upper bound is driven by the different treatment of proprietors income. This suggests that the OECD estimates for the upper bound may be skewed upwards by imputing self-employed labor income using the average wage, rather than the \cite{gommerupert2004} adjustment for proprietors income. By understating labor costs this overstates capital costs in the no-profit scenario, leading to higher values for the capital elasticity.
+
+Unfortunately there is no information in the OECD database for investment by industry in the U.S., so there is no way to make a comparison under this assumption about capital costs.
+
+Comparing the U.S. OECD estimates to the rest of the OECD, the depreciation lower bounds are quite similar. The OECD mean lower bound is 0.280 in this period, and the median is 0.276. For the no-profit upper bound, the OECD values are also similar to the U.S. value from the OECD: a mean of 0.441 for the OECD compared to 0.431 for the United States. Given the apparent upward bias in the no-profit upper bound noted for the U.S., it seems likely the upper bounds for all OECD countries are overstated to some extent.  
+
+That said, one can see variation across the OECD in the range of $\epsilon_{mKt}$. The United Kingdom has a lower bound of only 0.221, and an upper bound of 0.359. At the other end of the scale, the Czech Republic has a lower bound capital elasticity of 0.322 and an upper bound of 0.503. But across the 20 OECD countries, the bounds on the values of $\epsilon_{mKt}$ are not disjointed, in the sense that every country's range of plausible values overlaps with every other country's.
+
+One can see this is Figure \ref{FIG_cap_oecd}, which shows the ranges of all 20 countries. The U.S. values are shown at the top, with o's representing the estimated elasticity in each year using the depreciation-only assumption (the lower bound), and the x's showing the estimated elasticity in each year under the non-profit assumption (the upper bound). The dashed vertical lines are the median lower and upper bound values for the U.S. between 2005-2015. Below the U.S. each country is shown in reverse alphabetical order, with the same interpretation of the symbols. While the ranges for some countries extend above 0.50, or as low as 0.20 for others, one can see that for the most part all the ranges overlap in the area between 0.30 and 0.40. 
+
+These estimates suggest some consistency across the OECD in the \textit{range} of $\epsilon_{mKt}$, but it should be noted that the true value of $\epsilon_{mKt}$ could differ across countries due to differences in market power or the true costs of capital. All this data suggests is that the plausible values are similar. The OECD data is calculated over the whole economy, including government and housing, and incorporates IP capital. Similar changes to those seen in the U.S. data when those industries or capital type are excluded seem likely. All that being said, the cost structures of industries appear to be similar to one another across countries in the OECD, such that the range of $\epsilon_{mKt}$ is also similar.
+
+
+
+First, consider using the BEA's Total Requirements (TR) tables from 1997-2018 as the basis for the input/output relationships. These TR tables are symmetric, do not include Used/Scrap or Noncomparable import rows, and are deliberately calculated to show spending by one industry on the output of another.\footnote{The total requirements tables are created by combining information in the Use Tables with information in the Make Tables, and the process includes some idiosyncratic conversions made by the BEA to translate between commodities and industries. XXXXXXX Source} With some manipulation, the TR table can be used as the basis for calculating the elasticities. 
+
+The TR table is reported in terms of dollars of spending on output from $i$ needed to produce one dollar of output in industry $j$. Let the TR matrix be denoted $R$ (with $J\times J$ dimensions), with entry $r_{ij}$ showing the spending per dollar of output in industry $j$ (in a column) on inputs from industry $i$ (the rows). Let $X$ be a $J\times 1$ vector of the gross output of each industry. Let $Z$ be a $J\times J$ matrix showing the total spending of industry $j$ (in a column) on output from industry $i$ (in the rows) to produce the gross output of industry $j$. $Z$ is calculated as follows,
+\begin{equation}
+	Z = (I - R^{-1})\hat{X},
+\end{equation}
+where $I$ is a $J\times J$ identity matrix, and $\hat{X}$ is $J\times J$ matrix with the entries of $X$ along the diagonal.\footnote{This relationship is derived form the definition of the total requirements table as $R = (I - Z \hat{X})^{-1}$.} 
+
+Given the TR table and the vector $X$, one can also solve for the final-use and value-added in each industry consistent with those requirements and the gross output observed for each industry. Let $F$ be the $J\times 1$ vector of final-use, and it is calculated as
+\begin{equation}
+	F = X - Ze,
+\end{equation}
+where $e$ is a $J\times 1$ vector of 1's. Final-use of industry $i$ is gross output of industry $i$ minus the use of industry $i$'s output by all other industries. We can do a similar calculation for value-added, with $V$ being the $J\times 1$ vector of value-added by industry. 
+\begin{equation}
+	V = X - Z'e
+\end{equation}
+Value-added of industry $i$ is gross output of industry $i$ minus the purchase of inputs by industry $i$ (note the transpose on the matrix Z) from all other industries.\footnote{One of the reasons I defaulted to the imperfect Use table was because using the TR table requires this recalculation of final-use and value-added based on gross output. For calculating the costs of each industry, I preferred to use the reported value-added and labor compensation data in the Use tables.} 
+
+To produce the ``extended'' input/output matrix $\Lambda$ of Baqaee and Farhi the factor costs have to be included along with the intermediate purchases. Let $B$ be a $M\times J$ matrix of factor costs as a share of value-added. The $J$ columns of this matrix capture factor cost share of value-added for a given industry $j$. There are $M$ rows, one for each factor of production. These factor cost shares of value-added are derived from the BEA data as described in the text (and could in theory include Used/Scrap and Noncomparable imports as factors of production). Let $C$ be a $M\times J$ matrix of actual factor costs in each of the $J$ industries for the $M$ factors. This matrix is
+\begin{equation}
+	C = B\hat{V},
+\end{equation}
+where again the $\hat{V}$ notation indicates that this is a $J\times J$ matrix with entries for value-added along the diagonal (and zeros everywhere else). 
+
+Total costs (intermediate purchases plus factor costs) are captured in a $J\times 1$ vector $T$, defined as
+\begin{equation}
+	T = e_J'Z + e_M'C
+\end{equation}
+where $e_J$ is a $J\times 1$ vector of 1's and $e_M$ is a $M\times 1$ vector of 1's. The rows of $T$ capture the total \textit{costs} of production for an industry (as opposed to the gross output). In the no-profit assumption, it will be the case that $T = X$, or total costs equal gross output, but in other scenarios it will be the case (abusing notation) that $T < X$, or that total costs are less than gross output in each industry. 
+
+The extended $\Lambda$ matrix necessary for the calculations is, in block form,
+\begin{equation}
+	\Lambda' = 	\begin{bmatrix}
+		Z\hat{T}^{-1} & \mathbf{0}  \\
+		C\hat{T}^{-1} &\mathbf{0}  \\
+	\end{bmatrix}.
+\end{equation}
+The $J\times J$ upper-left block is intermediate spending as a share of total costs by industry $j$ (a column) on industry $i$ (a column). The $M\times J$ left-left block is spending on factors as a share of total costs by industry $j$ (a column) on factor $m$ (a row). The upper-right block is a $J\times M$ set of zeroes, and the lower-right block is a $M\times M$ set of zeroes. Hence the overall $\Lambda$ matrix is symmetric and is $J+M$ by $J+M$. Note that because of the construction of $Z$ and $C$, the above equation is for $\Lambda'$, the transpose of the $\Lambda$ matrix described in the main text.
+
+From here the calculation proceeds as normal. Let $\Gamma$ be the $(J+M)\times 1$ vector of final-use shares calculated from the vector $F$, with the final $M$ entries being zeroes for the final-use of the factors of production. The vector of elasticities $E$ is then
+\begin{equation}
+	E = \Gamma' (I - \Lambda)^{-1},
+\end{equation}
+and the final $M$ entries of $E$ are the elasticities of output with respect to the factors of production. 
+
+Given a TR table $R$ (which shows dollars of spending on input $i$ per dollar of output by industry $j$) all this manipulation is necessary to extract the actual spending on intermediates by each industry (the $Z$ matrix), so that it can be combined with the factor cost data (the $C$ matrix) to form the expanded input/output matrix $\Lambda$ that allows calculations of elasticities. It is tedious, but straightforward. Using this method ensures that the calculation is based on a symmetric TR table, which in turn ensures that the calculations match the theory. In particular, using the TR table and the no-profit assumption ($T=X$), it is the case that the estimated elasticities for each factor of production in $E$ are identical to that factor's aggregate costs as a share of aggregate value-added. In my baseline method used in the main text, Section 5.2 showed that in this scenario the baseline method led to elasticities that were slightly off from those shares of value-added. 
+
+
+
+
+
+
+
 In Figure \ref{FIG_cost_comparison} I plot the estimated values of $\epsilon_{Kt}$ in each year, under each of the four main assumptions regarding capital cost, on the y-axis. On the x-axis is the value of the ratio $s^{Cost}_{Kt}$ from the same year, under the same assumption regarding capital costs. As one can see, the relationship is tight under any assumption regarding capital costs, consistent with the comparison of Tables \ref{TAB_scenario} and \ref{TAB_ratios}. 
 
 The relationship is not only tight, it is almost identical to the 45-degree line, implying that the  aggregate ratio $s^{Cost}_{Kt}$ ignoring input/output relationships is very close to the value of $\epsilon_{Kt}$ that incorporates those input/output relationships. To make this point more clearly, I run univariate regressions of the form

@@ -3,12 +3,13 @@ Calculate components of TFP decomposition
 */
 
 clear
-save "./Work/USA_tfp_scenario.dta", emptyok replace
+save "./Work/USA_tfp_scenario.dta", emptyok replace // create dataset to hold results
 
-foreach s in noprofit deprcost invcost usercost { // for each scenario
-	use "./Work/USA_scenario_sample_epsilon.dta", clear
+foreach s in noprofit deprcost invcost usercost { // for each baseline scenario
+	use "./Work/USA_scenario_annual_results_all.dta", clear
+	gen elas_cap = 1 - elas_comp // generate single elasticity for capital
 	keep if inrange(year,1948,2018) // clean-up
-	keep if scenario=="`s'" & sample=="nogovhs" & prop=="split" & ip=="ip" // keep only estimates for 
+	keep if capital=="`s'" & housing=="No" & gov=="No" & farm=="Yes" & prop=="split" & ip=="Yes" // keep only estimates for 
 		// that scenario, with no gov/housing (priv biz sector), and using split prop income
 	
 	capture drop _merge
@@ -16,8 +17,8 @@ foreach s in noprofit deprcost invcost usercost { // for each scenario
 	drop if _merge==2 // years with BLS MFP data, but no elasticity estimates
 	
 	// generate dtfp estimates using my elasticities, util and not-util adjusted
-	gen dtfp_util_elas =  dY - dutil - cost_cap*dk - cost_comp*dhours - cost_comp*dLQ
-	gen dtfp_elas =  dY - cost_cap*dk - cost_comp*dhours - cost_comp*dLQ
+	gen dtfp_util_elas =  dY - dutil - elas_cap*dk - elas_comp*dhours - elas_comp*dLQ
+	gen dtfp_elas =  dY - elas_cap*dk - elas_comp*dhours - elas_comp*dLQ
 	
 	// for each of the four different tfp growth rate series, calculate a level
 	// level has 1948==100
@@ -36,7 +37,7 @@ foreach s in noprofit deprcost invcost usercost { // for each scenario
 	gen level = exp(ln(100) + cum_dtfp)
 	gen level_elas = exp(ln(100) + cum_dtfp_elas)
 	
-	keep year scenario sample prop ip dtfp* level*
+	keep year scenario housing gov farm prop ip capital dtfp* level*
 	
 	append using "./Work/USA_tfp_scenario.dta"
 	save "./Work/USA_tfp_scenario.dta", replace

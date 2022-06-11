@@ -9,6 +9,7 @@ clear
 save "./Work/USA_naics4718_merged.dta", replace emptyok
 
 foreach series in "4762" "6386" "8796" "9718" { // four distinct series based on matching
+//local series "6386"
 	use "./Work/USA_naics`series'_comp_ratios.dta", clear // use the compensation ratios
 	foreach v of varlist naics*code { // kludge to get the naics code used to match
 		local match = substr("`v'",6,4) // pull the year series from this
@@ -33,9 +34,8 @@ foreach series in "4762" "6386" "8796" "9718" { // four distinct series based on
 
 	label variable iova "Industry value-added"
 	label variable iogo "Industry gross output"
-	label variable iofu "Industry final value"
 
-	keep year series code iova iogo iofu ioused ioother bearate ratio* deprate* pchange* // just what is necessary for scenarios
+	keep year series code codeorder iova iogo bearate ratio* deprate* pchange* // just what is necessary for scenarios
 	append using "./Work/USA_naics4718_merged.dta"
 	save "./Work/USA_naics4718_merged.dta", replace
 	

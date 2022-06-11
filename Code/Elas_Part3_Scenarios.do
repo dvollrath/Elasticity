@@ -1,120 +1,195 @@
 /*
-Calculate factor elasticities in different scenario/sample combinations
+Set up scenarios to calculate elasticities for
 */
+capture file close scenario
+file open scenario using "./Data/USA/scenarios.csv", read text // control file for scenarios
+file read scenario line // reads header line
+local control = subinstr("`line'",","," ",.)
+local ncontrol: word count `control' // number of control fields
 
-/*
-Set up runs of the estimation based on different assumptions
- Each run is controlled by a local macro with the following structure
-	  local run<X> = "<sample> <capital cost> <prop income> <ip>"
- - <X> is a unique number to denote a run, has to be consecutive
- - <sample> is one of: all nogov nohs nogovhs 
- - <capital cost> is one of: noprofit deprcost invcost usercost noprofinv noprofuser userfor3 userback3
- - <prop income> is one of: split alllab allcap
- - <ip> is one of: ip noip
-*/
-local run1 = "all noprofit split ip ignore"
-local run2 = "all deprcost split ip ignore"
-local run3 = "all invcost split ip ignore"
-local run4 = "all usercost split ip ignore"
+file read scenario line // read first scenario
 
-/*
-local run5 = "nogovhs noprofit split ip"
-local run6 = "nogovhs deprcost split ip"
-local run7 = "nogovhs invcost split ip"
-local run8 = "nogovhs usercost split ip"
+while r(eof)==0 { // while there are lines in the scenario file
+	local fcontrols = subinstr("`line'",","," ",.) // save scenario control options
+	local scenario = word("`fcontrols'",1) // save 1st control as scenario ID number
 
-local run9 = "all noprofit split noip"
-local run10 = "all deprcost split noip"
-local run11 = "all invcost split noip"
-local run12 = "all usercost split noip"
-
-local run13 = "nogovhs noprofit split noip"
-local run14 = "nogovhs deprcost split noip"
-local run15 = "nogovhs invcost split noip"
-local run16 = "nogovhs usercost split noip"
-
-local run17 = "all noprofit alllab ip"
-local run18 = "all noprofit allcap ip"
-local run19 = "all deprcost alllab ip"
-local run20 = "all deprcost allcap ip"
-
-local run21 = "all userfor3 split ip"
-local run22 = "all userback3 split ip"
-
-local run23 = "all noprofinv split ip"
-
-local run24 = "nonfarm noprofit split ip"
-local run25 = "nonfarm deprcost split ip"
-local run26 = "nonfarm invcost split ip"
-local run27 = "nonfarm usercost split ip"
-*/
-
-
-// Create working files to hold estimates of elasticities
-clear
-save "./Work/USA_scenario_sample_epsilon.dta", emptyok replace
-clear
-save "./Work/USA_scenario_sample_industry.dta", emptyok replace
-
-// Run script to ensure programs are loaded
-do "./Code/Elas_Part3_Programs.do"
-
-// Loop through runs and do calculations
-local i = 1 // iterator for run numbers
-while "`run`i''" != "" { // keep looping while run locals exist
-	tokenize `run`i'' // split the local holding the options into pieces
-	di "Sample `1'"
-	di "Scenario `2'"
-	di "Proprietors income `3'"
-	di "Intell prop `4'"
-	di "Treat used/other `5'"
-			
-	// Create sample and costs using passed parameters
-	use "./Work/USA_scenario_baseline.dta", clear // start with baseline data
-//	sample_all
-//	labor_split
-//	intel_ip
-//	used_asfactor
-//	capital_noprofit
+	forvalues i = 2(1)`ncontrol' { // cycle through remaining controls, assign locals
+		local name = word("`control'",`i') // name of control (housing, gov, capital, etc..)
+		local value = word("`fcontrols'",`i') // value of control (Yes, No, noprofit, etc.)
+		local `name' = "`value'"
+	}
 	
-	sample_`1' // call program to select sample
-	labor_`3' // call program to set labor costs
-	intel_`4' // call program to include/exclude IP
-	used_`5' // call program to deal with used/other industries
-	capital_`2' // call program to set capital costs
-			
-	qui gen scenario = "`2'" // record parameters as variables for output file
-	qui gen sample = "`1'"
-	qui gen prop = "`3'"
-	qui gen ip = "`4'"
-	qui gen used = "`5'"
-	qui keep series scenario sample prop ip used code year iova iogo iofu cost* // keep only what is necessary for calcs
-	qui save "./Work/USA_scenario_calculate.dta", replace // save working file for calculation
+	// start with baseline data
+	use "./Work/USA_scenario_baseline.dta", clear
+	qui gen include = 1 // default to all industries being included
+
+	/////////////////////////////////////////////////////////////////
+	// Series of IF statements to evaluate controls variables
+	// and modify data according to those
+	/////////////////////////////////////////////////////////////////
+	di "Creating scenario `id'"
 	
-	calc_share // call program to calculate VA and factor cost shares of different inputs
-			
-	calc_loop // call program to go year-by-year and do calculation
-		// This produces "./Work/USA_scenario_sample_industry.dta"
-			
-	calc_save // save calculated elasticities from vectors to dataset
+	/////////////////////////////////////////////////////////////////
+	// Housing
+	if inlist("`housing'","Yes","yes") {
+		di "--Housing included"
+	}
+	else {
+		di "--Housing excluded"
+		qui replace include=0 if inlist(code,"HS","ORE","531")
+	}
+
+	/////////////////////////////////////////////////////////////////
+	// Government
+	if inlist("`gov'","Yes","yes") {
+		di "--Government included"
+	}
+	else {
+		di "--Government excluded"
+		qui replace include=0 if inlist(code,"GFE","GFG","GFGD","GFGN") // federal industries
+		qui replace include=0 if inlist(code,"GSLE","GSLG") // state and local
+	}
+
+	/////////////////////////////////////////////////////////////////	
+	// Farming
+	if inlist("`farm'","Yes","yes") {
+		di "--Farming included"
+	}
+	else {
+		di "--Farms excluded"
+		qui replace include=0 if inlist(code,"111CA","113FF")
+	}
+
+	/////////////////////////////////////////////////////////////////
+	// Proprietors income
+	// Creates the "cost_comp" variable for labor costs
+	// Note - this has to come prior to capital costs
+	if inlist("`proprietor'","alllab","labor") { // assign all to labor
+		di "--All proprietors income to labor"
+		qui capture drop cost_comp
+		qui gen cost_comp = ratio_comp_va*iova + ratio_proinc_va*iova
+		qui replace cost_comp = cost_comp/(1-ratio_txpi_va)
+		qui replace cost_comp = 0 if missing(cost_comp)
+	}
+	else if inlist("`proprietor'","allcap","capital") { // assign all to capital
+		di "--All proprietors income to capital"
+		qui capture drop cost_comp
+		qui gen cost_comp = ratio_comp_va*iova
+		qui replace cost_comp = cost_comp/(1-ratio_txpi_va)
+		qui replace cost_comp = 0 if missing(cost_comp)
+	}
+	else { // default case is to split
+		di "--Proprietors income split per Gomme/Rupert"
+		qui capture drop cost_comp
+		qui gen cost_comp = ratio_comp_va*iova /// compensation plus proportion of prop income
+			+ ratio_proinc_va*iova*(ratio_comp_va/(1-ratio_proinc_va))
+		qui replace cost_comp = cost_comp/(1-ratio_txpi_va) // scale up total comp to account for share of production tax
+		qui replace cost_comp = 0 if missing(cost_comp)	
+	}
+
+	/////////////////////////////////////////////////////////////////
+	// Intellectual property
+	// Note - this has to come prior to capital costs
+	// Note - this has to come after the proprietors income calculation
+	if inlist("`ip'","Yes","yes") {
+		di "--IP included"
+	}
+	else {
+		di "--IP excluded"
+		qui capture drop inv_ip
+		qui gen inv_ip = ratio_invip_va*iova // get amount of investment in IP
+		qui replace iova = iova - inv_ip // remove IP investment from value-added
+		qui drop inv_ip
+		
+		qui replace ratio_stockip00_va= 0 // no ip capital
+		qui replace ratio_invip_va = 0 // no ip investment
+		qui replace deprateip00 = 0 // no ip depreciation
+	}
 	
-	qui gen scenario = "`2'" // record parameters as variables for output file
-	qui gen sample = "`1'"
-	qui gen prop = "`3'"
-	qui gen ip = "`4'"
-	qui gen used = "`5'"
+	/////////////////////////////////////////////////////////////////
+	// Capital costs
+	if inlist("`capital'","noprofit") { // no profit assumption
+		di "--Capital costs assume no profits"
+		foreach j in st eq ip { // for each type of capital
+			qui capture drop K_`j'
+			qui capture drop inv_`j'
+			qui gen K_`j' = ratio_stock`j'00_va*iova // stock is K/VA ratio times VA
+			qui gen inv_`j' = ratio_inv`j'_va*iova // investment is I/VA ratio times VA
+		}
+		foreach j in st eq ip { // for each type of capital
+			qui capture drop cost_`j'
+			qui gen cost_`j' = (iova - cost_comp)*inv_`j'/(inv_st + inv_eq + inv_ip) // cost of cap, allocate by investment
+			qui replace cost_`j' = (iova - cost_comp)*K_`j'/(K_st + K_eq + K_ip) if missing(cost_`j') // use K to allocate if I isn't present
+			//qui replace cost_`j' = 0 if missing(cost_`j') // or I/O calcs won't work
+		}
+	}
+	else if inlist("`capital'","deprcost") { // depreciation costs
+		di "--Capital costs using only depreciation"
+		foreach j in st eq ip { // for each type of capital
+			qui capture drop cost_`j'
+			qui gen cost_`j' = ratio_stock`j'00_va*iova*deprate`j' // use just depreciation costs
+			qui replace cost_`j' = 0 if missing(cost_`j') // or I/O calcs won't work
+		}
+	}
+	else if inlist("`capital'","usercost") { // user costs
+		di "--Capital costs using user cost formula"
+		foreach j in st eq ip { // for each type of capital
+			qui capture drop einflation`j'
+			qui gen einflation`j' = inf`j'00 // use economy-wide inflation rate as baseline
+			qui replace einflation`j' = pchange`j'00curr if !missing(pchange`j'00curr) 
+				// override with naics/year specific inflation rate if available
+			
+			qui capture drop K_`j'
+			qui gen K_`j' = ratio_stock`j'00_va*iova // stock is K/VA ratio times VA
+			qui capture drop R_`j'
+			qui gen R_`j' = (nominal - einflation`j' + deprate`j'00)*tax_`j' // user cost of capital
+			qui capture drop cost_`j'
+			qui gen cost_`j' = R_`j'*K_`j' // total cost of capital
+			
+			qui replace cost_`j' = 0 if missing(cost_`j') // or I/O calcs won't work
+			qui replace cost_`j' = 0 if cost_`j'<0 & !missing(cost_`j') // eliminate negative costs
+		}
+	}
+	else if inlist("`capital'","invcost") { // investment cost
+		di "--Capital costs using investment spending"
+		foreach j in st eq ip { // for each type of capital
+			qui capture drop cost_`j'
+			qui gen cost_`j' = ratio_inv`j'_va*iova // use just investment costs
+			qui replace cost_`j' = 0 if missing(cost_`j') // or I/O calcs won't work
+		}
+	} 
+	else {
+		di "--No legitimate capial cost assumption made"
+	}
+
+	/////////////////////////////////////////////////////////////////
+	// Negatives for factor costs
+	if inlist("`negative'","Yes","yes") {
+		di "--Negative factor costs allowed"
+	}
+	else {
+		di "--Negative factor costs not allowed"
+		foreach j of varlist cost_* {
+			qui replace `j' = 0 if `j'<0 & `j'~=. // no negative costs
+		}
+	}
 	
-	//calc_noprofit // make adjustment in noprofit cases to match share data
+	/////////////////////////////////////////////////////////////////
+	// Set variables to save in the scenario file
+	/////////////////////////////////////////////////////////////////
+	qui keep year code codeorder include series iova cost* // only data variables necessary for scenario
+	qui gen scenario=`scenario' // save variables describing scenario terms
+	
+	forvalues i = 2(1)`ncontrol' { // cycle through remaining controls, assign locals
+		local name = word("`control'",`i') // name of control (housing, gov, capital, etc..)
+		local value = word("`fcontrols'",`i') // value of control (Yes, No, noprofit, etc.)
+		qui gen ctrl_`name' = "`value'" // create variable with that control
+	}
 
-	qui append using "./Work/USA_scenario_sample_epsilon.dta"
-	qui save "./Work/USA_scenario_sample_epsilon.dta", replace
-
-	local i = `i' + 1 // increment
-} // end while loop
-
-// Save off working results files to permanent storage, if desired
-use "./Work/USA_scenario_sample_industry.dta", clear
-save "./Work/USA_scenario_sample_industry.dta", replace
-
-use "./Work/USA_scenario_sample_epsilon.dta", clear
-save "./Work/USA_scenario_sample_epsilon.dta", replace
+	sort year codeorder // ensure order matching the IO tables
+	capture rm "./Work/USA_scenario_`scenario'_data.dta" // delete any existing version
+	save "./Work/USA_scenario_`scenario'_data.dta", replace // save scenario file using ID number
+	
+	file read scenario line // read next scenario
+}
+capture file close scenario
