@@ -31,6 +31,7 @@
 \newtheorem{corollary}{Corollary}
 
 \renewcommand{\thetable}{A.\arabic{table}}
+\renewcommand{\thefigure}{A.\arabic{figure}}
 \renewcommand{\thesection}{A.\arabic{section}}
 \renewcommand{\theequation}{A.\arabic{equation}}
 \makeatletter
@@ -74,7 +75,7 @@
 \listoftables
 
 \section{Data and code}
-\onehalfspacing All of the code and raw data for this paper are publicly available. The site \url{https://github.com/dvollrath/LaborShare} contains both. The README file contained there includes instructions for replicating all tables, figures, and calculations in the paper. 
+\onehalfspacing All of the code and raw data for this paper are publicly available. The site \url{https://github.com/dvollrath/Elasticity} contains both. The README file contained there includes instructions for replicating all tables, figures, and calculations in the paper. 
 
 \section{Matching historical industry data to input/output tables}
 As described in Section 3 of the main text, the first issue with creating the data series used in the estimates of $\epsilon_{Kt}$ is matching various data sources from the national accounts with different industrial classification schemes. 
@@ -139,7 +140,7 @@ In each case there is a straightforward match, however, to a NAICS industry of t
 \subsection{BEA capital stock data}
 Theoretically, the BEA reports capital stock data using a NAICS industrial classification system. However, their classification is not precisely identical to the NAICS system found in the input/output tables. The vast majority of industries in the I/O table do have a direct match, but there are exceptions that I outline here. 
 
-For most industries, the BEA capital stock data reports a NAICS code in four digits, with different levels of disaggregation indicated by non-zeros. For example, 3200 refers to ``Manufacturing'', while 3210 refers to ``Wood products'', and one could disaggregate further to 3211 for a specific type of wood product. The I/O tables report the highest level digits, without trailing zeroes. Hence the I/O table has a NAICS code of 321 for ``Wood products''. It does not contain an entry for NAICS code 32, as the point of the I/O table is to show the disaggregated relationships. Matching in this case is straightforward, as it simply has to take into account the trailing zeros. This works for the vast majority of industries. 
+For most industries, the BEA capital stock data reports a NAICS code in four digits, with different levels of dis-aggregation indicated by non-zeros. For example, 3200 refers to ``Manufacturing'', while 3210 refers to ``Wood products'', and one could dis-aggregate further to 3211 for a specific type of wood product. The I/O tables report the highest level digits, without trailing zeroes. Hence the I/O table has a NAICS code of 321 for ``Wood products''. It does not contain an entry for NAICS code 32, as the point of the I/O table is to show the dis-aggregated relationships. Matching in this case is straightforward, as it simply has to take into account the trailing zeros. This works for the vast majority of industries. 
 
 There are exceptions, of course. In most cases these are simply differences in transcription involving letters (e.g. 113F matching to 113FF), but there are still one-to-one matches from the BEA capital data to the I/O table.
 
@@ -206,9 +207,9 @@ As described in the prior section, I develop a matrix $C$ of industry-by-industr
 \begin{equation}
 	T = \left(I - C \hat{X}_I^{-1}\right)^{-1}.
 \end{equation}
-This matrix $T$ measures the total dollars of spending on inputs necessary from each industry to deliver one dollar of final use. 
+This matrix $T$ measures the total dollars of spending on inputs necessary from each industry $i$ to deliver one dollar of final use of industry $j$. 
 
-The BEA provides a Total Requirements Table for 1997-2018. This Table is provided ``After Redefinitions'' to the Use and Make Tables. These redefinitions reassign some transactions between commodity or industries. As such, the BEA Total Requirements Table is an analogue to my matrix $T$, but differs numerically because of those redefinitions to the underlying Use and Make Tables. 
+The BEA provides a separate Total Requirements Table for 1997-2018. This Table is provided ``After Redefinitions'' to the Use and Make Tables. These redefinitions reassign some transactions between commodity or industries. As such, the BEA Total Requirements Table is an analogue to my matrix $T$, but differs numerically because of those redefinitions to the underlying Use and Make Tables. 
 
 To assess whether using ``Before Redefinitions'' Use and Make Tables in my baseline calculations generates any significant difference compared to the ``After Redefinitions'' Tables, I re-calculated all the elasticity estimates from 1997-2018 using the ``After Redefinitions'' Tables. 
 
@@ -221,7 +222,7 @@ The baseline results in the paper take the Use Tables as given, and those Use Ta
 
 For the calculation of $\epsilon_K$ in equation (9) of the main text, the presence of imports influences the weights in $\Gamma$, the vector of final-use shares. An industry $i$ which has relatively small domestic production but whose products are heavily imported (e.g. oil and gas in most years) will have a low(er) share of final use, $\gamma_i$. An industry $j$ that has large domestic production, and which may import a large amount of products from other industries (e.g. chemical production that uses crude oil), will have a large(r) share of final use, $\gamma_j$. Thus, in calculating $\epsilon_K$ the aggregate elasticity will be heavily influenced by the elasticity with respect to capital in industry $j$ but not by industry $i$. In the end, $\epsilon_K$ will reflect the elasticity of domestic production with respect to capital, taking imports as given. 
 
-An alternative is to exclude imports entirely from the Use Table, and calculate $\epsilon_K$ based only on domestic inputs to production. This alters the cost shares, $\lambda_{ij}$, that population the $\Lambda$ matrix in equation (9), lowering the cost share for intermediates with large imports (e.g. oil and gas) and raising the cost share for intermediates that are only produced domestically (e.g. services). Excluding imported intermediates while holding gross output constant increases the implied value-added of each industry. This will thus have the greatest effect on the calculation of $\epsilon_K$ in the no-profit case. The costs associated with imports in this case are instead attributed to capital, which raises the value of $\epsilon_K$. In the other scenarios, the value of $\epsilon_K$ may be higher or lower than in the baseline (including imports) depending on how the exclusion of imports affects the relative sizes of the $\lambda_{ij}$ terms. 
+An alternative is to exclude imports entirely from the Use Table, and calculate $\epsilon_K$ based only on domestic inputs to production. This alters the cost shares, $\lambda_{ij}$, that populate the $\Lambda$ matrix in equation (9), lowering the cost share for intermediates with large imports (e.g. oil and gas) and raising the cost share for intermediates that are only produced domestically (e.g. services). Excluding imported intermediates while holding gross output constant increases the implied value-added of each industry. This will thus have the greatest effect on the calculation of $\epsilon_K$ in the no-profit case. The costs associated with imports in this case are instead attributed to capital, which raises the value of $\epsilon_K$. In the other scenarios, the value of $\epsilon_K$ may be higher or lower than in the baseline (including imports) depending on how the exclusion of imports affects the relative sizes of the $\lambda_{ij}$ terms. 
 
 Tables \ref{TAB_import1} and \ref{TAB_import2} report results that exclude imports from the Use Tables (columns 1 and 4), and compare those to the baseline results that include imports (columns 2 and 5). Looking at the results under the no-profit scenario, for example, excluding imports yields an estimated $\epsilon_K$ of 0.3703. Including imports gives the baseline result of 0.3686. Thus excluding imports gives an estimate that is 0.0018 higher. Reading down column (3) of Table \ref{TAB_import1}, one can see that the differences can reach as large as 0.0097, but average only about 0.0044. Even in the no-profit case, excluding imports does not alter the estimated elasticity by a substantial amount.
 
@@ -334,16 +335,16 @@ From here, it is possible to see why and how these two measures would differ. Me
 
 There are two different ways in which markups create a wedge between $\epsilon_K$ and $s_K^{Cost}$. First are the direct effects of $M^{-1}$. $TF$ determines total gross output by industry (the total requirements matrix times final use), and $M^{-1} TF$ determines gross \textit{costs} by industry. If there is dispersion in the $\mu_j$ terms that make up $M$, then the allocation of gross costs across industries does not match the allocation of gross output. Costs are thus skewed towards industries with low markups, and thus $s_K^{Cost}$ will be skewed towards the capital share of factor costs in those industries. Note that if all markups are identical but above one, $\mu_j = \overline{\mu} > 1$, then the two $M^{-1}$ terms still cancel out. That is, if markups are identical across industries then there is no distortion in the allocation of gross costs across industries due to distortions in final demand.
 
-Second, markups generate a difference between $R$ and $T$, the technical and total requirement matrices. These differ because markups create distortions in costs across industries due to the markup charged by suppliers. This distortion holds even if all the markups are identical across industries, $T = (I - \overline{\mu}L)^{-1} \neq (I - L)^{-1} = R$. Markups distort the allocation of costs, as each upstream industry spends less on factors (and further inputs) than it receives in payments from downstream industries. 
+Second, markups generate a difference between $R$ and $T$, the technical and total requirement matrices. These differ because markups create distortions in costs across industries due to the markup charged by all suppliers along the supply chain. This distortion holds even if all the markups are identical across industries, $T = (I - \overline{\mu}L)^{-1} \neq (I - L)^{-1} = R$. Markups distort the allocation of costs, as each upstream industry spends less on factors (and further inputs) than it receives in payments from downstream industries. 
 
-Whether $s_K^{Cost}$ is larger or smaller than $\epsilon_K$ depends on how markups correlate with $\lambda_K$. If $\mu_j$ and $\lambda_{Kj}$ are positively correlated, then $s_K^{Cost} < \epsilon_K$. Higher markups skew costs away from those industries with large $\lambda_{Kj}$ values, and hence $s_K^{Cost}$ is driven down by more costs coming from industries that spend low shares of their costs on capital. Further, if $\lambda_{Kj}$ tend to be higher in industries that are more upstream, then markups will lower the share of costs in those industries, and this will also drive down $s_K^{Cost}$. 
+Whether $s_K^{Cost}$ is larger or smaller than $\epsilon_K$ depends on how markups correlate with $\lambda_K$. If $\mu_j$ and $\lambda_{Kj}$ are positively correlated, then $s_K^{Cost} < \epsilon_K$. Higher markups skew costs away from those industries with large $\lambda_{Kj}$ values, and hence $s_K^{Cost}$ is driven down because more costs are coming from industries that spend low shares of their costs on capital. Further, if $\lambda_{Kj}$ tend to be higher in industries that are more upstream, then markups along the supply chain will lower the share of costs in those industries, and this will also drive down $s_K^{Cost}$. 
 
 \subsection{Empirical Relationships}
 The prior sub-section proposes two relationships that explain why $\epsilon_K > s_K^{Cost}$ in economies with positive economic profits: markups $\mu_j$ are positively associated with capital as a share of costs across industries, and capital as a share of costs is higher in industries that are more upstream. Here I show that the industry/year data is consistent with both proposed explanations.
 
-For each industry I can calculate the gross output markup $\mu_{jt}$ as gross output of $j$ in time $t$ divided by total costs (capital, labor, and intermediate inputs). I also calculate capital's share of factor costs in each industry, $s_{Kj}^{Cost} = COST_{Kjt}/(COST_{Kjt} + COST_{Ljt}$. For both $\mu_{jt}$ and $s_{Kj}^{Cost}$ I do this under the depreciation cost assumption on capital costs. The results are similar using either the investment cost or user cost assumption.
+For each industry I can calculate the gross output markup $\mu_{jt}$ as gross output of $j$ in time $t$ divided by total costs (capital, labor, and intermediate inputs). I also calculate capital's share of factor costs in each industry, $s_{Kj}^{Cost} = COST_{Kjt}/(COST_{Kjt} + COST_{Ljt})$. For both $\mu_{jt}$ and $s_{Kj}^{Cost}$ I do this under the depreciation cost assumption on capital costs. The results are similar using either the investment cost or user cost assumption.
 
-In Figure \ref{FIG_cap_share_markup} I plot the relationship betweeen $s_{Kj}^{Cost}$ and $\mu_{jt}$, controlling for year fixed effects. As there are a total of 4,477 industry/year observations, the Figure plots the ``binned'' relationship by collecting observations into 100 quantiles.\footnote{The ``binscatter'' technique of displaying regression results for large-N datasets was developed in \cite{cfs2013}.} The overall positive relationship is apparent, and is statistically significant (point estimate 0.407, standard error 0.009), even though there are obvious fluctuations in the relationship. The quantiles with the largest markups (which make up about 2\% of the observations) tend to be for housing and real estate. Removing those from the relationship still shows a significant positive relationship. This is consistent with the logic given above that $\epsilon_K > s_K^{Cost}$ when markups are positively associated with capital costs as a share of factor costs.
+In Figure \ref{FIG_cap_share_markup} I plot the relationship between $s_{Kj}^{Cost}$ and $\mu_{jt}$, controlling for year fixed effects. As there are a total of 4,477 industry/year observations, the Figure plots the ``binned'' relationship by collecting observations into 100 quantiles.\footnote{The ``binscatter'' technique of displaying regression results for large-N datasets was developed in \cite{cfs2013}.} The overall positive relationship is apparent and is statistically significant (point estimate 0.407, standard error 0.009) even though there are obvious fluctuations in the relationship. The quantiles with the largest markups (which make up about 2\% of the observations) tend to be for housing and real estate. Removing those from the relationship still shows a significant positive relationship.
 
 Next, I calculate a measure of how ``upstream'' each industry is, $u_{jt}$. This is defined as $u_{jt} = 1 - f_{jt}/GO_{jt}$, where $f_{jt}$ is final use of industry $j$ at time $t$, and $GO_{jt}$ is gross output. $u_{jt}$ is the share of gross output that is used by other industries as an intermediate input, as opposed to being for final use. High values of $u_{jt}$ indicate an industry that is ``upstream'' in the sense of supplying many intermediates relative to it's final use.
 
@@ -381,9 +382,9 @@ and the profit share of value-added is
 	\pi^{VA}_t = \frac{(\mu^{GO}_t - 1)(COST_{Mt} + COST_{Kt} + COST_{Lt})}{VA_t} = \frac{\mu^{GO}_t-1}{\mu^{GO}_t - COST_{Mt}/GO_t}.
 \end{equation}
 
-Figure 5 in the main paper plots series $\mu_t^{GO}$ under different capital cost assumptions. In this Appendix, Figure plots $\mu_t^{VA}$ under those same scenarios, and Figure plots $\pi^{VA}_t$ under the same scenarios. 
+Figure 5 in the main paper plots series $\mu_t^{GO}$ under different capital cost assumptions. In this Appendix, Figure \ref{FIG_markupva} plots $\mu_t^{VA}$ under those same scenarios, and Figure \ref{FIG_profitshare} plots $\pi^{VA}_t$ under the same scenarios. 
 
-\section{User cost details}
+\section{User cost details}\label{SEC_usercost}
 As described in the text, one of the alternative series used for estimating $\epsilon_{Kt}$ involves a user cost formula, as in \cite{halljorg1967}, and similar to what is used in \cite{Barkai000,rognlie2015}. This appendix section provides more detail on the construction of those user costs of capital. 
 
 The cost of capital is, replicating the equation from the main text,
@@ -430,7 +431,7 @@ The actual nominal interest on each source of financing, $Int_{mt}$, are drawn f
 \end{itemize}
 
 \subsection{Expected inflation}
-The second term in the user cost formula is $E[\pi_{ijt}]$, meaning there is an expected inflation for industry $i$ on capital type $j$ at time $t$. From the BEA capital stock data \citep{beacap} I obtain a price index for each capital type $j$ in each industry $i$ at time $t$. For the basic user cost formula, I calculate actual inflation in period $t$, and set $E[\pi_{ijt}] = \pi_{ijt}$. The following section shows results if I use forward-looking price changes or backward-looking prices changes in the user cost formula.
+The second term in the user cost formula is $E[\pi_{ijt}]$, meaning there is an expected inflation for industry $i$ on capital type $j$ at time $t$. From the BEA capital stock data \citep{beacap} I obtain a price index for each capital type $j$ in each industry $i$ at time $t$. For the basic user cost formula, I calculate actual inflation in period $t$, and set $E[\pi_{ijt}] = \pi_{ijt}$.
 
 \subsection{Depreciation}
 BEA capital stock data \citep{beacap} includes an amount of depreciation by capital type $j$ for industry $i$ at time $t$, $DEPR_{ijt}$ In addition I have the capital stock of type $j$ for industry $i$ at time $t$, $K_{ijt}$, from the same source. The depreciation rate in the user cost formula is found as $\delta_{ijt} = DEPR_{ijt}/K_{ijt}$.
@@ -444,7 +445,7 @@ The corporate tax rate is assumed to be the same across industries, but can vary
 \section{Series breaks at matching}
 As noted in the main text, and summarized in Table \ref{TAB_series}, the sources used differ across time periods. It is possible that the estimates of $\epsilon_{Kt}$ differ over time based simply on the matching process or vintage of data. 
 
-Figure \ref{FIG_cap_break} shows the baseline results, with vertical lines indicating the break in data series. For the 1962-63 and 1986-87 breaks there is no apparent shift in the estimates. For 1996-97, one can see that each individual series appears higher in 1997 than in 1996. It is possible that the results for the 1997-2018 period are shifted up relative to earlier values due to the change in number of industries reported by the BEA and/or the change in source of value-added components from the SIC-reported data that I match to the I/O tables to direct NAICS-matched data. 
+Figure \ref{FIG_breaks} shows the baseline results, with vertical lines indicating the break in data series. For the 1962-63 and 1986-87 breaks there is no apparent shift in the estimates. For 1996-97, one can see that each individual series appears higher in 1997 than in 1996. It is possible that the results for the 1997-2018 period are shifted up relative to earlier values due to the change in number of industries reported by the BEA and/or the change in source of value-added components from the SIC-reported data that I match to the I/O tables to direct NAICS-matched data. 
 
 Across the four different series, the increase from 1996 to 1997 in the estimated $\epsilon_{Kt}$ is approximately 0.02. One could assert that with better data, the 1948-1996 estimates would be approximately 0.02 higher, leaving the upper bound just over 0.33. This does not appear to change the general conclusions presented in the paper. 
 
@@ -454,6 +455,12 @@ In section 6.1 I calculate $\epsilon_{Kt}$ for the private business sector, whic
 Panel A of Table \ref{TAB_ratios} shows the ratios $s^{COST}_{Kt}$ and $s^{VA}_{Kt}$ for owner-occupied housing. The cost ratio for capital is 0.942 on average under the no-profit assumption, and is 0.797 even in the depreciation only assumption. The capital cost share of housing is massive compared to any other industry, and hence when housing is included, as in the baseline estimates of $\epsilon_{Kt}$, this elasticity is larger. Once housing is excluded, the estimate of $\epsilon_{Kt}$ falls, even absent any input-output relationships. 
 
 In comparison the government industries, as a whole, have cost shares that are similar to the overall economy, and hence their inclusion or exclusion has little impact on the overall estimate of $\epsilon_{Kt}$. Government does display one curious aspect to the cost shares, however. Note that both $s_{Kt}^{Cost}$ and $s_{Kt}^{VA}$ are smaller under the no-profit scenario than in the other scenarios. For example, the mean factor cost share under no-profits in government is 0.197, while under the depreciation assumption it is 0.221. This occurs because for many years government industries list labor compensation as \textit{larger} than their value-added, implying negative capital costs in the no-profit assumption. 
+
+More broadly, the proper measurement of capital costs for government is open to question. The BEA presumes that capital costs for government are equal to depreciation only, and adds that to labor compensation costs to find government value-added. Hence the BEA presumes that capital costs for government have no opportunity cost, simply depreciation. Because of this, the ``no-profit'' and ``depreciation only'' capital costs are identical for the government industry. In practice this acts to squeeze the bounds together for the aggregate $\epsilon_{Kt}$, although the quantitative effect of this is small (note that the gap between the bounds is similar in the private business sector that excludes government).
+
+When I do the user cost calculation of capital costs, for government I apply the same formula as for other industries, assuming that they pay either municipal bond rates (state/local) or 10-year Treasury rates (federal) as their nominal cost, as described in \ref{SEC_usercost}. Assuming government treats capital decisions similar to private industries may not be reasonable. An alternative is to leave government capital costs equal to depreciation only, but to apply the user cost formula to all private industries.
+
+Figure \ref{FIG_gov_costs} plots two estimates of $\epsilon_{Kt}$. The dark dashed line is the baseline user cost estimate, where government capital costs are calculated with the user cost formula described in Section \ref{SEC_usercost}. The gray dashed line is the alternative where user costs are used for all private industries, but government capital costs are set equal to deprecation only. As can be seen, these two series are very similar. The only notable deviation is in the early 1980s, where the implied elasticity is somewhat lower when government is assumed to have deprecation costs. This occurs because the user costs for government in those years are presumed to be quite high due to high Treasury bond rates.
 
 \section{De-capitalizing IP}
 In section 6.2 of the main paper I calculate $\epsilon_{Kt}$ estimates after de-capitalizing intellectual property from the national accounts, as in \cite{ksz2020}. The details of that de-capitalizing process are as follows.
@@ -465,7 +472,7 @@ What these adjustments do not account for are IP products that are purchased fro
 \section{Allowing for negative costs}
 For some industry/year observations, the amount of labor compensation is larger than reported value-added. In the no-profit scenario, capital costs are equal to value-added minus labor compensation, and hence capital costs in these cases are negative. In the baseline calculations of the paper, I allow such negative capital costs in the industry-year. These negative costs assert that the sum of factor costs in the no-profit scenario does not add up to more than value added in an industry. 
 
-An alternative is to allow the combined cost of capital and labor to be larger than value-added, and avoid negative costs. In this case I would set capital costs set to zero if labor compensation is reported higher than value-added. As this changes the distribution of costs across factors, it would change the estimated elasticities. To see whether the baseline assumption allowing negative costs is driving the no-profit results, I re-estimated the elasticities with the constraint $COST_{Kit} \geq 0$. 
+An alternative is to allow the combined cost of capital and labor to be larger than value-added, and avoid negative costs. In this case I would set capital costs set to zero if labor compensation is reported higher than value-added. As this changes the distribution of costs across factors, it would change the estimated elasticities. To see whether the baseline assumption allowing negative costs is driving the no-profit results, I re-estimated the elasticities with the constraint $COST_{Kit} \geq 0$ and $COST_{Lit} \leq VALU_{it}$.
 
 Figure \ref{FIG_neg_costs} plots the bounds from the baseline (dark lines) allowing for negative costs, and the bounds in the alternative (gray lines) where negative costs are not allowed in the no-profit scenario. As can be seen, there is essentially no difference in the two series.
 
@@ -489,7 +496,7 @@ Tables \ref{TAB_annual_noprofit}-\ref{TAB_annual_usercost} show annual estimates
 \label{FIG_cap_prop}
 \includegraphics[width=1.0\textwidth]{fig_cap_prop_comparison.eps}
 \end{center}
-\vspace{-.5cm}\singlespacing {\footnotesize \textbf{Notes}: The estimate of the capital elasticity $\epsilon_{Kit}$, is made using equation (9) in the main text. The no-profit upper bounds differ by the assumption about proprietors income. The basline is ``split'' where proprietors income is split between labor and capital costs according to equation (13) in the main text. ``Labor cost'' means all proprietors income is assumed to be a labor cost, and ``capital cost'' means all proprietors income is assumed to be a capital cost. The same distinctions apply to the depreciation-only lower bounds.
+\vspace{-.5cm}\singlespacing {\footnotesize \textbf{Notes}: The estimate of the capital elasticity $\epsilon_{Kit}$, is made using equation (9) in the main text. The no-profit upper bounds differ by the assumption about proprietors income. The baseline is ``split'' where proprietors income is split between labor and capital costs according to equation (13) in the main text. ``Labor cost'' means all proprietors income is assumed to be a labor cost, and ``capital cost'' means all proprietors income is assumed to be a capital cost. The same distinctions apply to the depreciation-only lower bounds.
 }
 \end{figure}
 
@@ -514,13 +521,45 @@ Tables \ref{TAB_annual_noprofit}-\ref{TAB_annual_usercost} show annual estimates
 }
 \end{figure}
 
+
 \begin{figure}[!htb]
 \begin{center}
-\caption{Baseline estimates of capital elasticity, $\epsilon_{Kt}$, denoting data series breaks}
-\label{FIG_cap_break}
+\caption{Aggregate value-added markup under different capital cost assumptions}
+\label{FIG_markupva}
+\includegraphics[width=1.0\textwidth]{fig_cap_markupva_comparison.eps}
+\end{center}
+\vspace{-.5cm}\singlespacing {\footnotesize \textbf{Notes}: This shows the time series of $\mu_t^{VA}$, the aggregate value-added markup, under three different assumptions on capital costs: no-profits (by construction the markup is one), investment costs, and depreciation costs. These series are based on the baseline estimates, including all industries. 
+}
+\end{figure}
+
+\begin{figure}[!htb]
+\begin{center}
+\caption{Profits as a share of value-added under different capital cost assumptions}
+\label{FIG_profitshare}
+\includegraphics[width=1.0\textwidth]{fig_cap_profitsva_comparison.eps}
+\end{center}
+\vspace{-.5cm}\singlespacing {\footnotesize \textbf{Notes}: This shows the time series of $\pi_t^{VA}$, the aggregate value-added markup, under three different assumptions on capital costs: no-profits (by construction the markup is one), investment costs, and depreciation costs. These series are based on the baseline estimates, including all industries. 
+}
+\end{figure}
+
+
+\begin{figure}[!htb]
+\begin{center}
+\caption{Baseline estimates of $\epsilon_{Kt}$, with data source breaks denoted}
+\label{FIG_breaks}
 \includegraphics[width=1.0\textwidth]{fig_cap_break_comparison.eps}
 \end{center}
-\vspace{-.5cm}\singlespacing {\footnotesize \textbf{Notes}: The estimate of the aggregate capital elasticity, $\epsilon_K$, is made using equation (9) under various assumptions explained in the text. The primary data source for all estimates is the Bureau of Economic Analysis, with input-output tables, capital stocks by industry, compensation by industry, and value-added by industry using different industrial classifications merged according to a methodology described in this Appendix. The year ranges at the bottom of the figure refer to the periods used in the matching of data across sources described in Table \ref{TAB_series}.
+\vspace{-.5cm}\singlespacing {\footnotesize \textbf{Notes}: This plots the four baseline estimates of $\epsilon_{Kt}$ (no-profit, depreciation, investment cost, user cost), as in the main text. The vertical dotted lines denote the breaks in data sources listed in Table \ref{TAB_series}. 
+}
+\end{figure}
+
+\begin{figure}[!htb]
+\begin{center}
+\caption{Comparison of user cost estimates of $\epsilon_{Kt}$, with different government costs}
+\label{FIG_gov_costs}
+\includegraphics[width=1.0\textwidth]{fig_cap_govcapital_comparison.eps}
+\end{center}
+\vspace{-.5cm}\singlespacing {\footnotesize \textbf{Notes}: The two series plot estimates of $\epsilon_{Kt}$ where capital costs are assumed to be equal to user costs for all private industries. The black dashed line shows the elasticity when government capital costs are calculated with the user cost formula described in Appendix \ref{SEC_usercost} and main text. The gray dashed line shows the elasticity when government capital costs are equal to depreciation costs only, as the BEA assumes. 
 }
 \end{figure}
 
@@ -710,7 +749,7 @@ Year & (1) & (2) & (3) & (4) & (5) & (6) \\
 \end{tabularx}
 }
 \end{center}
-\vspace{-.5cm}\singlespacing {\footnotesize \textbf{Notes}: The table shows the estimates, by year, of $\epsilon_{Kt}$, excluding imports of intermediates and including them (the baseline) and the assumption on capital costs (no-profits and depreciation costs only). Columns (1) and (4) subtract imported intermediates from the Use Table to calcualte $\epsilon_K$. Columns (2) and (5) use the Use Table, as in the main text. Columns (3) and (6) show the difference in the estimates using the two methods. Due to rounding, the differences in (3) and (6) may not be exactly equal to the differences between the preceding columns. 
+\vspace{-.5cm}\singlespacing {\footnotesize \textbf{Notes}: The table shows the estimates, by year, of $\epsilon_{Kt}$, excluding imports of intermediates and including them (the baseline) and the assumption on capital costs (no-profits and depreciation costs only). Columns (1) and (4) subtract imported intermediates from the Use Table to calculate $\epsilon_K$. Columns (2) and (5) use the Use Table, as in the main text. Columns (3) and (6) show the difference in the estimates using the two methods. Due to rounding, the differences in (3) and (6) may not be exactly equal to the differences between the preceding columns. 
 }
 \end{table}
 
@@ -731,7 +770,7 @@ Year & (1) & (2) & (3) & (4) & (5) & (6) \\
 \end{tabularx}
 }
 \end{center}
-\vspace{-.5cm}\singlespacing {\footnotesize \textbf{Notes}: The table shows the estimates, by year, of $\epsilon_{Kt}$, excluding imports of intermediates and including them (the baseline) and the assumption on capital costs (investment and user costs only). Columns (1) and (4) subtract imported intermediates from the Use Table to calcualte $\epsilon_K$. Columns (2) and (5) use the Use Table, as in the main text. Columns (3) and (6) show the difference in the estimates using the two methods. Due to rounding, the differences in (3) and (6) may not be exactly equal to the differences between the preceding columns. 
+\vspace{-.5cm}\singlespacing {\footnotesize \textbf{Notes}: The table shows the estimates, by year, of $\epsilon_{Kt}$, excluding imports of intermediates and including them (the baseline) and the assumption on capital costs (investment and user costs only). Columns (1) and (4) subtract imported intermediates from the Use Table to calculate $\epsilon_K$. Columns (2) and (5) use the Use Table, as in the main text. Columns (3) and (6) show the difference in the estimates using the two methods. Due to rounding, the differences in (3) and (6) may not be exactly equal to the differences between the preceding columns. 
 }
 \end{table}
 

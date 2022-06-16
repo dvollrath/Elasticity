@@ -166,6 +166,19 @@ while r(eof)==0 { // while there are lines in the scenario file
 	}
 
 	/////////////////////////////////////////////////////////////////
+	// Treatment of government capital costs
+	if inlist("`costgov'","Private","private") {
+		di "--Government treated like private industry"
+	}
+	else {
+		di "--Government capital costs are depreciation-only (as per BEA)"
+		foreach j in st eq ip {
+			qui replace cost_`j' = ratio_stock`j'00_va*iova*deprate`j' if inlist(code,"GFE","GFG","GFGD","GFGN") // federal
+			qui replace cost_`j' = ratio_stock`j'00_va*iova*deprate`j' if inlist(code,"GSLE","GSLG") // state/local
+		}
+	}
+	
+	/////////////////////////////////////////////////////////////////
 	// Negatives for factor costs
 	if inlist("`negative'","Yes","yes") {
 		di "--Negative factor costs allowed"

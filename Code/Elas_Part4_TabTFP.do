@@ -34,9 +34,9 @@ forvalues y = 1950(10)2010 {
 	summ year if inrange(year,`y',`end')
 	local end = r(max)
 	file write f_result %4.0f (`y') "-" %4.0f (`end')
-	foreach s in noprofit usercost invcost deprcost {
+	foreach s in 5 8 7 6 {
 		preserve
-			keep if capital=="`s'" & housing=="No" & gov=="No" & farm=="Yes" & prop=="split" & ip=="Yes" // limit dataset
+			keep if scenario==`s' // limit dataset
 			keep if inrange(year,`y',`end')
 			file_calc // call program to make calculations and write to file
 		restore
@@ -49,9 +49,9 @@ local end = 2018
 
 file write f_result "\\" _n
 file write f_result %4.0f (`y') "-" %4.0f (`end')
-foreach s in noprofit usercost invcost deprcost {
+foreach s in 5 8 7 6 {
 	preserve
-		keep if capital=="`s'" & housing=="No" & gov=="No" & farm=="Yes" & prop=="split" & ip=="Yes" // limit dataset
+		keep if scenario==`s' // limit dataset
 		keep if inrange(year,`y',`end')
 		file_calc // call program to make calculations and write to file
 	restore

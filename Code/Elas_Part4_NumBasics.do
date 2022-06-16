@@ -113,10 +113,10 @@ file write f_result "{\newcommand{\basefirstinv}{" %3.2f (r(mean)) "}" _n
 summ elas_cap if scenario==3 & year==2018 // upper bound
 file write f_result "{\newcommand{\baselastinv}{" %3.2f (r(mean)) "}" _n
 
-summ elas_cap if scenario==1  // upper bound
+summ elas_cap if scenario==1, det  // upper bound
 file write f_result "{\newcommand{\basemednoprofit}{" %4.3f (r(p50)) "}" _n
 
-summ elas_cap if scenario==2  // upper bound
+summ elas_cap if scenario==2, det // upper bound
 file write f_result "{\newcommand{\basemeddepr}{" %4.3f (r(p50)) "}" _n
 
 summ elas_cap if scenario==1 

@@ -21,7 +21,7 @@ foreach i in 1 2 3 4 { // for each scenario file
 		preserve
 			qui keep if year==`y' // limit data to given year
 			sort codeorder // ensure industries in correct order
-			qui do "./New/Elas_Part3_CalcRobust.do" // Call script to calculate elasticities
+			qui do "./Code/Elas_Part3_CalcRobust.do" // Call script to calculate elasticities
 		restore
 				
 		// program returns vector "Return" of results

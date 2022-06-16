@@ -29,7 +29,7 @@ foreach file of local fileList { // for each scenario file
 		preserve
 			qui keep if year==`y' // limit data to given year
 			sort codeorder // ensure industries in correct order
-			qui do "./New/Elas_Part3_Calculate.do" // Call script to calculate elasticities
+			qui do "./Code/Elas_Part3_Calculate.do" // Call script to calculate elasticities
 		restore
 		
 		// Save off industry results for given year

@@ -6,10 +6,10 @@ use "./Work/USA_tfp_scenario.dta", clear
 
 // BLS, no utilization adjustment
 
-twoway line level_elas year if capital=="noprofit", lcolor(black) lpattern(dash) ///
-	|| line level_elas year if capital=="deprcost", lcolor(black) ///
-	|| scatter level_elas year if capital=="invcost", connect(line) msymbol(x) mcolor(black) lcolor(black) ///
-	|| scatter level_elas year if capital=="usercost", connect(line) msymbol(p) mcolor(black) lcolor(gray) lpattern(dash_dot) ///
+twoway line level_elas year if scenario==5, lcolor(black) lpattern(dash) ///
+	|| line level_elas year if scenario==6, lcolor(black) ///
+	|| scatter level_elas year if scenario==7, connect(line) msymbol(x) mcolor(black) lcolor(black) ///
+	|| scatter level_elas year if scenario==8, connect(line) msymbol(p) mcolor(black) lcolor(gray) lpattern(dash_dot) ///
 	ytitle("TFP level (1947==100)") xtitle("Year") ///
 	ylabel(100(50)350, nogrid format(%9.0f) angle(0)) ///
 	xlabel(1950(10)2010 2018) ///

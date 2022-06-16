@@ -5,11 +5,11 @@ Calculate components of TFP decomposition
 clear
 save "./Work/USA_tfp_scenario.dta", emptyok replace // create dataset to hold results
 
-foreach s in noprofit deprcost invcost usercost { // for each baseline scenario
+foreach s in 5 6 7 8 { // for each baseline scenario
 	use "./Work/USA_scenario_annual_results_all.dta", clear
 	gen elas_cap = 1 - elas_comp // generate single elasticity for capital
 	keep if inrange(year,1948,2018) // clean-up
-	keep if capital=="`s'" & housing=="No" & gov=="No" & farm=="Yes" & prop=="split" & ip=="Yes" // keep only estimates for 
+	keep if scenario==`s' // keep only estimates for 
 		// that scenario, with no gov/housing (priv biz sector), and using split prop income
 	
 	capture drop _merge
@@ -37,7 +37,7 @@ foreach s in noprofit deprcost invcost usercost { // for each baseline scenario
 	gen level = exp(ln(100) + cum_dtfp)
 	gen level_elas = exp(ln(100) + cum_dtfp_elas)
 	
-	keep year scenario housing gov farm prop ip capital dtfp* level*
+	keep year scenario ctrl_* dtfp* level*
 	
 	append using "./Work/USA_tfp_scenario.dta"
 	save "./Work/USA_tfp_scenario.dta", replace

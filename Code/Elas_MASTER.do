@@ -125,6 +125,7 @@ do "./Code/Elas_Part4_FigBreaks.do" // show baseline with series breaks noted
 do "./Code/Elas_Part4_FigPropInc.do" // diff prop income treatments
 do "./Code/Elas_Part4_FigNegCost.do" // excluding negative costs
 do "./Code/Elas_Part4_FigMarkCap.do" // comparing markups to capital cost shares
+do "./Code/Elas_Part4_FigGovCapital.do" // comparing assumptions on govt user costs
 
 // these are for main paper
 do "./Code/Elas_Part4_TabBaseline.do" // main table of summary stats
