@@ -1,0 +1,699 @@
+\documentclass[11pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsmath}
+\usepackage{verbatim}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{setspace}
+\usepackage{lscape}
+\usepackage{longtable}
+\usepackage[top=1.25in,bottom=1.25in,left=1in,right=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{epsfig}
+\usepackage{fancyhdr}
+\usepackage{booktabs}
+\usepackage{dcolumn}
+\usepackage{arydshln}
+\usepackage{natbib}
+\usepackage{tabularx}
+\usepackage{subfigure}
+\usepackage{hyperref}
+\usepackage{xcolor}
+
+\input{tab_summ_elasticities.tex} % commands for counts of observations
+
+\hypersetup{
+    colorlinks,
+    linkcolor={red!50!black},
+    citecolor={blue!50!black},
+    urlcolor={blue!80!black}
+}
+
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+
+\setcounter{MaxMatrixCols}{10}
+\newcolumntype{d}[1]{D{.}{.}{-2.#1}}
+\newenvironment{proof}[1][Proof]{\noindent\textbf{#1.} }{\ \rule{0.5em}{0.5em}}
+\setlength{\columnsep}{.2in}
+%\psset{unit=1cm}
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}
+
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+
+\begin{document}
+\begin{titlepage}
+\vspace{2in} \noindent {\large \today}
+
+\vspace{.5in} \noindent {\Large \textbf{\strut The Elasticity of Aggregate Output with Respect to Capital and Labor}}
+
+\vspace{.25in} \noindent {\large Dietrich Vollrath}
+
+\vspace{.05in} \noindent University of Houston
+
+\vfill \noindent \textsc{Abstract} \hrulefill
+
+\vspace{.05in} \noindent It is often assumed that the elasticity of GDP with respect to capital is one-third, but this assumes zero markups and an aggregate production function. I estimate the elasticity allowing markups to vary by industry and with a rich input-output structure. Assumptions about capital costs provide bounds on the elasticity. In the U.S. from 1948-1995 the capital elasticity was in the range \baseearlydepr-\baseearlynoprofit \ and this shifted to \baselatedepr-\baselatenoprofit \ by 1996-2018. Excluding housing or de-capitalizing intellectual property lowers those bounds to as low as \excldepr-\exclnoprofit. Based on these elasticities, common estimates of total factor productivity growth represent a lower bound. 
+
+\vspace{.1in} \hrule
+
+\vspace{.5in} \noindent {\small JEL Codes: E01, E23, E25, E22, E13, N12, O4}
+
+\vspace{.1in} \noindent {\small Keywords: capital elasticity, labor elasticity, labor share, national income accounting}
+
+\vspace{.1in} \noindent {\small Contact information: 201C McElhinney Hall, U. of Houston, Houston, TX 77204, devollrath@uh.edu. I'd like to thank Eirini Magames for excellent research assistance. I also thank David Baqaee, David Papell, and Yona Rubinstein for comments on this project, as well as seminar participants at Iowa State, Clark University, Southern Methodist, and Texas Tech. All errors remain my own.}
+\end{titlepage}
+
+\pagebreak 
+
+\section{Introduction}
+\onehalfspacing One of the most common assumptions made within economics is that ``alpha equals one-third'', referring to the capital elasticity $\alpha$ in a Cobb-Douglas aggregate production function $Y = K^{\alpha}L^{1-\alpha}$. This rule of thumb is derived from an observation that labor's share of GDP is around two-thirds, implying $1-\alpha \approx 2/3$, and hence that $\alpha \approx 1/3$. Not only has a recent literature (reviewed below) documented that labor's share of GDP has fallen in the last few decades, but as \cite{hall1988,hall1990} notes this rule of thumb only works if one assumes there are zero economic profits and labor's GDP share is equal to it's elasticity. The rule of thumb relies on the existence of an aggregate production function and commonly assumes that $\alpha$ is constant over time.
+
+In recent work \cite{bfshortnote,bfprodge} show that one can calculate a meaningful elasticity of GDP with respect to aggregate capital, $\partial \ln Y/ \partial \ln K$, without having to rely on any of the assumptions embedded in the rule of thumb. In particular, their theory shows how to calculate the aggregate elasticity from disaggregated units (e.g. industries) with rich input/output relationships and arbitrary unit-level distortions (e.g. markups). There is no need to assume an aggregate production function exists, that profits are zero, or that the elasticity remains constant over time. Their structure requires only market-clearing and cost-minimization. The same structure provides an elasticity with respect to labor, $\partial \ln Y/ \partial \ln L$.
+
+In this paper I apply the Baqaee and Farhi theory to calculate the annual elasticity of GDP with respect to capital and labor in the United States from 1948-2018 using dis-aggregated data on industries and input-output relationships, allowing for arbitrary markups at the industry level.
+
+The theory in \cite{bfshortnote,bfprodge} does not eliminate the well-known problem of separating capital costs from economic profits in national accounts data. Because of this, what I present here are plausible bounds on the capital and labor elasticities based on different assumptions regarding capital costs. An upper bound for the capital elasticity is established by assuming zero economic profits in all industries, such that all value-added not used for labor compensation is paid to capital, as in the rule of thumb. A lower bound for the capital elasticity is found by assuming capital costs are equal to depreciation, as industries pay at least this amount in capital costs.\footnote{There are measurement issues with labor costs as well, in particular with the treatment of proprietors income \citep{Gollin:2002zr,gommerupert2004,elsbyhs2013}. In practice the treatment of proprietors income generates little variation in the estimated elasticities.} Bounds for the labor elasticity are one minus the capital elasticity, so the no-profit assumption represents a lower bound, and the depreciation assumption an upper bound, for the labor elasticity. For both factors of production, the bounds are not mathematical absolutes, but estimates based on extreme assumptions regarding capital costs consistent with observed input-output relationships.  
+
+My baseline bounds for the capital elasticity in the U.S. can be seen in Figure \ref{FIG_cap_comparison}. Between 1948 and 1995, the elasticity of GDP with respect to capital was in a range of \baseearlydepr-\baseearlynoprofit, with 1/3 forming a rough upper bound. After 1995 the range shifted up, and from 1996-2018 the elasticity with respect to capital was \baselatedepr-\baselatenoprofit. The bounds for the labor elasticity are the mirror image of these.
+
+Because of the issues with measuring capital costs I cannot give a precise estimate of the capital elasticity or labor elasticity. To the extent that there are markups present in the economy, the actual capital elasticity will lie below the upper bound (and hence the labor elasticity above its lower bound). Given recent evidence that markups were above one throughout the period 1948-2018 \citep{Barkai000,edmondetal2018,dleu2020,RePEc:nbr:nberwo:22897,basu2019} this implies that the capital elasticity was \textit{below} one-third from 1948-1995. After 1995, it becomes less clear. Higher markups in that period imply the capital elasticity was below the upper bound, but at the same time the upper bound on the capital elasticity rose. A value of one-third for the capital elasticity after 1995 is plausible, but in no way certain.
+
+In addition to the bounding estimates, I explore two alternative ways of imputing the capital costs that go into the elasticity calculations. The first alternative is a user cost formula \citep{halljorg1967} as in \cite{Barkai000} and \cite{rognlie2015}. The elasticity estimates based on user costs of capital fluctuate from 1948-2018 and show an upward drift, but for the most part lie within the bounds. There are exceptions that imply periods of widespread negative economic profits.\footnote{User cost based estimates of the capital elasticity in 1975-1989 often lie above the upper bound, implying negative economic profits. This is driven by assumptions made regarding expected inflation in the user cost formula. I discuss this in Section \ref{SEC_usercost} when covering the results in more detail.} As a second alternative, I use investment spending by industries to estimate their capital costs. The capital elasticity based on these costs shows a smaller upward trend, and stays everywhere within the bounds. On average, the capital elasticity is around \baseinv \ using investment to measures capital costs.
+
+Beyond these baseline results, the bounds on the elasticities depend on the scope of economic activity included. In particular, if I narrow my focus to the private business sector (excluding government and owner-occupied housing) then the estimated capital elasticity is lower than in the baseline. The capital elasticity in the private business sector is \nohsearlydepr-\nohsearlynoprofit \ from 1948-1995, and \nohslatedepr-\nohslatenoprofit \ from 1996-2018, always below one-third. 
+
+In a different exercise, I break down the aggregate capital elasticity by three types of capital: structures, equipment, and intellectual property. The elasticity with respect to structures is in the range \basestdepr-\basetnoprofit \ throughout the time period studied, and equipment in the range \baseeqdepr-\baseeqnoprofit. Intellectual property prior to 1960 has a low elasticity of \baseipearlydepr-\baseipearlynoprofit, but after 2000 it lies in the range \baseiplatedepr-\baseiplatenoprofit. Much of the apparent increase in the boundaries of the aggregate capital elasticity can be accounted for by this increase in the elasticity with respect to intellectual property.
+
+As another way of assessing the importance of intellectual property, I de-capitalize it from the national accounts data as in \cite{ksz2020} and recompute the aggregate capital elasticity. From 1948-1995 the capital elasticity is in the range \noipearlydepr-\noipearlynoprofit, and \noiplatedepr-\noiplatenoprofit \ from 1996-2018. The combination of results suggests that IP accounts for much of the overall increase in the capital elasticity bounds over time.\footnote{Theoretically it would be possible to go in the other direction as well, and consider the elasticity estimates after \textit{capitalizing} other intermediate spending from the input/output tables (e.g. technical consulting services, engineering services, etc.) that might plausibly be thought to generate intangible capital \citep{chs2009,mp2010,MCGRATTAN2020S147}. The industry-level data available on an annual basis does not have enough detail to separate this spending out. Nevertheless, it would be correct to say that the capital elasticity I estimate in this paper is the elasticity of output with respect to \textit{measured} capital.} 
+
+This paper is a complement to the growing literature on the distribution of GDP across factors.\footnote{\cite{azmat2012,bentolilaSP2003,estrada2014,harrison2005,jt2007,guscina2006,kn2014,daoetal2017} all document a decline in labor's share of GDP in the last few decades, across countries and industries. This was contemporaneous with a decline in capital's share of GDP \citep{Barkai000,rognlie2015}. Incorporating the lessons in \cite{Gollin:2002zr} regarding proprietors income does not appear to change that conclusion \citep{gommerupert2004,elsbyhs2013}. The decline in labor's share has been tied to a fall in the price of new capital \citep{kn2014}, but more recent research suggests it may be an artifact of capitalizing intellectual property \citep{ksz2020} or the reporting of income \citep{syzz2019}.} It shares with that literature the same measurement issues surrounding proprietors income and capital costs. Recent work on ``factorless income'' by \cite{kn2019} is perhaps the closest methodological analogue to this paper, in that those authors explore a range of plausible approaches for dealing with this factorless income at an aggregate level. The bounds I find for the elasticities are calculated either assuming that all factorless income is attributed to capital (the zero profit bound) or that all factorless income represents economic profits (the depreciation cost bound).\footnote{Factorless income as a share of value-added is larger in the industry-level data than in the aggregate because I do not have information on some rental costs that are reported at the aggregate level.} 
+
+To connect my work to this literature more closely, I calculate additional estimates of the elasticities with respect to capital and labor using firm-level data to discipline the costs of both inputs. As in \cite{dleu2020} I use Compustat data on publicly-traded firms in the US from 1955-2016. Following their methodology, I get industry-level estimates of costs or, alternatively, direct estimates of industry-level elasticities with respect to capital and labor from their estimations based on the firm-level data. Using these to set industry-level elasticities I am able to get new series on the capital (and labor) elasticity consistent with the firm-level data. These series run quite close to the estimates using investment costs from the national accounts, and fall within the aggregate bounds I established. Furthermore, I am able to calculate the markups implied in each of my estimates of the elasticities, and like \cite{dleu2020} my estimates show an increase in markups over time, in particular after 1980. As the estimated elasticities for both capital and labor are stable over time, the implication of the Compustat-based estimates is that any decline in labor's share of value-added is due to the increase in markup and profits, and not due to a shift in the importance of labor as a factor of production relative to capital.
+
+As a further application of the elasticity estimates I re-examine common growth accounting results, which depend on elasticity estimates to calculate the growth rate of total factor productivity (TFP). Typical accounting exercises by the Bureau of Labor Statistics \citep{blsdata}, as well as extensions to incorporate utilization rates \citep{kfb2006,fernald2014}, use the factor share of labor to find the labor elasticity and one minus that share to find the capital elasticity, which is equivalent to the no-profits bound on elasticities that I calculate. Given my estimates, this overstates the capital elasticity and understates the labor elasticity (barring the unlikely case that there are in fact zero economic profits in the US economy). I use my estimated series of elasticities to calculate TFP under different assumptions regarding capital costs in the U.S. from 1948-2018. The standard no-profit estimate forms a \textit{lower} bound on the growth rate of TFP, which averages about 1.29\% per year 1948-2018. The growth rate of TFP may have been up to 1.60\% per year, depending on the choice of assumption used to find the capital and labor elasticities. The level of TFP in 2018 may be up to 25\% higher than what the typical calculation finds. Further, by failing to take into account changes in markups the BLS estimates likely understate the increase in productivity growth associated with the IT revolution in the 1990s/2000s by about 0.3 percentage points per year and understate the subsequent productivity growth slowdown by about 0.1 percentage points per year. 
+
+More broadly, the elasticities I estimate can be an input into other macroeconomic studies. Research on how the supply of factors of production (e.g. savings/consumption decisions, labor force participation, demographic change, international finance) affect the economy could use these elasticities without necessarily having to specify an entire production structure that incorporates market power or rich input-output relationships. As \cite{bfshortnote,bfprodge} show, these elasticities already embed those features, taking industry-level markups and total factor productivity as given. As I can only provide reasonable bounds for the elasticities, this provides a range of values that factor supply models could use to evaluate their results. One caution is that the elasticities are first-order approximations, and any dramatic changes in factor supplies would have to account for second-order effects \citep{bfmicro}. Further, with markups and productivity levels held constant, these are partial elasticities with respect to factor supplies, and do not encompass effects of endogenous reallocation or productivity change that might occur in response to changes in those factor supplies. 
+
+The paper proceeds as follows. Section \ref{SEC_theory} presents the theoretical framework of \cite{bfshortnote,bfprodge} I use to calculate the elasticities, and Section \ref{SEC_accounts} discusses the data sources and major measurement issues. In Section \ref{SEC_bounding} I present the baseline results on the bounds for the elasticities, as well as the alternatives based on investment and user cost assumptions. Section \ref{SEC_trends} evaluates their relationship to aggregate ratios of costs to GDP and explores how the elasticities change depending on the scope of economic activity. Section \ref{SEC_compustat} adds estimates based on Compustat firm-level data. Section \ref{SEC_accounting} performs the growth accounting exercises, and Section \ref{SEC_conclusion} concludes.
+
+\section{Theoretical background}\label{SEC_theory}
+What I present in this section is a simplified version of \cite{bfshortnote,bfprodge} to highlight only the parts of their theory that I use. Full proofs and deeper explanations can be found in their papers. In the interest of space I use the abbreviation ``BF'' to refer to those authors in this section.
+
+The economy consists of $J$ industries, and each industry uses intermediate inputs from other industries (and possibly itself), as well as the factors of production capital ($K$) and labor ($L$). There can be any arbitrary number of factors of production, and I use capital and labor here only for simplicity. BF's theory is also ``nest-able'' in that each industry could have an arbitrary number of sub-industries or firms inside of it. I am speaking of industries here solely because this is the level of detail I have available in the data. 
+
+The gross production function of any industry has constant returns with respect to intermediates and the factors of production, but no other structure is imposed. Each industry is assumed to be cost-minimizing, and each industry charges a price for their output that is a markup over the marginal cost. For my purposes I will not need to know the price or the markup. It will be sufficient to speak only about the costs faced by each industry.
+
+Everything I present in this section holds for a given period $t$. To avoid needless notation, for the remainder of this section I will not use the $t$ subscript. 
+
+To begin, for industry $i$ let the costs of intermediate good purchased from industry $j$ be denoted as $COST_{ij}$. The sum of costs accounted for by intermediate goods purchased by industry $i$ from all other $J$ industries are then
+
+\begin{equation}
+	COST_{iM} = \sum_{j=1}^{J} COST_{ij}
+\end{equation}
+
+where the letter $M$ is used to denote that this represents intermediate good costs only.
+
+The capital costs faced by industry $i$ will be denoted $COST_{iK}$, and the labor costs of the same industry will be denoted $COST_{iL}$. Combined with the intermediate good summation above, this means that total costs for industry $i$ are
+
+\begin{equation}
+	COST_i = COST_{iM} + COST_{iK} + COST_{iL}. \label{EQ_costi}
+\end{equation}
+
+Using these total costs one can calculate cost shares, which will be the most relevant piece of information for calculating the aggregate elasticities in the end. For industry $i$ the share of total costs accounted for by intermediate purchases from industry $j$ is defined as
+
+\begin{equation}
+	\lambda_{ij} = \frac{COST_{ij}}{COST_i}. \label{EQ_lambdaij}
+\end{equation}
+
+In a similar manner, for industry $i$ the share of total costs accounted for by capital and labor, respectively, are
+
+\begin{eqnarray}
+	\lambda_{iK} &=& \frac{COST_{iK}}{COST_i} \\
+	\lambda_{iL} &=& \frac{COST_{iL}}{COST_i}.
+\end{eqnarray}
+
+These cost shares can be used to build a modified input-output matrix that BF show can be used to calculate the aggregate elasticities with respect to labor and capital. The insight from BF is that one can treat the factors of production as ``industries'' that serve as an input to other industries, but which purchase no intermediates from other industries. By including them in an expanded I/O matrix they show how this can be used to solve for the elasticity of aggregate output with respect to those factors. 
+
+Let $\Lambda$ be a $J+2$ by $J+2$ matrix, which has $J$ rows/columns from the individual industries, and two additional rows/columns, one each for the capital and labor ``industries''. Each row of $\Lambda$ is associated with an industry $i$, and the entries show the cost share of industry $i$ coming from the industry $j$ represented in the columns. The cost shares of capital and labor for industry $i$ are included as the final two columns of each row. 
+
+The last two \textit{rows} of $\Lambda$ capture the cost structure of the capital and labor, and they are ``dummy'' rows in the sense that each entry is a zero. The capital and labor industries do not employ any intermediate goods themselves, nor do they hire labor or capital.
+
+It is easiest to understand the structure of $\Lambda$ by examining it,
+
+\begin{equation}
+	\Lambda = 
+	\begin{bmatrix}
+		\lambda_{11} & \lambda_{12} & \cdots & \lambda_{1J} & \lambda_{1K} & \lambda_{1L} \\
+		\lambda_{21} & \lambda_{22} & \cdots & \lambda_{2J} & \lambda_{2K} & \lambda_{2L} \\
+		\vdots       & \vdots       & \ddots & \vdots       & \vdots       & \vdots  \\
+		\lambda_{J1} & \lambda_{J2} & \cdots & \lambda_{JJ} & \lambda_{JK} & \lambda_{JL} \\
+		0 & 0 & \cdots & 0 & 0& 0 \\
+		0 & 0 & \cdots & 0 & 0& 0 \\
+	\end{bmatrix} \label{EQ_Lambda}
+\end{equation} 
+
+The top-left $JxJ$ block of this matrix are cost shares of intermediates in total costs. The final two columns represent the capital and labor cost shares, respectively, for each industry. Note that the sum across a row is equal to one for each of the first $J$ rows, simply indicating that the matrix accounts for the total costs facing industry $i$. The final two rows of the matrix are the dummy rows for capital (second to last) and labor (last row), and they sum to zero.
+
+A calculation of aggregate elasticities requires one final piece of information. Let $f_j$ be the final use of output from industry $j$, and $FINAL = \sum_{j=1}^J f_j$ be total final use. Then let the final-use share of industry $j$ be denoted by
+
+\begin{equation}
+	\gamma_j = \frac{f_j}{FINAL}.
+\end{equation}
+
+Last, create a $J+2$ by one vector $\Gamma$ which has $\gamma_j$ in row $j$ for the first $J$ rows, and zeroes in the last two rows. Those last two rows represent the final-use shares of the capital and labor industries, which are zero as those two factors are used solely as inputs by other industries. The structure of $\Gamma$ is
+
+\begin{equation}
+	\Gamma' = 
+	\begin{bmatrix}
+		\gamma_1 &
+		\gamma_2 &
+		\cdots &
+		\gamma_J &
+		0 &
+		0
+	\end{bmatrix} \label{EQ_Gamma}
+\end{equation}
+
+Given this information, one can calculate the vector of what BF call ``cost-based Domar weights'', $E$, for each industry. 
+
+\begin{equation}
+	E = \Gamma' (I - \Lambda)^{-1} \label{EQ_E}
+\end{equation}
+
+where $I$ is a $J+2$ square identity matrix, and $(I - \Lambda)^{-1}$ is the Leontief inverse matrix of the expanded input-output matrix. 
+
+The structure of $E$ is as follows,
+
+\begin{equation}
+	E = 
+	\begin{bmatrix}
+		\epsilon_1 &
+		\epsilon_2 &
+		\cdots &
+		\epsilon_J &
+		\epsilon_K &
+		\epsilon_L
+	\end{bmatrix}
+\end{equation}
+
+where $\epsilon_1 ... \epsilon_J$ are the cost-based Domar weights for the regular industries, and $\epsilon_K$ and $\epsilon_L$ are the cost-based Domar weights for capital and labor. What BF prove is that in this setting $\epsilon_K$ and $\epsilon_L$ are the elasticity of aggregate output with respect to capital and labor, respectively. As this calculation holds for any period $t$, the elasticities are more properly denoted $\epsilon_{Kt}$ and $\epsilon_{Lt}$.
+
+It is worth considering the intuition behind this result. In equation (\ref{EQ_E}) the term $(I - \Lambda)^{-1}$ is the Leontief inverse. Let $\ell_{ij}$ denote the typical element of the Leontief inverse. $\ell_{ij}$ captures the elasticity of output in industry $i$ with respect to a productivity shock in industry $j$, accounting for all the input-output linkages joining them.\footnote{\cite{cts2018} provide a very nice introduction to production networks and the interpretation of the Leontief inverse.}
+
+In the case of capital and labor, these ``industries'' have no final use and only serve as suppliers of an input to other industries. A productivity shock to these factor ``industries'' is nothing more than an increase in their supply. Hence the values of $\ell_{iK}$ and $\ell_{iL}$ show us the elasticity of output in industry $i$ with respect to the supply of capital or labor, respectively. This elasticity incorporates not just the direct effect of more capital or labor on output in industry $i$ (which is captured by the cost shares $\lambda_{iK}$ and $\lambda_{iL}$), but also incorporates the indirect effect of increased factor inputs on the output of suppliers to industry $i$, on the output of suppliers to the suppliers of industry $i$, and so on. 
+
+BF show that that $\ell_{iK}$ and $\ell_{iL}$ measure the elasticity of real output (as opposed to revenue) with respect to capital and labor so long as the original entries in $\Lambda$ are \textit{cost} shares and not value-added shares. This is the same insight from \cite{hall1988,hall1990}, \cite{basufernald}, and \cite{fernaldneiman2011} regarding the use of cost shares to measure elasticities, but applied in a dis-aggregated manner to an economy with input-output linkages between industries. The BF structure is open, in the sense that some amount of intermediate good spending may be imported, rather than produced domestically (and some output of domestic industries may be exported). Imports and exports influence the final use shares, $\gamma_j$, of industries, and thus influence the calculation of the elasticities. The elasticities $\epsilon_{Kt}$ and $\epsilon_{Lt}$ are the elasticity of domestic output with respect to those factors of production.\footnote{In the Appendix I consider an alternative approach that excludes imported intermediates from the calculations. This produces estimates of the elasticities that are very similar to the baseline including imported intermediates.}
+
+\section{National accounts data}\label{SEC_accounts}
+The calculation of $\epsilon_{Kt}$ and $\epsilon_{Lt}$ from equation (\ref{EQ_E}) is straightforward in theory, but not in practice. The well-known issue is the disconnect between what is reported in the national accounts (e.g. gross operating surplus) and what is necessary for the calculation (e.g. the cost of capital). This disconnect is why in the following section I will build bounds for estimates of $\epsilon_{Kt}$ (and $\epsilon_{Lt}$) based on different ways of reconciling the national accounts with the needs of the calculation. 
+
+Prior to those main results I explain the three main U.S. data sources, set notation regarding the national accounts, and explain the process I used to merge together various sources to create industry-level data that spans 1948-2018 for the United States.
+
+The first source of data are input/output tables. These are the Bureau of Economic Analysis (BEA) Use and Make Tables, before redefinitions, at producer value \citep{beaio}. These annual Tables provide information on the costs of intermediate commodity $m$ purchased by industry $i$ in year $t$ (Use Table), and the amount of commodity $m$ produced by industry $i$ in year $t$ (Make Table). I use a standard procedure to combine the information in the Use and Make Tables to arrive at the cost of inputs from industry $j$ purchased by industry $i$ in year $t$, $COST_{ijt}$. Those cost terms are used as in equation (\ref{EQ_lambdaij}) to find the cost shares $\lambda_{ijt}$ that make up the matrix $\Lambda$ in equation (\ref{EQ_Lambda}).\footnote{The Appendix contains a full description of the procedure used to combine the Use and Make Tables to form consistent industry-by-industry measures of intermediate costs. In addition, the Appendix explains how my use of the ``before redefinition'' Tables generates very small numerical differences in elasticity estimates compared to estimates made using the ``after redefinition'' Tables provided by the BEA 1997-2018, while allowing me to extend estimates from 1948-2018.} The Tables also provide information on the final use of each industry, $f_i$ according to the notation developed above, and which goes into the formation of the vector $\Gamma$ in equation (\ref{EQ_Gamma}). Finally, the Tables provide information on the value-added of each industry $i$, which I denote here as $VALU_{it}^{IO}$, where the $IO$ superscript refers to the source of this data.
+
+Industries in the Use Tables are all classified according to the NAICS 2012 system, but due to data limitations the BEA provides the tables at different levels of aggregation depending on the year. For 1948-62 they report 46 industries, for 1963-1996 65 industries, and for 1997-2018 71 industries. 
+
+Given the input/output information from the BEA, the second source of data are industry-level components of value-added from the BEA national income and product accounts \citep{beasection6,beahistind}. Specifically, I collect measures of value-added, $VALU_{jt}^{NIPA}$, labor compensation, $COMP_{jt}^{NIPA}$, proprietors income, $PROP_{jt}^{NIPA}$, and taxes and subsidies, $TAX_{jt}^{NIPA}$ for each industry $j$ in year $t$. The superscript $NIPA$ refers to the source of this data. Last, note that this data is sub-scripted by $j$ (not $i$) to indicate that the industrial classification of this NIPA data may be different than the industrial classification in the IO table.
+
+To impute labor compensation data (for example) from NIPA to the IO table, I use the following equation,
+
+\begin{equation}
+	COMP_{it}^{IO} = VALU_{it}^{IO} \times \frac{COMP_{jt}^{NIPA}}{VALU_{jt}^{NIPA}}. \label{EQ_match}
+\end{equation}
+
+To implement this I need to match each industry $i$ in the IO table to an appropriate industry $j$ in the NIPA data. Given that match, I use the ratio of compensation to value-added in the NIPA industry to impute the size of compensation in the IO industry. A similar expression is used for both proprietors income and taxes and subsidies. 
+
+Table \ref{TAB_series} documents the classification schemes used by different sources (IO, NIPA) for different years. For 1997-2018 the NIPA data \citep{beasection6} are classified according to the NAICS 2012 system, and thus it is possible to match an industry $i$ in the IO table to the exact same industry $j$ in the NIPA data. Further, the value-added reported in the two sources are identical for these years, and hence the expression above devolves to $COMP_{it}^{IO} = COMP_{jt}^{NIPA}$ (and similar for the other components of value-added). 
+
+For 1948-1996, however, NIPA data are not reported according to the NAICS 2012 classification. Industry-level data from the \textit{Historical Industry Accounts Data} \citep{beahistind} is classified by either SIC 1972 or SIC 1987 industries, depending on the year. I continue to use the equation above to find compensation (and proprietors income and taxes) in industry $i$ of the IO table, but this now requires making assumptions about which industry $j$ in the NIPA data provides an appropriate match to industry $i$ in the IO data in year $t$.
+
+I rely on crosswalks between SIC 1972, SIC 1987, and NAICS 2012 classifications, and my own judgment to make these matches. A straightforward example from 1960 would be using ``Transportation by air'' (SIC 1972 code 45) as industry $j$ from NIPA to match to ``Air transportation'' (NAICS 2012 code 481) as industry $i$ in the IO table.
+
+The matching for a given year is not always one-for-one, and there are NIPA industries $j$ (e.g. SIC 1972 code 73 ``Business services'') whose ratios are used for multiple industries $i$ in the I/O table (e.g. NAICS code 561 ``Administration and support services'', NAICS code 55 ``Management of companies'', etc.). There are also situations where I have aggregated the data from NIPA industries (e.g. SIC 1972 codes 63 ``Insurance carriers'' and 64 ``Insurance agents, brokers, and service'') and then matched this aggregate to an industry $i$ in the IO table (e.g. NAICS code 524 ``Insurance carriers and related activities''). 
+
+Full details of the matching are available in the Appendix. I have experimented with a variety of different reasonable choices for matching, and have not found any that change the results of the paper in an appreciable way.\footnote{Code and instructions are available on my website to the reader who wishes to experiment with different matching assumptions between the NIPA and IO table sources.}
+
+The final data sources I use are the Fixed Asset Accounts Tables of the BEA \citep{beacap,beagov}. These provide information on the size of the capital stock of type $k$ in industry $j$ at years $t$, $K_{jkt}$, the amount of depreciation, $DEPR_{jkt}$, and investment spending, $INV_{jkt}$. The three types of capital $k$ reported are structures, equipment, and intellectual property. This fixed asset data is reported according to the NAICS 2012 classification, and so can be matched directly to the IO table industries.\footnote{There are minor discrepancies between the NAICS classifications in the Fixed Asset Accounts and the IO tables. These are straightforward to manage in that the fundamental classification system is the same. Details are in the Appendix.} 
+
+Once combined the dataset contains yearly information from 1948-2018, at the NAICS 2012 classification level, of industry-level information on intermediate costs, value-added, labor compensation, proprietors income, taxes and subsidies, depreciation of capital (by type), investment in capital (by type), and the stock of capital (by type).
+
+\section{Estimates of the aggregate elasticities}\label{SEC_bounding}
+As mentioned above, there is a disconnect in the presentation of data in the national accounts and the requirements of the calculation of $\epsilon_{Kt}$ and $\epsilon_{Lt}$ from equation (\ref{EQ_E}). In short, this is an issue of how to split gross operating surplus into labor costs (part of proprietors income), capital costs, and economic profits. As there is no correct answer for how to do this, my approach is to construct several estimates of $\epsilon_{Kt}$ and $\epsilon_{Lt}$ based on different assumptions.
+
+Two of these assumptions will form what I consider to be natural bounds on the cost of capital to industries, and give a plausible range for values of $\epsilon_{Kt}$ and $\epsilon_{Lt}$. Assuming there are zero economic profits in the economy will maximize the implied cost of capital from the national accounts data. The elasticity calculated under that assumption will form a plausible top end for the size of $\epsilon_{Kt}$ (and a lower end of the range for $\epsilon_{Lt}$). On the other hand, we know that industries experienced the depreciation of existing capital and their capital costs are at least this large. Using depreciation costs to as the lower bound for the cost of capital will therefore give a lower end of the range for $\epsilon_{Kt}$ (and an upper end of the range for $\epsilon_{Lt}$). 
+
+The bounds on capital costs may be reasonable, but they are not inviolable. Depreciation is an estimate made by the BEA, and hence may not be an accurate measure of those costs. If the financing costs for capital were negative, this would also imply total capital costs could be below depreciation. Alternatively, in the presence of \textit{negative} economic profits the implied cost of capital could be even higher than supposed with the zero-profit assumption. Nevertheless, the other assumptions regarding capital costs, such as a user cost calculation, do tend to fall within the bounds I establish.
+
+\subsection{Labor costs, proprietors income, and taxes}
+Prior to detailing how capital costs are handled to form bounds on the elasticities, I describe how I allocate proprietors income to different factors of production. I follow \cite{gommerupert2004} and assign a share of proprietors income and production taxes to labor equal to the ratio of reported compensation to non-proprietors value-added. Hence the cost of labor is calculated according to:
+
+\begin{equation}
+	COST_{iLt} = COMP_{it} + (PROP_{it} + TAX_{it})\left(\frac{COMP_{it}}{VALU_{it}-TAX_{it}-PROP_{it}}\right), \label{EQ_prop}
+\end{equation}
+
+where $COMP_{it}$ is reported labor compensation in industry $i$ at time $t$, $PROP_{it}$ is proprietors income, $VALU_{it}$ is value-added, and $TAX_{it}$ is taxes and subsidies. \cite{gommerupert2004} argue that this provides a more accurate representation of the labor component of proprietors income than using the number of self-employed workers and a measure of average wages, as proprietors are likely to be high productivity (and hence high wage). This also apportions production taxes to labor in the same manner.
+
+In the Appendix I show variations on this assumption where I either assign all proprietors income as labor costs (i.e. $COST_{iLt} = COMP_{it} + PROP_{it}$) or all proprietors income as capital cost (i.e. $COST_{iLt} = COMP_{it}$). In the former case the results are quite similar to the baseline using the Gomme and Rupert approximation. In the latter case the implied costs of capital are higher, implying higher measures of $\epsilon_{Kt}$ (and lower estimates of $\epsilon_{Lt}$). However, this seems an unlikely case, given the widespread use of adjustments to proprietors income that assign much of it as labor income. Recent work by \cite{syzz2019} also suggests that much of what may be reported as gross operating surplus by pass-through firms is ultimately a payment to labor, further reinforcing that treating most proprietors income as labor income as in Gomme and Rupert is the most reasonable choice.
+
+\subsection{Boundaries for capital costs}
+With the labor cost determined it remains to impute capital costs, $COST_{iKt}$, for each industry in each year, and to calculate the values of the various elasticities. In what follows, I only discuss values for $\epsilon_{Kt}$, to be concise. In each case I also obtain estimates for the labor elasticity, $\epsilon_{Lt}$. In every case one can use the values of $\epsilon_{Kt}$ to infer values for the labor elasticity of $\epsilon_{Lt} = 1 - \epsilon_{Kt}$. The annual estimates for all the elasticities, under each of the assumptions about capital costs, are available in the Appendix.
+
+\subsubsection{No profit assumption}
+The first assumption is that there are zero economic profits. This means that gross operating surplus minus any adjustments for proprietors income and taxes represents a payment to capital. To be specific, for this assumption I set
+
+\begin{equation}
+	COST^{NoProf}_{iKt} = VALU_{it} - COST_{iLt},  \label{EQ_noprofit}
+\end{equation}
+where $COST_{iLt}$ are labor costs as explained in (\ref{EQ_prop}). Given this cost of capital for an industry, I can then calculate the capital cost share, $\lambda_{iKt}$. In addition, I can calculate the cost shares of all other intermediates, $\lambda_{ijt}$, and the cost shares of labor, $\lambda_{iLt}$.
+
+With the cost shares in hand, it is straightforward to calculate $\epsilon_{Kt}^{NoProf}$ given the formula in (\ref{EQ_E}). Under the no-profit assumption the cost of capital is at an upper bound, and the thus the cost share of capital in each industry is at an upper bound. Given that the aggregate capital elasticity is a weighted average of the industry-specific capital cost shares, this gives a plausible upper bound for the aggregate elasticity.
+
+This bound is not absolute. The choice of capital costs by necessity impacts the intermediate shares of total costs, $\lambda_{ijt}$, in the matrix $\Lambda$ and hence the Leontief inverse built from it. Thus the weights in the weighted sum of industry-specific capital cost shares depend on the choice of capital costs. It is theoretically possible that one could lower (raise) total capital costs in the economy and yet receive a higher (lower) estimated elasticity. In practice, as I show in the Appendix, the direct effect of lower (higher) capital costs dominates the indirect effect on the intermediate good shares in the Leontief inverse, and the elasticity is also lower (higher) in such a case. Hence the no-profit assumption on capital costs is a plausible upper bound on the elasticity, but not a mathematically strict one.
+
+Figure \ref{FIG_cap_comparison} plots the estimated values of $\epsilon_{Kt}^{NoProf}$ over time for the United States as the heavy black dashed line. In Figure \ref{FIG_cap_comparison} one can see that the no-profit capital elasticity begins at \basefirstnoprofit \ in 1948 and rises with mild fluctuations to a value of \baselastnoprofit \ by 2018. This no-profit upper bound for the capital elasticity tracks the value of 1/3 (with a mild dip in the 1970s) from 1948-1995. The value of 1/3 would only be appropriate in those years if one believed there were zero economic profits in the economy. After 1995, there is shift up in the no-profit upper bound to around \baselatenoprofit, on average, making the value of 1/3 appear more plausible. Table \ref{TAB_scenario} provides summary statistics of the estimated capital elasticities
+
+\subsubsection{Depreciation costs only}
+The second estimates of the aggregate elasticities are made using deprecation to impute the cost of capital. Depreciation by itself misses costs associated with the on-going financing of the capital stock by firms, but has the advantage of being reported on an industry-by-industry basis. We can infer that industries faced \textit{at least} a depreciation cost for their capital. From that perspective, using depreciation provides a plausible lower bound for capital costs. The drawback of this approach is that depreciation is imputed by the BEA for each industry, based on historical investment spending and assumed depreciation schedules for various types of capital.\footnote{This also presumes that the required real return on capital is positive, as if that return were negative than the overall cost of capital could be less than depreciation. In the user cost assumption discussed below I allow for this possibility.} In addition, as mentioned in the prior sub-section, the choice of capital cost affects the industry-specific capital cost shares as well as the intermediate good shares of total costs, which means the depreciation cost assumption gives a plausible lwoer bound on the elasticity, but not an strict one.
+
+In terms of the structure outlined above, I measure capital costs in industry $i$ as follows
+
+\begin{equation}
+	COST^{Depr}_{iKt} = DEPR_{it}. 
+\end{equation}
+
+As this point the logic is identical to the prior sub-section. These costs allow me to calculate cost shares for each industry, and those cost shares are used in equation (\ref{EQ_E}) to calculate the aggregate capital elasticity, $\epsilon_{Kt}^{Depr}$.
+
+In Figure (\ref{FIG_cap_comparison}) the capital elasticity $\epsilon_{Kt}^{Depr}$ is plotted from 1948-2018 as the solid black line. As expected, this series lies everywhere below the no-profit estimates. The estimated elasticity begins at \basefirstdepr \ in 1948 and finishes at \baselastdepr \  in 2018, for an increase of 0.09 that is very similar to the increase in the no-profit upper bound. 
+
+From the Figure it is also apparent that the gap between the no-profit upper bound and the depreciation-based lower bound remains roughly constant. In the Figure that range is shaded in light gray to indicate the plausible values for $\epsilon_{Kt}$ in any given year. Note that this range is not a confidence interval and nothing about it implies that the actual capital elasticity lies in the middle of the range or that it is constant. The true elasticity may fluctuate within these bounds over time.
+
+\subsection{Alternative capital cost estimates}
+The prior sub-section showed the boundaries, and here I present two more estimates of the capital elasticity that do not make sense as bounds, but provide information on the actual path of the elasticity and whether those bounds are sensible.
+
+\subsubsection{Investment costs}
+Here I use observed investment spending by each industry as the measure of capital costs. One way this imputation may be sensible is to consider an economy following a ``Golden Rule'', where all capital income is used to purchase capital goods. As capital income to one person represents a capital cost to another, investment spending would measure capital costs.
+
+An additional advantage of the investment cost assumption is that this data is measured directly from industry level spending. Depreciation costs by themselves are estimated by the BEA based on depreciation schedules that may not accurately reflect true industry experience. Arguably the use of observed investment spending to measure capital costs may be the choice with the fewest assumptions built in.
+
+In this case the cost of capital is measured as follows,
+
+\begin{equation}
+	COST^{Inv}_{iKt} = INV_{it}. 
+\end{equation}
+
+Once again, the logic at this point is standard. Using these costs I obtain cost shares for capital, labor, and intermediates, and using (\ref{EQ_E}) I can calculate $\epsilon_{Kt}^{Inv}$. 
+
+Figure (\ref{FIG_all_comparison}) plots the estimated capital elasticity from 1948-2018 with the line marked with x's, as well as the original bounds. This estimate begins at \basefirstinv \ in 1948 and runs to \baselastinv \ in 2018, demonstrating a less dramatic increase that either the depreciation or no-profit bounds. Based on investment costs, the capital elasticity ends up at the lower depreciation-based bound around the time of the Great Recession in 2009 and remains close to that lower bound until 2018. This is consistent with investment spending by industry that acts solely to replace depreciating capital in that period.
+
+Of note, the investment cost elasticity estimate remains everywhere inside the bounds set by the deprecation-only and no-profit estimates. The relatively small increase over time in the investment cost elasticity estimates reminds one that the true capital elasticity may well move between the bounds over time and does not necessarily increase just because the bounds do. In addition, the capital elasticity based on investment costs is everywhere below the value of 1/3.
+
+\subsubsection{User cost of capital}\label{SEC_usercost}
+As a last alternative, I turn to the standard user cost of capital calculation of \cite{halljorg1967}. This has been used extensively to estimate the cost of capital, including in recent work on labor and capital's share of aggregate GDP \citep{Barkai000}, with the downside of needing to make several assumptions about the financing costs facing industries and expectations of inflation of capital goods. 
+
+The calculation of the overall cost of capital for an industry $i$ is more complex than the prior assumptions. First, I allow for three types of capital goods - structures, equipment, and intellectual property - which is available from the BEA capital stock data \citep{beacap,beagov}. Each industry $i$ has a stock of capital of each type $j$ at time $t$, $K_{ijt}$. Each industry $i$ also faces a rental rate for capital of type $j$ at time $t$, $R_{ijt}$, and these rental rates are allowed to vary by industry.
+
+Overall, the cost of capital to industry $i$ at time $t$ is
+
+\begin{equation}
+	COST^{User}_{iKt} = \sum_{j \in st,eq,ip} K_{ijt} R_{ijt}.
+\end{equation}
+
+The rental rate for each type of capital in a given industry is given by
+
+\begin{equation}
+	R_{ijt} = (Int_{it} - E[\pi_{ijt}] + \delta_{ijt})\frac{1-z_{jt} \tau_t}{1-\tau_t}
+\end{equation}
+
+where $Int_{it}$ is the nominal interest cost of financing facing industry $i$ at time $t$, explained below. $E[\pi_{ijt}]$ is the expected inflation in the price of capital type $j$ for industry $i$ at time $t$, and $\delta_{ijt}$ is the cost of depreciation. The term $z_{jt}$ is the depreciation allowance for taxation of capital type $j$ at time $t$, and $\tau_t$ is the effective corporate tax rate at time $t$.
+
+In this baseline, the expected inflation rate $E[\pi_{ijt}]$ for a given capital type $j$ in industry $i$ at time $t$ is just observed inflation rate in $t$, based on the price indices by capital type in the BEA fixed asset accounts \citep{beacap,beagov}. There are only small changes to the results if I instead proxy expected inflation using forward-looking or backward-looking inflation over different spans (1-year, 3-year, 5-year).
+
+The nominal interest rate facing industry $i$ at time $t$ is calculated as a weighted average of market interest rates for different types of financing (e.g. corporate bonds, equity, mortgages), denoted by $Int_{mt}$, and the weights vary by industry. Formally,
+
+\begin{equation}
+    Int_{it} = \sum_m s_{imt} Int_{mt}
+\end{equation} 
+
+where $s_{imt}$ is the share of financing of type $m$ in industry $j$, and $Int_{mt}$ is the observed interest rate on that type of financing. 
+
+While this is industry-specific, it primarily differentiates between government, housing, and the private sector. Full details are available in the Appendix on sources for the shares and rates used. A brief summary is that private industries are financed using a combination of corporate AAA bonds, corporate Baa bonds, short-term loans, and equity, with the shares ($s_{imt}$) determined from industry-level balance sheets provided by the integrated macroeconomic accounts \citep{beaimap}. Housing is assumed to be financed using 30-year mortgages. Government ``industries'' are assumed to be financed using 10-year Treasury bonds (federal) or municipal bonds (state/local).\footnote{Treating government in this manner assumes that it acts similar to private industries in making decisions on capital use. An alternative is to assert that user costs of capital to government industries are equal to the reported depreciation, which would be consistent with how the BEA calculates value-added for government. Doing so does not alter the results in any appreciable way.}
+
+Given the values of $Int_{it}$ I am able to calculate the rental rate of capital facing each industry $i$ for each capital type $j$, $R_{ijt}$, and then the overall cost of capital for industry $i$ at time $t$, $COST^{User}_{iKt}$. With those costs of capital, I can then proceed in the same manner as before, and calculate the elasticity $\epsilon_K^{User}$ using equation (\ref{EQ_E}).
+
+In Figure (\ref{FIG_all_comparison}) the series of $\epsilon_K^{User}$ is plotted from 1948-2018 marked by o's. This is far more variable over time than the bounds set by depreciation and no-profit assumptions, as well as more variable than the estimates based on investment costs. However, the user cost of capital estimates stay for the most part inside the bounds set by depreciation and no-profit.
+
+There are notable exceptions. In 8 years (1950, 1973, 1974, 1977, 1978, 2004, 2005, and 2013) the user cost of capital is below the bound set by the depreciation cost estimates. The observations in the 1970s are due to very high inflation of all capital goods, which in the user cost calculation results in very low rental rates and hence a low cost to capital. The 2004 and 2005 observations are due to very high inflation in structures. 1950 and 2013 appear to be a combination of slightly higher inflation in structures and low financing rates. Nevertheless, these deviations below the bound of depreciation cost estimates are not large and appear to be short-lived. 
+
+On the other end, there is a continuous stretch from 1981 through 1992 where the user cost estimates are above the upper bound set by the no-profit estimates. These are due to the relatively high nominal rates on financing during this period and the lower values observed for inflation on all capital goods. These deviations are not large after 1984. If the user cost estimates of the elasticities are correct, then they would imply negative economic profits during this period. Alternatively, the user cost calculations may not be accurately representing the cost of capital in this period.
+
+Regardless, in 51 of the 71 years reported the estimate of $\epsilon_K^{User}$ falls between the bounds denoted by the no-profit and depreciation costs estimates. Over time, the trend of the user cost estimates appears to track the trend of the investment cost estimates, and both imply an elasticity that is below 1/3 for much of this time period. 
+
+\section{Comparisons and alternative assumptions}\label{SEC_trends}
+None of the four estimated series of $\epsilon_{Kt}$ in Figure \ref{FIG_all_comparison} are ``right''. Without direct measurement of the cost of capital faced by industries, and better information on the split of proprietors income, any estimate of the aggregate elasticities is necessarily based on some assumptions. Beyond that, these estimates can be compared to ``naive'' estimates based on economy-wide ratios to see how informative those ratios are, and compared to estimates made under different assumptions about which industries (e.g. private business only) or capital types (e.g. intellectual property) are included in the calculations.
+
+\subsection{Comparison to aggregate ratios}\label{SEC_ratios}
+The estimates of the aggregate elasticity are built using industry-level data with input-output relationships, but it is informative to compare that elasticity to aggregated data on capital and labor costs. Such aggregate data is what has been typically used to estimate these elasticities in the past, and has the advantage of being much more readily available.
+
+Using the notation developed above, define aggregate capital costs as a share of all factor costs (labor plus capital), $s^{Cost}_{Kt}$, as follows,
+\begin{equation}
+	s^{Cost}_{Kt} = \frac{\sum_{j=1}^{J} COST_{jKt}}{\sum_{j=1}^{J} COST_{jKt} + \sum_{j=1}^{J} COST_{jLt}}. \label{EQ_scost}
+\end{equation}
+By definition, under the no-profit scenario $s^{Cost}_{Kt}$ is identical to $\epsilon_{Kt}$ \citep{bfshortnote,bfprodge}, and that result holds here as well. The equality of $s^{Cost}_{Kt}$ and $\epsilon_{Kt}$ does not hold under the other assumptions regarding capital costs, as they all imply some amount of economic profits are being earned. 
+
+Figure \ref{FIG_ratio_comparison} plots the series for $\epsilon_{Kt}$ and $s^{Cost}_{Kt}$ under different assumptions about capital costs. For both the investment cost and depreciation cost scenarios, the values of the cost ratios, $s^{Cost}_{Kt}$ (in gray), are almost everywhere below the estimated values of the elasticities, $\epsilon_{Kt}$ (in black).\footnote{The labor elasticities therefore all lie generally below their corresponding cost ratio.} For the investment cost series there are some exceptions to that around 1950. While the cost shares are below the elasticities, the gaps are not that large. For the depreciation cost assumption, the gap averages about 0.03 over the entire period, but as can be seen tends to widen over time. For the investment cost assumption, the gap averages about 0.02 over the entire period, and again tends to widen over time.
+
+From the Figure, the cost ratios appear to be reasonable approximations to the values of the elasticities. Given that the aggregate data needed to calculate $s^{Cost}_{Kt}$ is more widely available than the detailed input/output data needed to estimate $\epsilon_{Kt}$, this may be useful in certain contexts. 
+
+The differences between $\epsilon_{Kt}$ and $s^{Cost}_{Kt}$ are due to economic profits. I provide a more thorough theoretical comparison of $\epsilon_{Kt}$ and $s^{Cost}_{Kt}$ in the Appendix, but the general intuition is straightforward. $s^{Cost}_{Kt}$ depends on industry-specific capital cost shares and the allocation of total costs across industries. Markups skew the allocation of total costs across industries, and hence skew the value of $s^{Cost}_{Kt}$. When markups are positively correlated with industry-specific capital cost shares, there are fewer costs expended on the high-markup/capital-intense industries, and hence $s^{Cost}_{Kt}$ is pushed below $\epsilon_K$. Furthermore, when industries that have high capital shares of costs tend to be upstream in the input/output structure, multiple marginalization lowers their share of total costs, also pushing $s^{Cost}_{Kt}$ below $\epsilon_K$. In general, the larger are markups overall the larger are these effects, and hence the gaps in Figure \ref{FIG_ratio_comparison} between $\epsilon_{Kt}$ and $s^{Cost}_{Kt}$ are generally largest for the depreciation cost scenario. I return to the subject of markups in the next section, comparing the markups implied in my estimates to those in the literature, and finding that they are consistent.
+
+\subsection{Private business sector}
+Up to this point I have been working with data that covers all industries, including those for which value-added and capital costs may be particularly hard to measure correctly (e.g. government, owner-occupied housing). To see the influence of the inclusion of government (both general government and government enterprises at federal and state/local levels) and owner-occupied housing on the aggregate elasticities, I remove them both from the calculation of elasticities. In practice, this means deleting their rows and columns from the IO matrix $\Lambda$ as well as their entries from the vector of final-use shares in $\Gamma$.\footnote{In practice there are several industries that are deleted, depending on the year. NAICS includes entries for federal general government (defense), federal general government (non-defense), federal government enterprises, state and local general government, and state and local government enterprises. Prior to 1997, the federal general government categories are combined into a single industry. With respect to housing, both housing and other real estate are excluded. Prior to 1997, those two industries were aggregated into a single real estate industry.} This makes the coverage of the calculation equivalent to the ``Private business sector'' coverage that the BLS uses.\footnote{One could also examine the ``Non-farm private business sector'' by eliminating the industries for farming and forestry, fishing, and other agricultural activities. In practice eliminating those industries does not change the elasticity by an appreciable amount compared to the ``Private business sector''.} 
+
+Figure \ref{FIG_excl_gov_housing} plots the estimated value of the capital elasticity bounds (the no-profit and depreciation cost assumptions) for the private business sector as dark black lines, and the plausible range for the capital elasticity is shaded in dark gray. For comparison, the original bounds using all industries are plotted using the dashed lines, and that range is shaded in light gray. 
+
+As can be seen, the range of the capital elasticity for the private business sector lies everywhere lower than the range for the aggregate economy. In general, both bounds are shifted down by approximately 0.06. Notably, the capital elasticity for the private business sector lies definitively under 1/3 throughout the period, and only during the years 2010-2018 does the upper bound reach that value. The naive value is too high if one is considering just private business sector activity.  
+
+In Table \ref{TAB_scenario}, Panel B, summary statistics are reported for the private business sector alone. Comparing Panel B to Panel A, the downward shift of about 0.06 in the aggregate capital elasticity shows up regardless of how capital costs are calculated. This has the implication that the aggregate labor elasticity is estimated to be higher by about 0.06 in the private business sector. 
+
+Mechanically, the lower elasticity in the private business sector comes almost entirely from the fact that the housing industry has a very high capital cost share under any set of assumptions. The average capital cost share is 0.94 under the no-profit assumption, 0.89 under the investment cost assumption, 0.83 under the user cost assumption, and 0.80 under the depreciation-only assumption. Full statistics on these shares are available in the Appendix. The estimates of $\epsilon_{Kt}$ are weighted averages of cost shares across different industries (with the weights depending on input-output linkages), so the exclusion of owner-occupied housing lowers $\epsilon_{Kt}$ for the private business sector. Government cost shares are similar to the private business sector, and hence excluding government by itself does not alter $\epsilon_{Kt}$ by an appreciable amount.\footnote{Government capital costs are measured differently than for the rest of the economy. When the BEA imputes government value-added, it combines measured government labor compensation with government capital depreciation. Thus, by construction the no-profit (value-added minus labor compensation) and depreciation capital costs are identical for the government industries. In this sense the presence of the government in the baseline calculation of $\epsilon_{Kt}$ pushes the bounds closer together.}
+
+If I restrict myself to the private business sector of the economy then the likely size of $\epsilon_{Kt}$ is well below one-third, and even below 0.30. Nevertheless from Table \ref{TAB_scenario}, Panel B, columns (5)-(6) one can see that the elasticity under all assumptions did rise over time, and in amounts very similar to the rise in the elasticity when the entire economy is considered in Panel A. The private business sector has a similar trajectory of $\epsilon_{Kt}$ over time, but is shifted down compared to the overall economy.
+
+\subsection{Elasticities by type of capital}
+To this point I have focused on the elasticity of GDP with respect to aggregate capital, $\epsilon_{Kt}$. But the national accounts data include information on three types of capital: structures, equipment, and intellectual property. It is feasible to calculate separate elasticities for each type separately: structures ($\epsilon_{st,t}$), equipment ($\epsilon_{eq,t}$), and intellectual property ($\epsilon_{ip,t}$).
+
+To construct these estimates, one simply has to expand the matrix $\Lambda$ in equation (\ref{EQ_Lambda}) to include separate columns denoting the cost shares of each type of capital for each industry, and ensure that there are rows of zeroes included in $\Lambda$ for each type. All the capital data for the three types is available from the BEA sources mentioned previously. For the depreciation lower bound, the investment cost assumption, and the user cost assumption, the calculations for the separate elasticities are straightforward. 
+
+The only issue arises with the no-profit upper bound. In this case, the \textit{total} cost of capital is calculated from equation (\ref{EQ_noprofit}) by subtracting labor costs from value-added. This does not provide any information on how those implied capital costs are allocated to structures, equipment, and intellectual property. As a baseline, I distribute the total capital cost in the no-profit scenario across capital types in proportion to the amount of investment done in that capital type in the given year.\footnote{An alternative is to allocate the aggregate no-profit capital costs to capital types in proportion to the stock of each capital type in the given year. This creates some issues with respect to intellectual property, as the absolute size of the IP stock prior to 1970 is so small. For those years the implied cost of capital in the no-profit scenario is below the reported cost of IP depreciation or IP investment.} More specifically, for capital type $k \in (st,eq,ip)$ in industry $i$ at time $t$ I calculate
+
+\begin{equation}
+    COST_{ikt}^{NoProf} = \left(VALU_{it} - COST_{iLt}\right)\frac{INV_{ikt}}{\sum_{k \in (st,eq,ip)} INV_{ikt}}.
+\end{equation}
+
+Figure \ref{FIG_cap_types} plots the estimates of $\epsilon_{st,t}$, $\epsilon_{eq,t}$, and $\epsilon_{ip,t}$ separately, each with a no-profit upper bound a depreciation lower bound, and the estimates based on investment costs included. I did not plot the user cost series to keep the Figure clear. In the Figure, the bounds for structures appear to be somewhat stable, with a range of about \basestdepr-\basetnoprofit \ throughout the time period, although the lower bound does appear to rise to around 0.10 between 2000 and 2009. For equipment, there is a similar stability in the bounds, and the estimated elasticity appears to be in the range of \baseeqdepr-\baseeqnoprofit \ from 1948-2018. Intellectual property displays a very narrow range from 1948-2000, and that range expands after 2000. Moreover, the range of elasticities for intellectual property climbs from \baseipearlydepr-\baseipearlynoprofit \ around 1948 to \baseiplatedepr-\baseiplatenoprofit \ by 2018.
+
+By construction, the aggregate elasticity $\epsilon_{Kt}$ is the sum of the three individual elasticities in any given year. Hence Figure \ref{FIG_cap_types} provides information on what drove the change in the boundaries of $\epsilon_{Kt}$ over time; it would appear that the increased importance of intellectual property in production was responsible for the shift up.
+
+Table \ref{TAB_type} gives the summary statistics for the three types of capital, under each possible assumption regarding their individual costs. The average elasticity for structures is \basetnoprofit \ under the no-profit assumption, and \basestdepr \ under the depreciation assumption. In Panel B the equipment elasticity averages \baseeqnoprofit \ under the no-profit assumption and \baseeqdepr \ in the depreciation cost assumption. In both cases there is little evidence of an increase in the bounds over time, and in fact the no-profit upper bound was lower in 2000-2018 than in 1948-2000. Finally, the intellectual property elasticity had an average no-profit upper bound of \baseipnoprofit \ and a depreciation cost lower bound of \baseipdepr. However, in both cases those bounds increased from 1948-2000 to 2000-2018, from values between 0.03-0.04 to values between 0.06-0.08. 
+
+\subsection{De-capitalizing intellectual property}\label{SEC_decapip}
+The prior sub-section showed that an increased importance of intellectual property in production seems largely responsible for the observed increase in the bounds on the aggregate elasticity $\epsilon_{Kt}$. This possibility is consistent with the findings in \cite{ksz2020}, who showed that the revision to the national accounts to capitalize intellectual property, begun by the BEA with their 11th revision in 1999, can explain essentially all of the reported decline in labor's share of GDP. While I am concerned here with the elasticity of GDP with respect to capital (and labor), the same features of the national accounts that \cite{ksz2020} identified may be relevant here. 
+
+In particular, in capitalizing intellectual property (as opposed to treating it as an expense) the BEA revised up the value-added of each industry by an amount equal to the sum of own-account and purchased intellectual property. This also revised gross operating surplus by incorporating own-account intellectual property and revised total depreciation to include that of intellectual property. Following \cite{ksz2020}, I reverse these modifications to strip out the capitalization of intellectual property and then estimate $\epsilon_{Kt}$ again. Details of the modifications to the national accounts data required are in the Appendix.
+
+De-capitalizing IP changes the estimated aggregate elasticities. Figure \ref{FIG_noip_comparison} plots in the dark lines the upper (no-profit) and lower (depreciation-only) bounds for the elasticity $\epsilon_{Kt}$ when intellectual property is de-capitalized from the national accounts. For comparison purposes, the dashed lines plot the upper (no-profit) and lower (depreciation-only) bounds under the baseline situation where IP is considered a capital good. 
+
+As can be seen, there is a distinct shift down in the range of plausible $\epsilon_{Kt}$ values when IP is de-capitalized. The upper bound is well below 1/3 throughout most of the time period, and only rises above it in 2005-2018, and even then the difference is small. There is a similar story for the lower bound, which starts similar to the baseline in 1948, but remains much lower through 2018. Figure \ref{FIG_noip_comparison} indicates that an important part of the apparent rise in $\epsilon_{Kt}$ over time was the capitalization of IP. 
+
+In Table \ref{TAB_scenario}, Panel C, I show the summary statistics when IP is de-capitalized. The mean and median values are lower under all assumptions compared to the baseline, by about 0.03. Perhaps more interesting is columns (5)-(6), which show that the implied rise in $\epsilon_{Kt}$ over time was more muted when IP is de-capitalized, but it does not disappear completely. 
+
+The mitigation of the upward trend is consistent with the findings of \cite{ksz2020} on the mitigation of the \textit{downward} trend in labor's share of GDP. In both cases de-capitalizing IP leaves the size of labor compensation the same, but lowers the size of value-added in each industry. In my case, this implies that there is less value-added ``left over'' to be attributed to capital costs, capital cost shares are lower across industries, and hence the size of $\epsilon_{Kt}$ is lower. 
+
+Panel D of Table \ref{TAB_scenario} shows summary statistics when IP is de-capitalized in the private business sector. The combined effect is to push the no-profit upper bound down lower, to an average of \exclnoprofit \ for $\epsilon_{Kt}$, with a maximum of \exclmaxnoprofit, below 1/3. The depreciation lower bound averages only \excldepr, with a maximum of \exclmaxdepr. With this narrow definition of economic output and excluding IP capital, it is plausible that the capital elasticity was below 0.3 on a regular basis.
+
+\section{Markups and comparison to firm-level data}\label{SEC_compustat}
+All the estimates of $\epsilon_{Kt}$ to this point have been made using exclusively national accounts data. Also, as noted previously, each capital cost assumption behind an estimate $\epsilon_{Kt}$ implies a specific level of economic profits (and hence of markups). As a method of assessing how reasonable my estimates are, in this section I use firm-level data from Compustat to create an alternative estimate of $\epsilon_{Kt}$ and compare how the markups implied by my aggregate calculations compare to those derived from firm-level data.
+
+\subsection{Compustat consistent elasticities}
+I follow \cite{dleu2020} in generating a dataset on US firms from Compustat for the period 1955-2016. Full details of the extract process and the calculations that follow are in the Appendix. I use their methodology and code to derive two different estimates of the cost of capital by industry based on the firm-level data. The working assumption is that the cost structure and/or production function of the firms in a given industry available in Compustat are indicative of the cost structure and/or production function of all firms in that industry. 
+
+The first estimate is based on cost data. \cite{dleu2020} calculate a capital cost for each firm, which I use directly. I then calculate total non-capital costs as the sum of cost of goods sold (COGS) and sales, general, and administrative (SGA) expenses. For a two-digit industry I sum the capital costs of all Compustat firms in that industry and sum the non-capital costs of all firms in that industry, and take the ratio of capital to non-capital costs, denoted $COST^{Stat}_{iKt}/COST^{Stat}_{iNonKt}$. Using this Compustat-derived ratio for a given industry, I calculate 
+\begin{equation}
+    COST^{StatCS}_{iKt} = \frac{COST^{Stat}_{iKt}}{COST^{Stat}_{iNonKt}}\left(COST_{iLt} + COST_{iMt}\right) \label{EQ_comp_cost_calc}
+\end{equation}
+to get an estimate of total capital costs in industry $i$ that is consistent with the national accounts data, where the $StatCS$ superscript refers to the use of cost shares ($CS$) from Compustat. The assumption here is that the COGS and SGA expenses in Compustat are equivalent to total labor compensation plus intermediate goods purchases. With this estimate of capital costs in an industry I can calculate $\epsilon_{Kt}$ as before.
+
+A second estimate is made using industry-level production-function estimates that \cite{dleu2020} do as part of their analysis. They provide the estimated coefficients on capital, COGS, and SGA from an estimation procedure done for two-digit industries based on the Compustat firm-level data.\footnote{These are the ``production function two'' estimates from \cite{dleu2020}. This estimation treats what are typically considered overhead costs, SGA, as a factor of production. As there is no way to separate the national accounts data on labor compensation into payments for variable versus overhead labor, this production function is most applicable here. I discuss this more in the Appendix, but their production function estimates do not assume constant returns to scale, which is why I use the ratio of elasticities rather than the absolute values, as the elasticity calculation here assumes constant returns in each industry.} I sum the elasticities from COGS and SGA to get a combined elasticity with respect to non-capital, and then again get a ratio of capital to non-capital, denoted $ELAS^{Stat}_{iKt}/ELAS^{Stat}_{iNonKt}$ for each industry. Given those, I calculate capital costs for an industry as 
+\begin{equation}
+    COST^{StatPF}_{iKt} = \frac{ELAS^{Stat}_{iKt}}{ELAS^{Stat}_{iNonKt}}\left(COST_{iLt} + COST_{iMt}\right) \label{EQ_comp_pf_calc}
+\end{equation}
+where the superscript $StatPF$ refers to the use of the production function ($PF$) estimates from Compustat. Again I can calculate a value for $\epsilon_{Kt}$ given these industry-level costs.
+
+What I hope is clear is that I am not using the firm-level data directly to calculate $\epsilon_{Kt}$. It is impossible to do that without the full input/output matrix of firm-to-firm transactions. Rather, I am using the Compustat firm-level data from \cite{dleu2020} to derive measures of capital costs at the industry level. Hence the estimates of $\epsilon_{Kt}$ are consistent with the Compustat firm-level data, but I am not aggregating over the firms themselves. 
+
+All those caveats aside, Figure \ref{FIG_dleu_comparison} plots the estimated values of $\epsilon_{Kt}$ using these Compustat-consistent capital costs, alongside my existing estimates made using only national accounts data for the private business sector alone (i.e. excluding housing and government). What is apparent is that the Compustat-consistent estimates are quite similar in level and pattern to the estimates based on investment costs, and for the most part fall within the bounds on $\epsilon_{Kt}$ established by the non-profit and depreciation cost assumptions. The Compustat cost-share based estimates dip below the depreciation lower bound once in the mid-1970s and then again several times starting in 2005, although the absolute differences are not that large. Regardless, as mentioned previously the depreciation cost bound is necessarily porous given that those costs are themselves estimates by the BEA.
+
+Nevertheless, the fact that the Compustat derived estimates of $\epsilon_{Kt}$ are broadly in line with the estimates presented earlier gives some reassurance that those earlier estimates are not subject to gross errors or are unrepresentative of the experience of large firms in the economy.
+
+\subsection{Markups and economic profits}
+As noted previously, different capital cost assumptions imply different levels of economic profits and hence markups. I can back out measures of markups from each series on $\epsilon_{Kt}$ given the cost data that goes into the calculation. In particular, I can calculate an aggregate value-added markup as
+\begin{equation}
+    \mu^{VA}_{t} = \frac{\sum_{j=1}^{J} VA_{jt}}{\sum_{j=1}^J COST_{jKt} + COST_{jLt}}. \label{EQ_markup}
+\end{equation}
+for each different assumption on capital costs, including those derived using the Compustat data. By construction, the value of $\mu^{VA}_{t}$ is equal to one for the no-profit assumption, but for all other assumptions on capital costs $\mu^{VA}_{t}>1$ to some extent.\footnote{Gross output markups are reported in the Appendix. They are not as large in absolute value as the value-added markups, but show similar patterns over time.} 
+
+Doing this calculation provides an additional check on the veracity of the elasticity calculations, as if they imply markups that are unreasonable, it would give us pause in taking them seriously. Figure \ref{FIG_markup} shows, though, that the markups consistent with my estimates of $\epsilon_{Kt}$ are within the range expected from other sources. The depreciation cost estimate (solid black line) forms an upper bound on the gross output markup, just as it forms a lower bound on the elasticity, as this assumption allows for the largest plausible amount of economic profit. The investment cost based markup lies everywhere below the depreciation cost bound, as does the markup derived using the Compustat-based production function estimates. The Compustat-based cost share estimates of the markup go above the depreciation cost bound, in particular after 2010, but as mentioned in the prior sub-section there are a number of reasons that the Compustat based estimates need not stay within bounds dictated solely by national accounts data. Overall, the data in Figure \ref{FIG_markup} show consistent stories from the different sources.
+
+Of note, the value-added markups in Figure \ref{FIG_markup} display a slow but regular rise from around 1980 to at least 2010, at which point they tend to level off. This is consistent with the overall story of rising markups told using different sources, although one has to be careful with direct comparisons. In particular, \cite{dleu2020} document a steep increase in the average \textit{firm-level} markup over time from 1980 to about 2000, and then another significant surge around 2015. That increase is far larger than what is seen in Figure \ref{FIG_markup}. The markups here are based on industry-level costs or production functions derived from firm-level data, but are not directly comparable to average firm-level markups that are the main finding in \cite{dleu2020}. A more apt comparison from \cite{dleu2020} would be their Figure V and the industry-weighted or economy-wide averages they plot. The markups in Figure \ref{FIG_markup} are in line with those series. 
+
+While there is a distinct upward trend in the markups associated with the investment cost assumption or the two Compustat-derived series, in Figure \ref{FIG_dleu_comparison} the capital elasticities associated with these three series of markups did not show any trend. These two findings are consistent and have some implication for how we view changes in market power and factor shares over time. The trendless nature of the elasticities means that capital did not become ``more important'' relative to labor in production. Nevertheless, the increased markups seen in Figure \ref{FIG_markup} imply that profits were taking a larger share of value-added, at least since 1980. The implication is that \textit{both} capital and labor were earning a smaller share of value-added over time, consistent with the findings from \cite{rognlie2015} and \cite{Barkai000} using aggregate data. 
+
+\section{An application to growth accounting}\label{SEC_accounting}
+The estimates I have found for the capital and labor elasticities are relevant to the calculation of total factor productivity (TFP) growth. In particular, common series on TFP growth assume that the labor elasticity can be estimated from labor's share of GDP, and that capital's elasticity is one minus the labor elasticity. These elasticities correspond to the ``no-profit'' scenario I use, and are only applicable if the economy has zero markups or market power. This assumption thus provides a bound on TFP growth over time, but may not reflect actual TFP growth. Here I show TFP growth over time when different assumptions about the elasticities are used. 
+
+The baseline calculation is as follows,
+\begin{equation}
+	d \ln TFP^s_t = d \ln Y_t - \epsilon^s_{Kt} d \ln K_t - \epsilon^s_{Lt} d \ln L_t. \label{EQ_accounting}
+\end{equation}
+The difference in log TFP at time $t$, $d \ln TFP^s_t$, depends on the difference in log output, $d \ln Y_t$ minus the effects that are accounted for by capital growth, $d \ln K_t$, and growth in labor inputs, $d \ln L_t$. The data on output and inputs I take directly from the BLS. Growth in the labor input is made up of two parts, the growth rate of hours and the growth rate of labor quality, the latter of which is imputed by the BLS from the composition of the workforce and relative wages. Capital growth is measured as the growth in capital services, also imputed by the BLS.\footnote{To impute capital service the BLS allocates total capital costs across different types of capital. An implicit assumption in that imputation is that total capital costs are equal to all non-labor value-added, or that there are no profits. I take the BLS capital numbers as given, and only focus on the effect of changing the elasticities in equation (\ref{EQ_accounting}).}
+
+The superscript $s$ in equation (\ref{EQ_accounting}) refers to the assumption used to calculate the elasticities $\epsilon^s_{Kt}$ and $\epsilon^s_{Lt}$. I calculate TFP growth for different values of $s$ corresponding to the main series I described above - no-profit, depreciation costs, investment costs, and user costs - as well as for series using the Compustat-derived estimates of capital costs described in the prior section. By construction, the series of TFP growth calculated using the values of elasticities under the no-profit assumption matches the standard BLS exactly (with minor rounding errors). The other assumptions $s$ yield different series for $d \ln TFP^s_t$.
+
+It is not obvious ex ante whether the growth rates of TFP will be higher or lower than the BLS baseline when I use different assumptions for the elasticities. Overall, the other assumptions give lower values for the capital elasticity, and higher values for the labor elasticity. Whether this leads to higher or lower estimates of TFP growth depends on the relative size of capital growth and labor growth. To the extent that capital growth is \textit{higher} than labor growth, this will tend to lead to \textit{higher} estimates of $d \ln TFP^s_t$ as the elasticities will reduce the implied role of input growth. 
+
+Figure \ref{FIG_tfp_comparison} plots smoothed results for three of the series of $d \ln TFP^s_t$. The light gray lines are simple five-year moving averages (centered on the particular year) for each series. The black lines are the HP-filtered trends in the growth rate of TFP from the different series. I've plotted only the moving averages and trends in the growth rates to focus on the larger movements rather than annual fluctuations. 
+
+There are two things that come out of this Figure. The first and most obvious is that the no-profit assumption - which is the BLS baseline - on the elasticities produces a \textit{lower} bound to the growth rate of TFP over time. The no-profit assumption generates a larger capital elasticity. When combined with the fact that capital tends to grow faster than labor (e.g. capital deepening) this mechanically results in a relatively low rate of TFP growth. Given that the no-profit condition is unlikely to be correct, the standard BLS estimate is understating TFP growth rates by a factor of somewhere between 0.05 and 0.30 percentage points per year, depending on the degree of market power in the economy. For context, the Boskin Commission \citep{boskin1996} estimated that real consumption growth was understated by about 0.90 percentage points due to the overstatement of inflation, so the mis-statement of TFP growth due to the choice of elasticity is up to one-third of that size. The differences compound into significant differences in the level of TFP. If we take the depreciation cost estimates seriously, then TFP in 2018 was 24\% higher than under the no-profit BLS baseline due to the larger TFP growth rate. 
+
+A second implication from Figure \ref{FIG_tfp_comparison} is more subtle. From the Figure the general pattern of productivity growth is similar across the different estimates, despite the differences in the size of the growth rate. TFP growth was around 2.5\% per year up until about 1965, and then there was a decline in TFP growth until 1980, bottoming out around 0.5\% per year. After that there was a resurgence in TFP growth during the late 1990s and early 2000s before a TFP growth slowdown starting just before the financial crisis and extending past it to the end of the data series. In that sense the overall story of productivity growth is not changed by the choice of estimates of $\epsilon_{Kt}$
+
+At the same time, the consequences of the rise in market power documented in Figure \ref{FIG_markup} and broadly throughout the literature are apparent in Figure \ref{FIG_tfp_comparison}. One can see this in the comparison of the Compustat-derived estimate and how it moves between the two bounds formed by the no-profit and depreciation cost estimates. From about 1955 to 1980 the Compustat based estimate lies between, but somewhat closer to, the growth rate formed by the no-profit assumption. Starting in 1980, and very apparent from 1995 to 2000, is that the Compustat based estimate of TFP growth ``shifts'' towards the depreciation cost upper bound on the TFP growth rate, and stays there after 2000. There is a similar shift if one uses the Compustat-derived cost share estimates or the investment cost estimates. 
+
+This shift is the manifestation of the rise in markups documented in the last section. The increase in markups was associated with a decline in the share of value-added being paid to both labor and capital. As \cite{bfshortnote,bfprodge} explain, declines in the share of value-added going to factors of production is the necessary consequence of shifts out of low-markup and into high-markup industries and/or firms. Shifting resources from low-markup to high-markup industries or firms contributes to growth in measured TFP because the economy is using factors to produce more valuable output. 
+
+For the Compustat-based estimate in Figure \ref{FIG_tfp_comparison}, which is the one that is consistent with rising markups, the surge and then fall in productivity growth during and after the IT boom of the 1990s and early 2000s are both larger than what is found using the BLS no-profit baseline. Under the BLS baseline, the growth rate rose of TFP rose by about 1.06 percentage points from 1990 to 2000, and then fell by about 1.18 percentage points from 2000 to 2010. Under the Compustat-derived estimate, TFP growth rose by 1.31 percentage points from 1990 to 2000, and then fell by 1.26 percentage points. The IT revolution and the consequent slowdown are both more dramatic once more realistic numbers for $\epsilon_{Kt}$ are considered rather than the baseline no-profit assumption behind the BLS numbers. 
+
+Table \ref{TAB_tfp_scenario} shows the average annual growth rate of TFP, by decade, under different scenarios. Columns (1) through (3) show estimates based on the elasticities derived solely from national accounts under different assumptions, and columns (4) and (5) show TFP growth using elasticities derived from the Compustat firm-level data, as described in the prior section. The general pattern decade by decade is similar across estimates (e.g. an acceleration in the 1960s, a slowdown in the 1980s) but the overall level of TFP growth differs, and the difference between decades changes depending on which elasticity estimate is used. For example, the drop from 2000-2009 to 2010-2018 under the no-profit scenario in column (1) is 0.22 percentage points (0.76 to 0.54), while under the Compustat-based production function estimate the drop is 0.72 percentage points (1.17 to 0.45).
+
+While the overall narratives surrounding productivity growth remain intact, the choice of elasticities has non-trivial effects on the size of fluctuations and the overall level of TFP achieved. The understatements using the standard BLS methodology lead to general understatments of TFP growth, and dampen the changes in measured TFP growth over time. The effects of this can be equivalent to about one-third of the effect attributed to the overstatement of inflation by the Boskin Commission. Variations on standard productivity accounting techniques to allow for elasticities that are consistent with observed trends in market power may be warranted to get a better picture of productivity growth over time.
+
+\section{Conclusion}\label{SEC_conclusion}
+The elasticities of GDP with respect to capital and labor are central parameters to almost any model of the economy. Values for these elasticities have traditionally been derived from factor share information, leading to the rule of thumb that the capital elasticity is equal to one-third and the labor elasticity two-thirds. 
+
+That rule of thumb requires several strong assumptions, including the existence of an aggregate production function and zero economic profits. In this paper I applied the theory of \cite{bfshortnote,bfprodge} to the calculation of these elasticities, which eliminates those strong assumptions, and allows me to estimate the aggregate elasticities using industry-level data on costs of capital and labor. 
+
+Because of the standard problem of finding capital costs from national accounts data, I create bounds on the elasticities based on different assumptions. An upper bound for the capital elasticity is created by assuming there are zero economic profits, and a lower bound by assuming that depreciation is the only cost of capital. Those bounds indicate a value of the capital elasticity that was \baseearlydepr-\baseearlynoprofit \ from 1948-1995 in the U.S., and \baselatedepr-\baselatenoprofit \ from 1996-2018. If I limit the scope of the economy to the private business sector, or de-capitalize intellectual property from the national accounts, those bounds are shifted down by between 0.03-0.07 in each year. Most of the increase in the bounds after 1995 appears to be due to an increased elasticity with respect to intellectual property capital, while the elasticities with respect to structures and equipment remained stable throughout the period 1948-2018. Elasticities derived to be consistent with Compustat data on publicly traded companies deliver estimates that are in line with these bounds.
+
+The results suggest that the rule of thumb ``alpha equal one-third'' is likely to overstate the size of the capital elasticity, at least for much of the time frame considered, and in particular in the presence of market power. This has consequences for things such as growth accounting. I show that common BLS estimates of the TFP growth rate and level are likely understated, and that the IT-related productivity growth surge in the 1990s and subsequent slowdown in the 21st century were both more severe than typical BLS estimates would suggest.
+
+While the overall results show that the rule of thumb overstates the capital elasticity (and understates the labor elasticity), it is not wildly inaccurate. Going forward, papers that require an estimate of the capital and labor elasticities could use the boundaries I have calculated as part of robustness and sensitivity checks to confirm their results are not due to the specific elasticities chosen. More generally, studies relying on aggregate elasticities as part of calibration or imputations of productivity would be advised to consider the range of values estimated here to ensure they are not basing their findings on extreme values.
+
+\clearpage
+
+\onehalfspacing
+%\renewcommand{\refname}{\textbf{REFERENCES}}
+%\setlength{\bibsep}{1pt}
+{\small
+\bibliographystyle{aea}
+\bibliography{Elasticity.bib}
+}
+
+\clearpage
+
+\begin{figure}[!htb]
+\begin{center}
+\caption{Boundaries for the aggregate capital elasticity, $\epsilon_{Kt}$, U.S. 1948-2018}
+\label{FIG_cap_comparison}
+\includegraphics[width=1.0\textwidth]{fig_cap_base_comparison.eps}
+\end{center}
+\vspace{-.5cm}\singlespacing {\footnotesize \textbf{Notes}: The estimate of the aggregate capital elasticity, $\epsilon_K$, is made using equation (\ref{EQ_E}) under various assumptions explained in detail in the text. The no-profit assumption assumes capital costs equal all value-added minus labor compensation. The depreciation-only assumption assumes capital costs equal the value of depreciation reported. The primary data source for all estimates is the Bureau of Economic Analysis, with input-output tables, capital stocks by industry, compensation by industry, and value-added by industry using different industrial classifications merged according to a methodology described in the Appendix.
+}
+\end{figure}
+
+\clearpage
+
+
+\begin{figure}[!htb]
+\begin{center}
+\caption{Alternative estimates of the aggregate capital elasticity, $\epsilon_{Kt}$, U.S. 1948-2018}
+\label{FIG_all_comparison}
+\includegraphics[width=1.0\textwidth]{fig_cap_all_comparison.eps}
+\end{center}
+\vspace{-.5cm}\singlespacing {\footnotesize \textbf{Notes}: The estimate of the aggregate capital elasticity, $\epsilon_K$, is made using equation (\ref{EQ_E}) under various assumptions explained in the text. The no-profit and depreciation-only bounds are the same as in Figure \ref{FIG_cap_comparison}. The investment cost assumption assumes capital costs equal reported investment, and the user cost assumption assumes capital costs are determined by a standard user cost formula from \cite{halljorg1967}. The primary data source for all estimates is the Bureau of Economic Analysis, with input-output tables, capital stocks by industry, compensation by industry, and value-added by industry using different industrial classifications merged according to a methodology described in the Appendix. Additional information on nominal rates of return and inflations rates used for the user cost calculation is from the Federal Reserve. 
+}
+\end{figure}
+
+\clearpage
+
+
+\begin{figure}[!htb]
+\begin{center}
+\caption{Comparison of estimated elasticity, $\epsilon_{Kt}$, to cost ratio, $s^{Cost}_{Kt}$}
+\label{FIG_ratio_comparison}
+\includegraphics[width=1.0\textwidth]{fig_cap_ratio_comparison.eps}
+\end{center}
+\vspace{-.5cm}\singlespacing {\footnotesize \textbf{Notes}: Estimate of the aggregate capital elasticity, $\epsilon_{Kt}$ are made using (\ref{EQ_E}) under various assumptions explained in the text and denoted in the legend. The cost ratio of capital, $s^{Cost}_{Kt}$, is calculated as in equation (\ref{EQ_scost}) under the same assumptions. There is no separate line for the cost ratio under the no-profit assumption because this is identical to $\epsilon_{Kt}$ by definition.
+}
+\end{figure}
+
+
+\clearpage
+\begin{figure}[!htb]
+\begin{center}
+\caption{Estimates of aggregate capital elasticity, private business sector, U.S. 1948-2018}
+\label{FIG_excl_gov_housing}
+\includegraphics[width=1.0\textwidth]{fig_cap_priv_comparison.eps}
+\end{center}
+\vspace{-.5cm}\singlespacing {\footnotesize \textbf{Notes}: The estimate of the aggregate capital elasticity, $\epsilon_{Kt}$, is made using equation (\ref{EQ_E}) in the text. Dashed lines refer to the upper (no-profit) and lower (depreciation-only) bounds of $\epsilon_{Kt}$ calculated including all industries. The dark lines refer to the upper (no-profit) and lower (depreciation-only) bounds of $\epsilon_{Kt}$ calculated for the private business sector (e.g. excluding owner-occupied housing and government). 
+}
+\end{figure}
+
+\clearpage
+
+\begin{figure}[!htb]
+\begin{center}
+\caption{Estimates of capital elasticity, by type of capital}
+\label{FIG_cap_types}
+\includegraphics[width=1.0\textwidth]{fig_cap_combined_comparison.eps}
+\end{center}
+\vspace{-.5cm}\singlespacing {\footnotesize \textbf{Notes}: The estimates of the capital elasticities for structures ($\epsilon_{st,t}$), equipment ($\epsilon_{eq,t}$), and intellectual property ($\epsilon_{ip,t}$), are made using equation (\ref{EQ_E}) in the text. For each type of capital three estimates are shown, based on assumed cost of capital: no-profit assumption, depreciation cost only, investment costs. See text for details of the three assumptions.
+}
+\end{figure}
+
+\clearpage
+
+\begin{figure}[!htb]
+\begin{center}
+\caption{Estimates of aggregate capital elasticity, de-capitalizing IP, U.S. 1948-2018}
+\label{FIG_noip_comparison}
+\includegraphics[width=1.0\textwidth]{fig_cap_noip_comparison.eps}
+\end{center}
+\vspace{-.5cm}\singlespacing {\footnotesize \textbf{Notes}: The estimate of the aggregate capital elasticity, $\epsilon_{Kt}$, is made using equation (\ref{EQ_E}) in the text. Dashed lines refer to the baseline upper (no-profit) and lower (depreciation-only) bounds of $\epsilon_{Kt}$ calculated with IP included as a capital good. The dark lines refer to the upper (no-profit) and lower (depreciation-only) bounds of $\epsilon_{Kt}$ calculated when IP is de-capitalized from the national accounts as described in the text.
+}
+\end{figure}
+
+\clearpage
+
+\begin{figure}[!htb]
+\begin{center}
+\caption{Estimates of aggregate capital elasticity, including Compustat-derived estimates}
+\label{FIG_dleu_comparison}
+\includegraphics[width=1.0\textwidth]{fig_cap_dleu_comparison.eps}
+\end{center}
+\vspace{-.5cm}\singlespacing {\footnotesize \textbf{Notes}: The estimate of the aggregate capital elasticity, $\epsilon_{Kt}$, is made using equation (\ref{EQ_E}) in the text. The no-profit, depreciation, and investment cost estimates are made using national accounts data, as described in the text. The Compustat-based estimates are made using firm level data following \cite{dleu2020}, with industry capital costs set according to the Compustat firm level data in that industry. This is done using either firm-level cost shares or firm-level production function estimates, as described in the text. 
+}
+\end{figure}
+
+\clearpage
+
+\begin{figure}[!htb]
+\begin{center}
+\caption{Implied aggregate value-added markup, $\mu^{VA}_t$, by capital cost assumption}
+\label{FIG_markup}
+\includegraphics[width=1.0\textwidth]{fig_cap_markupva_comparison_dleu.eps}
+\end{center}
+\vspace{-.5cm}\singlespacing {\footnotesize \textbf{Notes}: The estimated markups are calculated using equation (\ref{EQ_markup}). The first three series (no-profit, depreciation, investment cost) refer to the capital cost assumption used to calculate the industry-level markups that are used to calculate the aggregate markup. The second two series (Compustat cost share and production function) use firm-level data to calculate industry-level capital costs, and then markups are calculated, see text for details. 
+}
+\end{figure}
+
+\clearpage
+
+\begin{figure}[!htb]
+\begin{center}
+\caption{TFP growth rates under different elasticity assumptions, U.S. 1948-2018}
+\label{FIG_tfp_comparison}
+\includegraphics[width=1.0\textwidth]{fig_tfp_comparison.eps}
+\end{center}
+\vspace{-.5cm}\singlespacing {\footnotesize \textbf{Notes}: The yearly growth rate of TFP is calculated from (\ref{EQ_accounting}) which follows the methodology of the BLS. Data on output, capital services, and labor inputs are from \cite{fernald2014}. The yearly growth rate is calculated using three different estimates of elasticities: no-profits (equivalent to the BLS baseline), depreciation costs, and using the Compustat-derived production function estimates in \cite{dleu2020}. Given those yearly growth rates, for each series the figure plots the five-year centered moving average of the growth rate (light gray lines) and the HP filter smoothed trend in the growth rates (dark lines). The HP filter has a smoothing parameter of 40.
+}
+\end{figure}
+
+\clearpage
+
+\begin{table}[!htb]
+\begin{center}
+\label{TAB_series}
+\caption{Industrial classification of data by year}
+\begin{tabular}{lrrrr}
+\midrule
+	    &             & Value-added   & \\
+Series  & I/O tables  & components & Capital stock \\ 
+\midrule
+1948-62 & NAICS 2012 (47 ind) & SIC 1972 & BEA/NAICS 2012 \\
+1963-86 & NAICS 2012 (65 ind) & SIC 1972 & BEA/NAICS 2012 \\
+1987-96 & NAICS 2012 (65 ind) & SIC 1987 & BEA/NAICS 2012 \\
+1997-2018 & NAICS 2012 (71 ind) & NAICS 2012 & BEA/NAICS 2012 \\ 
+\midrule
+\end{tabular}
+\end{center}
+{\footnotesize Notes: This table shows the classifications used for each range of years. The complete mapping of industry data across sources is provided in the Appendix. All data are from the BEA, and described in detail in Section 3.}
+\end{table}
+
+\clearpage
+
+\begin{table}[!htb]
+\begin{center}
+\caption{Estimates of U.S. capital elasticity, $\epsilon_K$, under different assumptions}
+\label{TAB_scenario}
+{\footnotesize
+\begin{tabularx}{\textwidth}{lXXXXXX}
+\midrule
+        & \multicolumn{4}{c}{Summary statistics, $\epsilon_{Kt}$, 1948-2018:}  & \multicolumn{2}{c}{Sub-period means:} \\ \cmidrule(lr){2-5} \cmidrule(lr){6-7}
+ &  Mean & Median  & Minimum & Maximum  & 1948-2000 & 2000-2018 \\
+Assumption & (1) & (2) & (3) & (4) & (5) & (6) \\
+\midrule
+\csname @@input\endcsname tab_scenario_summary.txt 
+%\input{tab_scenario_summary.txt}
+\midrule
+\end{tabularx}
+}
+\end{center}
+\vspace{-.5cm}\singlespacing {\footnotesize \textbf{Notes}: The calculation of $\epsilon_{Kt}$ is described in the text. The panels of the table refer to different assumptions made regarding the inclusion/exclusion of owner-occupied housing and intellectual property capital (the baseline includes both). Within the panel, the rows refer to assumptions about the capital costs by industry, $COST_{iKt}$, that are used to calculate $\epsilon_{Kt}$. The specifics of those assumptions are discussed in the text.
+}
+\end{table}
+
+\clearpage
+
+\begin{table}[!htb]
+\begin{center}
+\caption{Estimates of U.S. capital elasticity, by capital type}
+\label{TAB_type}
+{\footnotesize
+\begin{tabularx}{\textwidth}{lXXXXXX}
+\midrule
+        & \multicolumn{4}{c}{Summary statistics, $\epsilon_{it}$, 1948-2018:}  & \multicolumn{2}{c}{Sub-period means:} \\ \cmidrule(lr){2-5} \cmidrule(lr){6-7}
+ &  Mean & Median  & Minimum & Maximum  & 1948-2000 & 2000-2018 \\
+Variant & (1) & (2) & (3) & (4) & (5) & (6) \\
+\midrule
+\csname @@input\endcsname tab_capital_summary.txt 
+%\input{tab_capital_summary.txt}
+\midrule
+\end{tabularx}
+}
+\end{center}
+\vspace{-.5cm}\singlespacing {\footnotesize \textbf{Notes}: The calculation of $\epsilon_{it}$ with $i \in (st,eq,ip)$ is described in the text. The panels of the table differ in the type of capital (structures, equipment, intellectual property) the elasticity is calculated for. Within each panel, the no-profit variation splits the total capital cost across the three capital types according to the amount of investment spending on that capital type in a given year. User cost, investment cost, and depreciation cost variants use costs of capital for that type calculated directly, according to methods described in the text.
+}
+\end{table}
+
+\clearpage
+
+\begin{table}[!htb]
+\begin{center}
+\caption{Average annual TFP growth (\%), by capital cost assumption}
+\label{TAB_tfp_scenario}
+\begin{tabular}{lccccc}
+\midrule
+        & \multicolumn{5}{c}{Assumption on capital costs:} \\ \cmidrule(lr){2-6}
+        & \multicolumn{3}{c}{National accounts only:} & \multicolumn{2}{c}{Compustat derived:} \\ \cmidrule(lr){2-4} \cmidrule(lr){5-6}
+ &  No-profit & Invest. cost & Depr. cost & Prod. fct. & Cost shares\\
+Years & (1) & (2) & (3) & (4) & (5) \\
+\midrule
+\csname @@input\endcsname tab_tfp_scenario.txt
+\midrule
+\end{tabular}
+\end{center}
+\vspace{-.5cm}\singlespacing {\footnotesize \textbf{Notes}: All growth rates reported in percents. TFP growth is calculated using equation (\ref{EQ_accounting}) to find annual growth rate. For columns (1) through (3) his is done for the private business sector only (excluding government and housing) to match BLS procedures. The different assumptions on capital costs correspond to the $s$ parameter in equation (\ref{EQ_accounting}) and refer to different assumptions about capital costs used to calculate $\epsilon_{Kt}^s$ and $\epsilon_{Lt}^s$. The ``no-profit'' capital cost assumption in column (1) is equivalent to the BLS assumption regarding elasticities. For columns (4) and (5), the estimates of $\epsilon_{Kt}^s$ and $\epsilon_{Lt}^s$ are made using Compustat firm-level data to get industry-level production function estimates or cost shares, respectively. See text for details. For the Compustat-based estimates, the averages in 1950-1959 are for 1955-1959, and the average from 2010-2018 is for 2010-2016, due to limitations in the availability of data.
+}
+\end{table}
+\end{document}

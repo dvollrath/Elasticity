@@ -161,6 +161,28 @@ while r(eof)==0 { // while there are lines in the scenario file
 			qui replace cost_`j' = 0 if missing(cost_`j') // or I/O calcs won't work
 		}
 	} 
+	else if inlist("`capital'","dleu_pf1","dleu_pf2","dleu_cs") { // estimates from DLEU
+		di "--Capital costs using prod functions or cost shares from DLEU"
+		qui capture drop cost_st cost_eq cost_ip
+		qui gen cost_st = ratio_`capital'_cap_noncap*(iogo - iova + cost_comp) // use chosen DLEU ratio of cap/noncap elasticity 
+			// times total non-cap costs. Non-cap costs are intermediate costs (gross output minus value-added) plus labor costs
+			// kludge to use the structures capital cost to hold all types of capital cost, as DLEU doesn't distinguish types
+		qui gen cost_eq = 0 // kludge to keep consistent with 3 types in other scenarios
+		qui gen cost_ip = 0 // kludge to keep consistent with 3 types in other scenarios
+		qui replace include=0 if cost_st==. // exclude from calculation if no matching DLEU coefficient estimate
+		qui keep if inrange(year,1955,2016) // DLEU do not have same year coverage
+	}
+	else if inlist("`capital'","dleu_ps") { // estimates from DLEU
+		di "--Capital costs using profit shares from DLEU"
+		qui capture drop cost_st cost_eq cost_ip
+		qui gen profits = ratio_dleu_ps_profits_go*iogo // use DLEU profit ratio to sales to estimate profits using gross output
+		qui gen cost_st = iova - cost_comp - profits // set capital cost based on profits and labor 
+			// kludge to use the structures capital cost to hold all types of capital cost, as DLEU doesn't distinguish types
+		qui gen cost_eq = 0 // kludge to keep consistent with 3 types in other scenarios
+		qui gen cost_ip = 0 // kludge to keep consistent with 3 types in other scenarios
+		qui replace include=0 if cost_st==. // exclude from calculation if no matching DLEU coefficient estimate
+		qui keep if inrange(year,1955,2016) // DLEU do not have same year coverage
+	}
 	else {
 		di "--No legitimate capial cost assumption made"
 	}

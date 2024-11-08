@@ -35,3 +35,7 @@
 34,Yes,Yes,Yes,deprcost,split,Yes,Yes,BEA
 35,Yes,Yes,Yes,invcost,split,Yes,Yes,BEA
 36,Yes,Yes,Yes,usercost,split,Yes,Yes,BEA
+37,No,No,Yes,dleu_pf1,split,Yes,No,Private
+38,No,No,Yes,dleu_pf2,split,Yes,No,Private
+39,No,No,Yes,dleu_cs,split,Yes,No,Private
+40,No,No,Yes,dleu_ps,split,Yes,No,Private

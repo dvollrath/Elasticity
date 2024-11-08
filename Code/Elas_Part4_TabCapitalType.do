@@ -29,20 +29,19 @@ program file_calc
 	local min_cap = r(min)
 	local max_cap = r(max)
 	
-	reg elas_cap year
-	local reg_slope = _b[year]
-	local reg_se = _se[year]
-	local reg_fit = _b[year]*70
-	local reg_rsquare = e(r2)
+	summ elas_cap if inrange(year,1948,2000)
+	local year_prior = r(mean)
+	summ elas_cap if inrange(year,2000,2018)
+	local year_post = r(mean)
 	
 	file write f_result "`text' &" %9.3f (`mean_cap') "&" %9.3f (`med_cap') ///
-		"&" %9.3f (`min_cap') "&" %9.3f (`max_cap') "&" %9.3f (`reg_fit')  "&"  %9.4f (`reg_slope') ///
-			"&" %9.3f (`reg_rsquare') "\\" _n
+		"&" %9.3f (`min_cap') "&" %9.3f (`max_cap') "&" %9.3f (`year_prior')  "&"  %9.3f (`year_post') ///
+	 "\\" _n
 end
 
 // Structures
 file write f_result "\\" _n // make space for next section of table
-file write f_result "\multicolumn{8}{l}{Panel A: Structures} \\" _n
+file write f_result "\multicolumn{7}{l}{Panel A: Structures} \\" _n
 local samp = "all"
 
 foreach s in 1 3 4 2 {
@@ -56,7 +55,7 @@ foreach s in 1 3 4 2 {
 
 // Equipment
 file write f_result "\\" _n // make space for next section of table
-file write f_result "\multicolumn{8}{l}{Panel B: Equipment} \\" _n
+file write f_result "\multicolumn{7}{l}{Panel B: Equipment} \\" _n
 local samp = "all"
 
 foreach s in 1 3 4 2 {
@@ -70,7 +69,7 @@ foreach s in 1 3 4 2 {
 
 // Intellectual property
 file write f_result "\\" _n // make space for next section of table
-file write f_result "\multicolumn{8}{l}{Panel C: Intellectual property} \\" _n
+file write f_result "\multicolumn{7}{l}{Panel C: Intellectual property} \\" _n
 local samp = "all"
 
 foreach s in 1 3 4 2 {

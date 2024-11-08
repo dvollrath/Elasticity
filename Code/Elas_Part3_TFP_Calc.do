@@ -2,13 +2,22 @@
 Calculate components of TFP decomposition
 */
 
+/*
+Create counter-factual series of elasticities for comparison
+*/
+use "./Work/USA_scenario_annual_results_all.dta", clear
+
+/*
+Create TFP series for selected scenarios
+*/
+
 clear
 save "./Work/USA_tfp_scenario.dta", emptyok replace // create dataset to hold results
 
-foreach s in 5 6 7 8 { // for each baseline scenario
+foreach s in 5 6 7 8 37 38 39 40 { // for each baseline scenario
 	use "./Work/USA_scenario_annual_results_all.dta", clear
 	gen elas_cap = 1 - elas_comp // generate single elasticity for capital
-	keep if inrange(year,1948,2018) // clean-up
+	//keep if inrange(year,1955,2018) // clean-up
 	keep if scenario==`s' // keep only estimates for 
 		// that scenario, with no gov/housing (priv biz sector), and using split prop income
 	

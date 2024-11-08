@@ -19,14 +19,14 @@ foreach series in "4762" "6386" "8796" "9718" { // four distinct series based on
 	insheet using "./CSV/USA_naics`match'_va.csv", clear names comma
 	save "./Work/USA_naics`match'_va.dta", replace
 	
-	merge 1:1 year naics`match'code using "./Work/USA_naics`series'_comp_ratios.dta"
+	merge 1:1 year naics`match'code using "./Work/USA_naics`series'_comp_ratios.dta" // merge labor cost ratios
 	keep if _merge==3
 	drop _merge
 	
-	merge 1:1 year naics`match'code using "./Work/USA_naics`match'_K_ratios.dta"
+	merge 1:1 year naics`match'code using "./Work/USA_naics`match'_K_ratios.dta" // merge capital ratios
 	keep if _merge==3
 	drop _merge
-
+	
 	gen series = "`series'" // store which data series produced the observation
 	label variable series "SIC-NAICS matching used"
 	rename naics`match'code code // rename for merge with I/O table
@@ -41,4 +41,21 @@ foreach series in "4762" "6386" "8796" "9718" { // four distinct series based on
 	
 } // end foreach
 
-save "./Work/USA_naics4718_merged.dta", replace
+save "./Work/USA_naics4718_merged.dta", replace // complete file of all naics/year information
+
+// pull in prod fct estimated coefficients from DLEU at 2-digit level
+insheet using "./CSV/USA_DLEU_theta.csv", clear names comma // create working file of DLEU coefficient estimates
+save "./Work/USA_DLEU_theta.dta", replace
+
+use "./Work/USA_naics4718_merged.dta", clear // use existing naics/year file
+gen ind2d = substr(code,1,2) // get first two chars of NAICS code
+destring ind2d, replace force // destring and set any alphabetic NAICS chars to missing (housing, gov, etc.)
+
+merge m:1 year ind2d using "./Work/USA_DLEU_theta.dta" // match many-to-one
+	// using 2 digits, many naics/year observations will have same 2-digit code, that's okay
+	// implicitly assuming that the industry elasticities are the same in all sub-industries of the 2-digit industry
+	// lots of non-matches: naics/year observations without a DLEU estimate available (no firms or no data from that year)
+	// several non-matches: DLEU has observation for industries 45 and 99, which don't have matching BEA industries in my data
+drop _merge
+
+save "./Work/USA_naics4718_merged.dta", replace // complete file of all naics/year information

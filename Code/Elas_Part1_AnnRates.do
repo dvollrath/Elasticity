@@ -27,7 +27,7 @@ save "./Work/USA_FRED1920_rates.dta", replace
 
 // pull in S&P 500 dividend yield for equity premium
 insheet using "./Data/USA/MULTPL-SP500_DIV_YIELD_MONTH.csv", names clear
-// this fil is a mess with dates
+// this file is a mess with dates
 keep if _n<1000 // only use the first 1000 observations, which corresponds to about 1935-2020
 gen year = substr(date,-2,2) // grab the 2-digit year
 destring year, replace // destring this

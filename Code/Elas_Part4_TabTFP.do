@@ -34,7 +34,7 @@ forvalues y = 1950(10)2010 {
 	summ year if inrange(year,`y',`end')
 	local end = r(max)
 	file write f_result %4.0f (`y') "-" %4.0f (`end')
-	foreach s in 5 8 7 6 {
+	foreach s in 5 7 6 38 39 {
 		preserve
 			keep if scenario==`s' // limit dataset
 			keep if inrange(year,`y',`end')
@@ -49,7 +49,7 @@ local end = 2018
 
 file write f_result "\\" _n
 file write f_result %4.0f (`y') "-" %4.0f (`end')
-foreach s in 5 8 7 6 {
+foreach s in 5 7 6 38 39 {
 	preserve
 		keep if scenario==`s' // limit dataset
 		keep if inrange(year,`y',`end')

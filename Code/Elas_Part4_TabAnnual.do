@@ -3,7 +3,7 @@ Create table of annual results, by assumption
 */
 
 
-foreach s in 1 2 3 4 {
+foreach s in 1 2 3 4 38 39 {
 	use "./Work/USA_scenario_`s'_annual_results.dta", clear
 	keep if inrange(year,1948,2018)
 

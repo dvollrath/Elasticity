@@ -82,8 +82,7 @@ twoway rarea elas_ip_deprcost elas_ip_noprofit year, color(gray) fintensity(10) 
 	xlabel(1950(10)2010 2018) ///
 	graphregion(color(white)) ///
 	xscale(range(1950 2020)) ///
-	legend(cols(3) order(3 "No-profit upper bound" 2 "Depreciation cost lower bound" 4 "Investment cost assumption"))
-	//legend(ring(0) pos(2) cols(1) region(lcolor(white)) order(- "Boundary capital cost assumption:" 3 "No economic profits" 2 "Depreciation only"  - " " "Alternative capital cost assumption:" 4 "Investment cost"))	
+	legend(pos(6) cols(3) order(3 "No-profit upper bound" 2 "Depreciation cost lower bound" 4 "Investment cost assumption"))
 
 graph save "./Work/ip.gph", replace
 graph export "./Drafts/fig_cap_ip_comparison.eps", as(eps) replace fontface("Times New Roman")
@@ -91,3 +90,6 @@ graph export "./Drafts/fig_cap_ip_comparison.eps", as(eps) replace fontface("Tim
 // Combine three capital graphs into single main figure
 graph combine "./Work/st.gph" "./Work/eq.gph" "./Work/ip.gph", iscale(.6) col(1) graphregion(color(white))
 graph export "./Drafts/fig_cap_combined_comparison.eps", as(eps) replace fontface("Times New Roman")
+
+
+	

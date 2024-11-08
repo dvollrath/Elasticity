@@ -1,0 +1,265 @@
+\documentclass[11pt]{article}
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+\usepackage{amsmath}
+\usepackage{verbatim}
+\usepackage[usenames,dvipsnames]{color}
+\usepackage{setspace}
+\usepackage{lscape}
+\usepackage{longtable}
+\usepackage[top=1.25in,bottom=1.25in,left=1in,right=1in]{geometry}
+\usepackage{graphicx}
+\usepackage{epstopdf}
+\usepackage{epsfig}
+\usepackage{fancyhdr}
+\usepackage{booktabs}
+\usepackage{dcolumn}
+\usepackage{arydshln}
+\usepackage{natbib}
+\usepackage{tabularx}
+\usepackage{subfigure}
+\usepackage{hyperref}
+\usepackage{xcolor}
+\usepackage{xr}
+
+\externaldocument{Elasticity-Master}
+
+\hypersetup{
+    colorlinks,
+    linkcolor={red!50!black},
+    citecolor={blue!50!black},
+    urlcolor={blue!80!black}
+}
+
+\newtheorem{proposition}{Proposition}
+\newtheorem{corollary}{Corollary}
+
+\renewcommand{\thetable}{A.\arabic{table}}
+\renewcommand{\thefigure}{A.\arabic{figure}}
+\renewcommand{\thesection}{A.\arabic{section}}
+\renewcommand{\theequation}{A.\arabic{equation}}
+\makeatletter
+\renewcommand{\l@section}{\@dottedtocline{1}{1.5em}{2.6em}}
+\renewcommand{\l@subsection}{\@dottedtocline{2}{4.0em}{3.6em}}
+\renewcommand{\l@subsubsection}{\@dottedtocline{3}{7.4em}{4.5em}}
+\makeatother
+
+\setcounter{MaxMatrixCols}{10}
+\newcolumntype{d}[1]{D{.}{.}{-2.#1}}
+\newenvironment{proof}[1][Proof]{\noindent\textbf{#1.} }{\ \rule{0.5em}{0.5em}}
+\setlength{\columnsep}{.2in}
+%\psset{unit=1cm}
+\newcolumntype{R}{>{\raggedleft\arraybackslash}X}
+
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+
+\begin{document}
+\begin{titlepage}
+\vspace{2in} \noindent {\large \today}
+
+\vspace{.5in} \noindent {\Large \textbf{\strut README: The Elasticity of Aggregate Output with Respect to Capital and Labor}}
+
+\vspace{.25in} \noindent {\large Dietrich Vollrath}
+
+\vspace{.05in} \noindent University of Houston
+
+\vfill \noindent \textsc{Abstract} \hrulefill
+
+\vspace{.05in} \noindent The code and data in this package uses primarily data from the BEA, along with supplemental data from Compustat, the NBER, and FRED. The is entirely in Stata. One master file runs all the code to clean, organize, and analyze the data for all figures and tables in the paper and appendix. The code takes approximately 15-60 minutes to run depending on machine. 
+ 
+\vspace{.1in} \hrule
+
+\vspace{.1in} \noindent {\small Contact information: 201C McElhinney Hall, U. of Houston, Houston, TX 77204, devollrath@uh.edu.}
+\end{titlepage}
+
+\pagebreak 
+
+\tableofcontents
+\listoffigures
+\listoftables
+
+\section{Data availability statement}
+\onehalfspacing There are several main types of data used, which differ in their availability and retrieval.
+
+\subsection{Public data downloads}
+For each of the files in the following table I accessed the source listed and downloaded the data in the listed file. The URL for each source is available in the references for the given citation. In each case the data files were downloaded and are unaltered by me.
+
+\begin{longtable}{p{4.5in}p{1in}p{1in}}
+File & Location & Provided \\
+\midrule \\
+\multicolumn{3}{l}{Historical Multi-factor Productivity, \cite{blsdata}} \\ \midrule
+BLS\_mfp\_historical.csv & Data/USA & TRUE \\
+\\ 
+\multicolumn{3}{l}{Input-output accounts, \cite{beaio}} \\ \midrule
+ImportMatrices\_Before\_Redefinitions\_SUM\_1997-2020.xlsx & Data/USA & TRUE \\
+IOMake\_Before\_Redefinitions\_1947-1962\_Summary.xlsx & Data/USA & TRUE \\
+IOMake\_Before\_Redefinitions\_1963-1996\_Summary.xlsx & Data/USA & TRUE \\
+IOMake\_Before\_Redefinitions\_PRO\_1997-2020\_Summary.xlsx  & Data/USA & TRUE \\
+IOUse\_Before\_Redefinitions\_PRO\_1947-1962\_Summary.xlsx  & Data/USA & TRUE \\
+IOUse\_Before\_Redefinitions\_PRO\_1963-1996\_Summary.xlsx  & Data/USA & TRUE \\
+IOUse\_Before\_Redefinitions\_PRO\_1997-2018\_Summary.xlsx  & Data/USA & TRUE \\
+IxI\_TR\_1997-2020\_PRO\_SUM.xlsx & Data/USA & TRUE \\
+\\
+\multicolumn{3}{l}{Integrated Macroeconomic Accounts, \cite{beaimap}} \\ \midrule
+Section1All\_xls.xlsx  & Data/USA & TRUE \\
+\\
+\multicolumn{3}{l}{Private Fixed Assets by Industry, \cite{beacap}} \\ \midrule
+Section3All\_xls.xlsx  & Data/USA & TRUE \\
+\\
+\multicolumn{3}{l}{Income and Employment by Industry, \cite{beasection6}} \\ \midrule
+Section6All\_xls.xlsx  & Data/USA & TRUE \\
+\\
+\multicolumn{3}{l}{Government Fixed Assets, \cite{beagov}} \\ \midrule
+Section7All\_xls.xlsx  & Data/USA & TRUE \\
+\\
+\multicolumn{3}{l}{Historical Industry Accounts Data, \cite{beahistind}} \\ \midrule
+GDPbyInd\_VA\_SIC.xls & Data/USA & TRUE \\
+\\
+\multicolumn{3}{l}{Utilization-adjusted TFP, \cite{fernald2014}} \\ \midrule
+quarterly\_tfp.xlsx & Data/USA & TRUE \\
+\\
+\multicolumn{3}{l}{Historical Mortgage Rates, \cite{nberhistory}} \\ \midrule
+m13045.txt & Data/USA & TRUE \\
+m13058.txt & Data/USA & TRUE \\
+\\
+\multicolumn{3}{l}{Historical S\&P Dividend Yield, \cite{shiller}} \\ \midrule
+MULTPL-SP500\_DIV\_YIELD\_MONTH.csv & Data/USA & TRUE \\
+\\
+\multicolumn{3}{l}{Historical S\&P Dividend Yield, \cite{shiller}} \\ \midrule
+MULTPL-SP500\_DIV\_YIELD\_MONTH.csv & Data/USA & TRUE \\
+\end{longtable}
+
+\subsection{Public data retrievals}
+In some cases I am using public data that is retrieved by the code using the ``freduse'' package in Stata, which accesses FRED, Federal Reserve Bank of St. Louis, \url{https://fred.stlouisfed.org/series} service. This table contains, by script, a description of the FRED identifier used to make the call, as well as a source of the original data.
+
+\begin{longtable}{p{2in}p{1.5in}p{2.5in}}
+Description & Identifier & Citation \\
+\midrule
+\\
+\multicolumn{3}{l}{Code/Elas\_Part1\_AnnInfl.do} \\ \midrule
+Non-residential inflation & A009RV1A225NBEA &  \cite{fedint}\\
+Residential inflation & A011RV1A225NBEA & \cite{fedint}\\
+Equipment inflation & Y033RV1A225NBEA  &  \cite{fedint}\\
+IP inflation & Y001RV1A225NBEA  &  \cite{fedint} \\
+\\
+\multicolumn{3}{l}{Code/Elas\_Part1\_AnnRates.do} \\ \midrule
+Prime rate & MPRIME &  \cite{fedint}\\
+10-yr Treasury rate & GS10 & \cite{fedint}\\
+Corporate AAA rate & AAA  &  \cite{moodys}\\
+Corporate BAA rate & BAA  &  \cite{moodys} \\
+Three month paper & WCP3M  &  \cite{moodys} \\
+Double A paper & DCPN3M  &  \cite{moodys} \\
+Federal funds rates & FEDFUNDS  &  \cite{fedint} \\
+Corporate profits &  CP & \cite{beaimap} \\
+Profits before tax &  A053RC1Q027SBEA & \cite{beaimap} \\
+Muni rate &  M13043USM156NNBR & \cite{moodys} \\
+30-year mortgage rate &  MORTGAGE30US & \cite{moodys} \\
+\end{longtable}
+
+\subsection{Restricted data}
+Firm-level data from Compustat was used replicate the estimates of industry-level elasticities in \cite{dleu2020}. This is obtained through Wharton Research Data Services (WRDS). The firm-level extract was done according to the replication instructions found at \url{https://dataverse.harvard.edu/dataset.xhtml?persistentId=doi:10.7910/DVN/5GH8XO}. Of note, their extract instructions do not include all the required variables. The following variables were extracted: SALE, COGS, XLR, XSGA, PPEGT, PPENT, INTAN, XRD, XAD, EMP, MKVALT, DVT, INDUSTRY INFO (NAICS), PRCC\_F, OIBDP, CSHO
+
+This is restricted-access data, available only to subscribers, so is not posted to the archive for this paper. The extract can be reproduced following the instructions given by the \cite{dleu2020} replication package and included the above list of variables. I obtained the extract through the University of Houston's arrangement with WRDS. The extract used in the paper can be made available to data editors and/or replicators of the paper under certain restrictions on sharing of that data. 
+
+A copy of the replication code from \cite{dleu2020} is contained in folder Code/RMP\_DLEU in the replication archive for this project.
+
+\subsection{Control files}
+The ``data'' for this paper contains several files created by me to perform mappings between different industrial classification systems, and to control the assumptions used in different robustness checks on the results. As these files were created by me I've provided more details on what is in each file. All of these files are included in the replication package.
+
+\textbf{Data/scenarios.csv}: This file lists control parameters for different scenarios used in the code. Each scenario corresponds to a different estimate of the capital elasticity. The fields are used in Code/Elas\_Part3\_Scenarios.do to create the data file used in the estimate for that scenario. The file provided allows for all of the results in the paper to be produced. 
+
+\textbf{Data/USA\_bea\_naics\_map.xlsx}: This file contains multiple tabs which correspond to different mappings of industry codes between sources. A "Notes" tab provides further details. This file is used by the code to assign NAICS industry codes to industry data coming from different sources at the BEA.
+
+\textbf{Data/USA\_sic72\_naics\_map.xlsx}: This file contains the map of SIC 72 industrial codes to NAICs industrial codes. 
+
+\textbf{Data/USA\_sic87\_naics\_map.xlsx}: This file contains the map of SIC 87 industrial codes to NAICs industrial codes. 
+
+\section{Computational Requirements}
+The Code/Elas\_MASTER.do script controls the entire replication. At the beginning of that script is a "cd" command that will have to be changed to point towards the folder within which the replication package was downloaded. All subsequent code, data, and output references are relative to to that directory. Executing the Code/Elas\_MASTER.do script should be a full replication.
+
+All code is Stata. Code was last run using Stata 18. Required Stata packages:
+\begin{itemize}
+	\item \texttt{freduse}. Installed 2023-11-01. Note that your computer needs internet connection to access FRED.
+\end{itemize}
+
+Run time is betwen 15-60 minutes. Code was last run on a 2020 4-core iMac with M1 chip and 8GB RAM using MacOS 12.12.1. It took approximately 18 minutes to run to completion.
+
+\section{Description of Code}
+The code is broken down into several larger sections. The scripts in each section are indicated by X in the naming convention Code/Elas\_PartX\_<scriptname>.do.
+
+\begin{itemize}
+	\item Code/Elas\_MASTER.do is, as indicated, the master control script. Executing this will replicate the entire project.
+	\item Code/Elas\_Part1\_<scriptname>.do are scripts that extract data from files or FRED. It produces files that are stored in the CSV directory for use by later scripts. 
+	\item Code/Elas\_Part2\_<scriptname>.do are scripts that mainly do the industry-code matching to data from disparate sources in Part 1. Part 2 produces a single baseline file of data that Part 3 uses to perform estimations.
+	\item Code/Elas\_Part3\_<scriptname>.do are scripts that use the baseline data and estimates the elasticity for each scenario given in the Data/scenarios.csv file. 
+	\item Code/Elas\_Part4\_<scriptname>.do are scripts that use the estimates from Part 3 to produce all tables and figures from the paper and appendix. 
+\end{itemize}
+
+\section{Instructions to Replicators}
+\begin{enumerate}
+	\item Download the replication package and note the directory into which it was downloaded. There should be two folders downloaded: "Code" and "Data"
+	\item Edit the "cd" command in Code/Elas\_MASTER.do, line 16, to point towards the directory into which you downloaded the replication.
+	\item Excecute Code/Elas\_MASTER.do. It will check for, and create if necessary, other sub-folders required for replication. It will install necessary Stata packages. It will call and execute all other code to replicate the results in the paper.
+	\item Check folder "Drafts" for the raw output of figures and tables.
+\end{enumerate}
+
+\section{List of tables and figures}
+This explains where every table and figure in the paper (and appendix) are produced in the code. Of note, Table 1 in the main paper and Table A.1 in the Appendix contain information on data sources and are not produced using any code. 
+
+\subsection{Main paper}
+\begin{longtable}{p{.75in}p{2.5in}p{2.5in}}
+Name & Script & Output file \\ \midrule
+Figure 1 & Elas\_Part4\_FigBaseline.do & fig\_cap\_base\_comparison.eps \\
+Figure 2 & Elas\_Part4\_FigBaseline.do & fig\_cap\_all\_comparison.eps \\
+Figure 3 & Elas\_Part4\_FigRatios.do & fig\_cap\_ratio\_comparison.eps \\
+Figure 4 & Elas\_Part4\_FigPrivBus.do & fig\_cap\_priv\_comparison.eps \\
+Figure 5 & Elas\_Part4\_FigCapitalType.do (93) & fig\_cap\_combined\_comparison.eps \\
+Figure 6 & Elas\_Part4\_FigNoIP.do & fig\_cap\_noip\_comparison.eps \\
+Figure 7 & Elas\_Part4\_FigDLEU.do & fig\_cap\_dleu\_comparison.eps \\
+Figure 8 & Elas\_Part4\_FigMarkupDLEU.do (52) & fig\_cap\_markupva\_comparison\_dleu.eps \\
+Figure 9 & Elas\_Part4\_FigTFP.do (23) & fig\_tfp\_comparison.eps \\
+Table 2  & Elas\_Part4\_TabBaseline.do & tab\_scenario\_summary.txt \\
+Table 3  & Elas\_Part4\_TabCapitalType.do & tab\_capital\_summary.txt \\
+Table 4  & Elas\_Part4\_TabTFP.do  & tab\_tfp\_scenario.txt \\
+\midrule
+\end{longtable}
+
+\subsection{Appendix}
+\begin{longtable}{p{.75in}p{2.5in}p{2.5in}}
+Name & Script & Output file \\ \midrule
+Figure A.1 & Elas\_Part4\_FigPropInc.do & fig\_cap\_prop\_comparison.eps \\
+Figure A.2 & Elas\_Part4\_FigMarkCap.do & fig\_cap\_share\_markup\_ind.eps \\
+Figure A.3 & Elas\_Part4\_FigMarkCap.do & fig\_cap\_share\_intshare\_ind.eps \\
+Figure A.4 & Elas\_Part4\_FigBounds.do & fig\_cap\_bounds\_comparison.eps \\
+Figure A.5 & Elas\_Part4\_FigMarkupDLEU.do (39) & fig\_cap\_markupgo\_comparison.eps \\
+Figure A.6 & Elas\_Part4\_FigOlleyPakes.do & fig\_cap\_op\_comparison.eps \\
+Figure A.7 & Elas\_Part4\_FigBreaks.do & fig\_cap\_break\_comparison.eps \\
+Figure A.8 & Elas\_Part4\_FigGovCapital.do & fig\_cap\_govcapital\_comparison.eps \\
+Figure A.9 & Elas\_Part4\_FigNegCost.do & fig\_cap\_neg\_comparison.eps \\
+Table A.2 & Elas\_Part4\_TabMatch.do (7) & tab\_match\_sic72\_4762part1.txt \\
+Table A.3 & Elas\_Part4\_TabMatch.do (9) & tab\_match\_sic72\_4762part2.txt \\
+Table A.4 & Elas\_Part4\_TabMatch.do (36)& tab\_match\_sic72\_6386part1.txt \\
+Table A.5 & Elas\_Part4\_TabMatch.do (38) & tab\_match\_sic72\_6386part2.txt \\
+Table A.6 & Elas\_Part4\_TabMatch.do (66) & tab\_match\_sic87\_8796part1.txt \\
+Table A.7 & Elas\_Part4\_TabMatch.do (68) & tab\_match\_sic87\_8796part2.txt \\
+Table A.8 & Elas\_Part4\_TabRobust.d (7) & tab\_tr\_summary1.txt \\
+Table A.9 & Elas\_Part4\_TabRobust.d (9) & tab\_tr\_summary2.txt \\
+Table A.10 & Elas\_Part4\_TabImport.do (7) & tab\_import\_summary1.txt \\
+Table A.11 & Elas\_Part4\_TabImport.do (9) & tab\_import\_summary2.txt \\
+Table A.12 & Elas\_Part4\_TabCosts.do & tab\_cost\_summary.txt \\
+Table A.13 & Elas\_Part4\_TabHouseGov.do & tab\_cost\_hsgov.txt \\
+Table A.14 & Elas\_Part4\_TabAnnual.do & tab\_elas\_noprofit\_annual.txt \\
+Table A.15 & Elas\_Part4\_TabAnnual.do & tab\_elas\_deprcost\_annual.txt \\
+Table A.16 & Elas\_Part4\_TabAnnual.do & tab\_elas\_invcost\_annual.txt \\
+Table A.17 & Elas\_Part4\_TabAnnual.do & tab\_elas\_usercost\_annual.txt \\
+\midrule
+\end{longtable}
+
+\onehalfspacing
+%\renewcommand{\refname}{\textbf{REFERENCES}}
+%\setlength{\bibsep}{1pt}
+{\small
+\bibliographystyle{aea}
+\bibliography{Elasticity.bib}
+}
+
+\end{document}

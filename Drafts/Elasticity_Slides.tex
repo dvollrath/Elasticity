@@ -1,6 +1,6 @@
 %-------------------------------------STYLES----------------------------------------------------------------%
 
-\documentclass[10pt, xcolor=dvipsnames]{beamer}
+\documentclass[10pt,xcolor=dvipsnames]{beamer}
 
 %\mode<presentation>
 %{
@@ -8,7 +8,7 @@
 %\setbeamercovered{transparent}
 %} 
 \usefonttheme{professionalfonts}
-\usecolortheme{beaver}
+\usecolortheme{dolphin}
 
 \usepackage{setspace}
 \usepackage[english]{babel}
@@ -68,12 +68,12 @@
 %-------------------------------------------Title---------------------------------------------------%
 
 
-\title[Aggregate elasticities]{The Elasticity of Aggregate Output with Respect to Labor and Capital}
+\title[Aggregate elasticities]{The Elasticity of Aggregate Output \\ with Respect to Labor and Capital}
 
-\author[Vollrath]{Dietrich Vollrath \inst{1}}
-\institute[UH]{\inst{1} University of Houston}
+\author[Vollrath]{Dietrich Vollrath}
+\institute[UH]{University of Houston}
 
-\date[April 2022]{}
+\date[January 2024]{}
 
 %-------------------------------------------Slides---------------------------------------------------%
 
@@ -84,44 +84,78 @@
 
 \begin{frame}{Research questions}\label{define}
 
+Questions:
 \begin{itemize}
   \item What are the elasticities of GDP with respect to capital and labor?
   \item Have those elasticities changed over time?
-  \item Are those elasticities similar across countries? 
 \end{itemize}
 
-\end{frame}
-
-\begin{frame}{Summary}
-
-This paper answers those questions:
+\pause
+\vspace{.25in}
+Our ``rule of thumb'' is that capital elasticity is $\alpha = 1/3$:
 \begin{itemize}
-  \item Calculate elasticities for US 1948-2018, OECD 1995-2015
-  \item Applies the methodology of Baqaee and Farhi (2017, 2018)
-  \item Industry-specific cost structure, market power, and input-output relationships
-  \item Creates bounds for those elasticities given issues with measuring capital costs
+  \item Presumes a coherent aggregate production function
+  \item Is based on labor's share of total GDP; presumes zero profits
 \end{itemize}
 
 \end{frame}
 
-\begin{frame}{Preview of U.S. results}
+
+\begin{frame}{Why do we care?}
+
+The answer informs us on:
+\begin{itemize}
+  \item Relative importance of labor and capital as factors
+  \item Convergence speed, transition dynamics
+  \item Distribution of GDP to labor, capital, profits
+  \item TFP growth rate
+  \item Macro calibrations
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{This paper}
+
+Estimate elasticities with looser assumptions:
+\begin{itemize}
+  \item Industry-specific elasticities linked through input/output network
+  \item Allow for arbitrary market power at industry level
+  \item Bound the estimates given issues in measuring capital costs
+  \item Applies methodology in Baqaee and Farhi (2017, 2018)
+\end{itemize}
+
+\pause
+\vspace{.25in}
+Scope of work:
+\begin{itemize}
+  \item Provide estimates for US 1948-2018
+  \item Evaluate influence of industry and capital types (e.g. IP, housing)
+  \item Re-assess estimates of TFP growth 1948-2018
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{Preview of results}
 
 Robert Solow was kind-of, sort-of right?
 
 \begin{center}
-\includegraphics[width=0.9\textwidth]{fig_cap_base_comparison.eps}
+\includegraphics[width=\textwidth]{fig_cap_base_comparison.eps}
 \end{center}
 
 \end{frame}
 
-\begin{frame}{Relevance and contribution}
+\begin{frame}{Why do we care?}
 
 The answer informs us on:
 \begin{itemize}
-  \item Consequences of aggregate shocks
-  \item Convergence speed, transition dynamics
-  \item Distribution of GDP to labor, capital, profits
-  \item Validity of decades of macro papers calibrated using $\alpha = 1/3$
+  \item Relative importance of labor and capital as factors $\rightarrow$ labor matters more?
+  \item Convergence speed, transition dynamics $\rightarrow$ shocks dissipate faster?
+  \item Distribution of GDP to labor, capital, profits $\rightarrow$ profits lowered labor share?
+  \item TFP growth rate $\rightarrow$ higher, but bigger swings in 1990s/2000s
+  \item Macro papers calibrated using $\alpha = 1/3$ $\rightarrow$ kinda right?
 \end{itemize}
 
 \end{frame}
@@ -142,10 +176,18 @@ Differences and similarities:
 \end{frame}
 
 
+\begin{frame}{Theoretical Roadmap}
 
+Capital elasticity (same logic for labor elasticity) is $\epsilon_K$:
+\begin{itemize}
+  \item $\epsilon_K$ is weighted sum of industry-level capital elasticities
+  \item Industry-level capital elasticities are inferred from capital cost shares (industry-level cost minimization, Shepherd's lemma)
+  \item Weights reflect both industry's share of final use and their share of \textit{costs} in other industries (I/O relationships)
+\end{itemize}
+\end{frame}
 
 \begin{frame}{Theoretical setting}
-\textbf{Borrowed completely from Baqaee and Farhi (2017, 2018)}
+\textbf{Borrowed from Baqaee and Farhi (2017, 2018)}
 \vspace{.25in}
 
 Each industry $i$ has constant-returns cost function. Industry $i$ has costs as follows:
@@ -179,24 +221,31 @@ and for factors of production as
 \end{frame}
 
 \begin{frame}{Theoretical setting}
-Build the matrix of cost shares
+Build a matrix of intermediate cost shares
 
 \begin{equation}
   \Lambda = 
   \begin{bmatrix}
-    \lambda_{11} & \lambda_{12} & \cdots & \lambda_{1J} & \lambda_{1K} & \lambda_{1L} \\
-    \lambda_{21} & \lambda_{22} & \cdots & \lambda_{2J} & \lambda_{2K} & \lambda_{2L} \\
-    \vdots       & \vdots       & \ddots & \vdots       & \vdots       & \vdots  \\
-    \lambda_{J1} & \lambda_{J2} & \cdots & \lambda_{JJ} & \lambda_{JK} & \lambda_{JL} \\
-    0 & 0 & \cdots & 0 & 0& 0 \\
-    0 & 0 & \cdots & 0 & 0& 0 \\
+    \lambda_{11} & \lambda_{12} & \cdots & \lambda_{1J} \\
+    \lambda_{21} & \lambda_{22} & \cdots & \lambda_{2J} \\
+    \vdots       & \vdots       & \ddots & \vdots       \\
+    \lambda_{J1} & \lambda_{J2} & \cdots & \lambda_{JJ}
   \end{bmatrix}
 \end{equation}
 
-where labor and capital are treated as ``industries'' that provide an input to other industries.
+and a matrix of factor cost shares
+
+\begin{equation}
+  B = 
+  \begin{bmatrix}
+    \lambda_{1K} & \lambda_{1L} \\
+    \lambda_{2K} & \lambda_{2L} \\
+    \vdots       & \vdots       \\
+    \lambda_{JK} & \lambda_{JL}
+  \end{bmatrix}
+\end{equation}
 
 \end{frame}
-
 
 \begin{frame}{Theoretical setting}
 Final use shares of GDP. Let $GDP = \sum_{j=1}^J F_j$, where $F_j$ is final use of $j$, then
@@ -213,46 +262,41 @@ Collect in a vector,
     \gamma_2 &
     \cdots &
     \gamma_J &
-    0 &
-    0
   \end{bmatrix}
 \end{equation}
 
 \end{frame}
 
 \begin{frame}{Theoretical setting}
-Calculate ``cost-based'' Domar weights - final-use weights times the Leontief inverse. 
+Baqaee and Farhi show that elasticities with respect to capital ($\epsilon_K$) and labor ($\epsilon_L$) are as follows:
 
 \begin{equation}
-  E = \Gamma' (I - \Lambda)^{-1} \label{EQ_E}
-\end{equation}
-
-The structure of $E$ is as follows,
-
-\begin{equation}
-  E = 
   \begin{bmatrix}
-    \epsilon_1 &
-    \epsilon_2 &
-    \cdots &
-    \epsilon_J &
     \epsilon_K &
     \epsilon_L
   \end{bmatrix}
+  =
+  \Gamma' (I - \Lambda)^{-1} B
 \end{equation}
 
 \end{frame}
 
+\begin{frame}{Theoretical intuition}
+Look at capital elasticity to break down:
 
-\begin{frame}{Theoretical setting}
-Baqaee and Farhi prove that the entries $\epsilon_K$ and $\epsilon_L$ are the elasticity of GDP with respect to the aggregate stock of $K$ and $L$. 
+\begin{equation}
+  \epsilon_K = \sum_{j}^{J} \left(\sum_{i}^{J} \gamma_i \ell_{ij} \right) \lambda_{jK}
+\end{equation}
 
 \begin{itemize}
-  \item Domar weights capture elasticity of GDP w.r.t. productivity in industry $i$, capturing downstream and upstream effects
-  \item For labor and capital ``industries'', productivity increase is expansion of their supply.
-  \item Only downstream effects of labor and capital, as they purchase no inputs.
-  \item ``Cost-based'' Domar weights deals with arbitrary markups of prices over costs in industries. 
+  \item $\gamma_i $: dollars of $i$ in final use
+  \item $\ell_{ij}$: from Leontief inverse $(I - \Lambda)^{-1}$, cost to $j$ of producing one dollar of $i$ given all I/O relationships
+  \item $\lambda_{jK}$: share of costs of $j$ that are used on capital (capital elasticity for $j$)  
 \end{itemize}
+
+\vspace{.25in}
+
+The weight on each $\lambda_{jK}$ is cost to $j$ of producing all final use
 
 \end{frame}
 
@@ -260,47 +304,20 @@ Baqaee and Farhi prove that the entries $\epsilon_K$ and $\epsilon_L$ are the el
 This nests your favorite methods for estimating $\epsilon_K$ and $\epsilon_L$.
 \vspace{.25in}
 
-Solow (1957)
 \begin{itemize}
-  \item No I/O structure: $\lambda_{ij} = 0$ for any two industries
-  \item Zero profits: $\lambda_{iK} = RK_i/VA_i$ and $\lambda_{iL} = wL_i/VA_i$
-  \item Result is that $\epsilon_K = RK/Y$ and $\epsilon_L = wL/Y$
+  \item Solow (1957): $\lambda_{ij} = 0$ (no I/O) and $\lambda_{iK} = RK_i/VA_i$ (zero profits)
+  \item Hulten (1978): $\lambda_{ij} \neq 0$ (I/O) and $\lambda_{iK} = RK_i/VA_i$ (zero profits)
+  \item Hall (1988, 1990): $\lambda_{ij} = 0$ (no I/O) and $\lambda_{iK} = RK/(RK+wL)$ (profits)
 \end{itemize}
 
 \end{frame}
 
-\begin{frame}{Theoretical setting}
-
-Hall (1988, 1990)
-\begin{itemize}
-  \item No I/O structure: $\lambda_{ij} = 0$ for any two industries
-  \item Non-zero profits: $\lambda_{iK} = RK_i/(RK_i + wL_i)$ and $\lambda_{iL} = wL_i/(RK_i + wL_i)$
-  \item Result is that $\epsilon_K = RK/(RK+wL)$ and $\epsilon_L = wL/(RK+wL)$
-  \item Aside on markup ($\mu$) and shares of GDP (similar for labor):
-    \begin{equation}
-      \epsilon_K = \frac{Y}{RK+wL}\frac{RK}{Y} = \mu \frac{RK}{Y}
-    \end{equation}
-\end{itemize}
-
-\end{frame}
-
-\begin{frame}{Theoretical setting}
-
-Hulten (1978)
-\begin{itemize}
-  \item I/O structure: $\lambda_{ij} \neq 0$ for any two industries
-  \item Zero profits: $\lambda_{iK} = RK_i/VA_i$ and $\lambda_{iL} = wL_i/VA_i$
-  \item Result is that $\epsilon_K = RK/Y$ and $\epsilon_L = wL/Y$
-  \item Envelope result. No distortions so I/O structure is irrelevant
-\end{itemize}
-
-\end{frame}
 
 \begin{frame}{Implementation}
 Big issues in plugging data into the Baqaee and Farhi structure given national accounts. Simplifying
 
 \begin{equation}
-  GDP = COMP + TAX + PROP + ROS
+  VA = COMP + TAX + PROP + ROS
 \end{equation}
 
 Cannot cleanly extract labor or capital costs for any industry
@@ -313,7 +330,7 @@ Problem measuring costs ....
 
 \end{frame}
 
-\begin{frame}{Implementation}
+\begin{frame}{Implementation}\label{Smatch}
 ....and the industry definitions are not consistent over time.
 
 \vspace{.25in}
@@ -327,19 +344,21 @@ Series  & I/O table  & National accounts & Capital Stock \\ \hline
 \end{tabular}
 
 \vspace{.25in} All data is from the BEA. Used BEA crosswalks and own assumptions to map all data into NAICS 2012 coding that matched the I/O tables.
+
+\vspace{.25in} \hfill \hyperlink{Amatch}{\beamerbutton{Matching}}
 \end{frame}
 
-\begin{frame}{Implementation}
+\begin{frame}{Implementation}\label{Smakeuse}
 Absence of precise cost information for capital and labor. Strategy:
 
 \begin{itemize}
-  \item I/O table reports actual costs of intermediates, no problem
+  \item I/O table reports actual costs of intermediates (sort of)
   \item Allocate proprietors income to calculate labor costs
   \item Construct different series of $\epsilon_K$ and $\epsilon_L$ based on capital cost assumptions
   \item Try to \textit{bound} the elasticities based on theory/data
-  \item Undertake variations on assumptions, do they stay in bounds?
+  \item Undertake variations on assumptions
 \end{itemize}
-
+\vspace{.25in} \hfill \hyperlink{Amakeuse}{\beamerbutton{I/O costs}}
 \end{frame}
 
 \begin{frame}{Implementation}
@@ -353,7 +372,7 @@ This follows Gomme and Rupert (2004).
 
 \end{frame}
 
-\begin{frame}{Implementation}
+\begin{frame}{No-profit upper bound}
 \textbf{Capital costs}: Set the \textit{upper bound} for capital costs by assuming there are zero profits.
 
 \begin{equation}
@@ -364,13 +383,13 @@ Gives an \textit{upper bound} for $\epsilon_K$. Note this will be the \textit{lo
 
 \end{frame}
 
-\begin{frame}{Implementation}
+\begin{frame}{No-profit upper bound}
 \begin{center}
-\includegraphics[width=0.8\textwidth]{fig_cap_base_comparison.eps}
+\includegraphics[width=\textwidth]{fig_cap_base_comparison.eps}
 \end{center}
 \end{frame}
 
-\begin{frame}{Implementation}
+\begin{frame}{Depreciation lower bound}
 \textbf{Capital costs}: Set the \textit{lower bound} for capital costs by using the cost of depreciation ($DEPR_{it}$), which is reported by industry. Assumes zero financing costs of existing capital stock.
 
 \begin{equation}
@@ -381,13 +400,13 @@ Gives an \textit{lower bound} for $\epsilon_K$. Note this will be the \textit{up
 
 \end{frame}
 
-\begin{frame}{Implementation}
+\begin{frame}{Depreciation lower bound}
 \begin{center}
-\includegraphics[width=0.8\textwidth]{fig_cap_base_comparison.eps}
+\includegraphics[width=\textwidth]{fig_cap_base_comparison.eps}
 \end{center}
 \end{frame}
 
-\begin{frame}{Implementation}
+\begin{frame}{Alternative estimates}
 \textbf{Capital costs}: Total investment ($INV_{it}$) is reported by industry. Combines replacement of depreciation and purchase of new capital goods. In Golden rule world $INV = RK$. 
 
 \begin{equation}
@@ -398,13 +417,13 @@ Calculate $\epsilon_K$ and $\epsilon_L$.
 
 \end{frame}
 
-\begin{frame}{Implementation}
+\begin{frame}{Alternative estimates}
 \begin{center}
-\includegraphics[width=0.8\textwidth]{fig_cap_all_comparison.eps}
+\includegraphics[width=\textwidth]{fig_cap_all_comparison.eps}
 \end{center}
 \end{frame}
 
-\begin{frame}{Implementation}
+\begin{frame}{Alternative estimates}\label{Susercost}
 \textbf{Capital costs}: Calculate the user cost of capital by industry. Three types of capital (structure, equipment, IP).
 
 \begin{equation}
@@ -426,74 +445,23 @@ is the rental rate of each type.
   \item $z_{jt}$: depreciation allowance for capital type $j$ in tax code (BEA)
   \item $\tau_t$: effective corporate tax rate (BEA)
 \end{itemize}
-
+\vspace{.25in} \hfill \hyperlink{Ausercost}{\beamerbutton{Details}}
 \end{frame}
 
-%\begin{frame}{Implementation}
-%...and $Int_{it}$ defined as
-%
-%\begin{equation}
-%    Int_{it} = \sum_m s_{imt} Int_{mt}
-%\end{equation} 
-%
-%\begin{itemize}
-%  \item $s_{imt}$ shares of financing from source $m$ (e.g. mortgages, corp bonds). From Fed Flow of Funds.
-%  \item $Int_{mt}$ are source-specific interest rates (e.g. 30-year mortgage rate, 30-year AAA bond rate). From Fed.
-%\end{itemize}
-
-%\end{frame}
-
-
-%\begin{frame}{Implementation}
-%...and $E[\pi_{ijt}]$ is
-%\begin{itemize}
-%  \item Proxied with average inflation over following three years.
-%  \item BEA reports industry-specific, $i$, capital-type specific, $j$, price indices
-%  \item Variations (backward looking, 5-year) give similar results
-%\end{itemize}
-
-%\end{frame}
-
-\begin{frame}{Implementation}
+\begin{frame}{Alternative estimates}
 \begin{center}
-\includegraphics[width=0.8\textwidth]{fig_cap_all_comparison.eps}
+\includegraphics[width=\textwidth]{fig_cap_all_comparison.eps}
 \end{center}
 \end{frame}
 
-
-\begin{frame}{Variations}
-Private sector business only:
+\begin{frame}{Robustness}
+Can alter the general approach in the following ways and get very similar results (i.e. differ in third decimal place):
 \begin{itemize}
-   \item Exclude government (cost shares not far from average)
-   \item Exclude housing (relatively high capital and low labor cost)
-\end{itemize} 
-
-Lower implied capital elasticity (and higher labor elasticity)
-
-\end{frame}
-
-\begin{frame}{Variations}
-\begin{center}
-\includegraphics[width=0.9\textwidth]{fig_cap_priv_comparison.eps}
-\end{center}
-\end{frame}
-
-
-\begin{frame}{Variations}
-Intellectual property?
-
-\begin{itemize}
-  \item Elasticity rises over time
-  \item But may be because data on IP from pre-1990 is scarce?
-  \item Koh, Santaeulalia-Llopis, Zheng (2018): aggregate labor share falls due to IP accounting
+  \item Use ``After Redefinitions'' I/O tables that re-assign some transactions (1997-2018). 
+  \item Excluded imported intermediates from I/O tables (1997-2018). 
+  \item Do not allow negative costs for capital (1948-2018). 
+  \item Use different assumptions on proprietors income (1948-2018, bigger differences).
 \end{itemize}
-
-\end{frame}
-
-\begin{frame}{Variations}
-\begin{center}
-\includegraphics[width=0.9\textwidth]{fig_cap_ip_comparison.eps}
-\end{center}
 \end{frame}
 
 \begin{frame}{Aggregate cost shares}
@@ -505,90 +473,101 @@ Define the following aggregate cost share for capital:
 
 If there are zero profits, then $\epsilon_{Kt} \rightarrow s^{Cost}_{Kt}$. 
 
+\vspace{.25in}
+
+If $\epsilon_{Kt} > s^{Cost}_{Kt}$, markups skew costs towards low capital cost industries
+
 \end{frame}
 
 \begin{frame}{Aggregate cost shares}
 \begin{center}
-\includegraphics[width=0.9\textwidth]{fig_cap_total_comparison.eps}
+\includegraphics[width=\textwidth]{fig_cap_ratio_comparison.eps}
 \end{center}
 \end{frame}
 
 
-\begin{frame}{Decomposition}
-From the calculation of $E$,
+\begin{frame}{Private business sector}
+Private sector business only:
+\begin{itemize}
+   \item Exclude government (cost shares not far from average)
+   \item Exclude housing (relatively high capital and low labor cost)
+\end{itemize} 
 
-\begin{equation}
-  \epsilon_{Kt} = \sum_{i \in J} \gamma_{it} \ell_{iKt}
-\end{equation}
-
-where $\gamma_{it}$ are final-use shares and $\ell_{iKt}$ are Leontief inverse entries. 
-
-\vspace{.25in} Do an Olley-Pakes type decomposition of $\epsilon_{Kt}$
-
-\begin{equation}
-  \epsilon_{Kt} = \overline{\ell}_{Kt} + \sum_{i \in J} (\gamma_{it} - \overline{\gamma}_{t})(\ell_{iKt}-\overline{\ell}_{Kt}), \label{EQ_op}
-\end{equation}
-
-where $\overline{\ell}_{Kt}$ is mean industry elasticity, and summation is covariance of industry elasticity and size of industry.
+Lower implied capital elasticity (and higher labor elasticity)
 
 \end{frame}
 
-\begin{frame}{Decomposition}
+\begin{frame}{Private business sector}
 \begin{center}
-\includegraphics[width=0.9\textwidth]{fig_cap_op_comparison.eps}
+\includegraphics[width=\textwidth]{fig_cap_priv_comparison.eps}
 \end{center}
 \end{frame}
 
 
-\begin{frame}{Comparison}
-\textbf{OECD}: Create similar bounds for OECD countries using data 2005-2015.
+\begin{frame}{IP Adjustment}\label{Sip}
+Intellectual property?
 
 \begin{itemize}
-  \item STAN database for I/O accounts and national accounts data by industry
-  \item STAN does not separate out proprietors income
-  \item 2005-2015: ISIC v.4
-  \item Less re-mapping necessary between I/O and national accounts
+  \item Elasticity rises over time
+  \item But may be because data on IP from pre-1990 is scarce?
+  \item Koh, Santaeulalia-Llopis, Zheng (2018): aggregate labor share falls due to IP accounting
 \end{itemize}
-
+\vspace{.25in} \hfill \hyperlink{Aip}{\beamerbutton{Details}}
 \end{frame}
 
-\begin{frame}{Comparison}
-\textbf{Labor costs}: Without proprietors income
+\begin{frame}{IP Adjustment}
+\begin{center}
+\includegraphics[width=\textwidth]{fig_cap_noip_comparison.eps}
+\end{center}
+\end{frame}
 
-\begin{equation}
-  COST_{iLt} = COMP_{it} + SELF_{it}\frac{COMP_{it}}{EMPL_{it}}.
-\end{equation}
+
+\begin{frame}{Firm-level data}\label{Sfirm}
+De Loecker, Eeckhout, and Unger (2020) use Compustat to infer/estimate cost shares of firms: 
 
 \begin{itemize}
-  \item $SELF_{it}$ are self-employed and $EMPL_{it}$ are formal employees. 
-  \item Probably understates labor costs as proprietors tend to be high wage.
+  \item Use firms within an industry $i$ to set industry-level cost shares, $\lambda_{iK}$
+  \item Use income statement information or production function estimates
+  \item I use their estimates to calculate $\epsilon_K$ and $\epsilon_L$
+  \item Not firm-level estimates, estimates consistent with Compustat firm-level data
+  \item Compare to private business sector estimates
 \end{itemize}
 
+\vspace{.25in} \hfill \hyperlink{Afirm}{\beamerbutton{Details}}
 \end{frame}
 
-\begin{frame}{Comparison}
-\textbf{Capital costs}: Do similar bounding exercise
-
-\vspace{.25in}
-Upper bound on capital elasticity using
-
-\begin{equation}
-  COST_{iKt}^{NoProf} = VA_i - COST_{iLt}.
-\end{equation}
-
-\vspace{.25in}
-Lower bound on capital elasticity using
-
-\begin{equation}
-  COST_{iKt}^{Depr} = DEPR_{it}.
-\end{equation}
-
-\end{frame}
-
-\begin{frame}{Comparison}
+\begin{frame}{Firm-level data}
 \begin{center}
-\includegraphics[width=0.9\textwidth]{fig_cap_oecd_comparison.eps}
+\includegraphics[width=\textwidth]{fig_cap_dleu_comparison.eps}
 \end{center}
+\end{frame}
+
+\begin{frame}{Market power and the labor share}
+Different assumptions about capital costs imply different levels of profits and markups:
+
+\begin{equation}
+    \mu^{VA}_{t} = \frac{\sum_{j=1}^{J} VA_{jt}}{\sum_{j=1}^J COST_{jKt} + COST_{jLt}}. \label{EQ_markup}
+\end{equation}
+
+What do these assumptions about capital costs imply about markups?
+
+\end{frame}
+
+\begin{frame}{Market power and the labor share}
+\begin{center}
+\includegraphics[width=\textwidth]{fig_cap_markupva_comparison_dleu.eps}
+\end{center}
+\end{frame}
+
+\begin{frame}{Market power and the labor share}
+Did labor's share of GDP fall because $\epsilon_K$ went up ($\epsilon_L$ went down) or because profits went up?
+
+\begin{itemize}
+  \item Bounds on $\epsilon_K$ do appear to rise near end of period
+  \item Series based on investment costs, Compustat, show no trend in $\epsilon_K$
+  \item Lean towards profit explanation, consistent with markups?
+\end{itemize}
+
 \end{frame}
 
 \begin{frame}{Growth Accounting}
@@ -608,40 +587,185 @@ For a typical growth accounting exercise:
 
 \begin{frame}{Growth Accounting}
 \begin{center}
-\includegraphics[width=0.9\textwidth]{fig_tfp_comparison.eps}
+\includegraphics[width=\textwidth]{fig_tfp_comparison.eps}
 \end{center}
 \end{frame}
 
 \begin{frame}{Growth Accounting}
 \begin{center}
-\begin{tabular}{lcccc}
+\begin{tabular}{lccccc}
 \midrule
-        & \multicolumn{4}{c}{Assumption on capital costs:} \\ \cmidrule(lr){2-5}
- &  No-profit (BLS) & User cost & Inv. cost & Depr. cost \\
-Years & (1) & (2) & (3) & (4) \\
+        & \multicolumn{5}{c}{Assumption on capital costs:} \\ \cmidrule(lr){2-6}
+        & \multicolumn{3}{c}{National accounts only:} & \multicolumn{2}{c}{Compustat derived:} \\ \cmidrule(lr){2-4} \cmidrule(lr){5-6}
+ &  No-profit & Invest. cost & Depr. cost & Prod. fct. & Cost shares\\
+Years & (1) & (2) & (3) & (4) & (5) \\
 \midrule
-\input{tab_tfp_scenario.txt}
+\csname @@input\endcsname tab_tfp_scenario.txt
 \midrule
 \end{tabular}
 \end{center}
 \end{frame}
 
 \begin{frame}{Conclusions}
+Revisiting results:
 \begin{itemize}
-  \item Naive capital elasticity (1/3) is an upper bound for most of period
-  \item ...but this bound shifted up over time
-  \item Scope of economic activity matters: housing pulls up capital elasticity
-  \item Structural change did not appear to drive shifts, within-industry changes
-  \item Consistent across the OECD for short time frame
+  \item The rule-of-thumb capital elasticity (1/3) is an upper bound
+  \item Realistic assumptions lower estimate (IP, housing, markups)
+  \item Profits, not elasticities, explain decline in labor share (?)
+  \item TFP growth is higher on average, more dramatic swings in 1990-2018 period
 \end{itemize}
+
 \vspace{.25in}
-Remaining work, caveats, and questions...
+More broadly, labor is ``more important'' than normally assumed
+\end{frame}
+
+\section{Appendix}
+
+\begin{frame}{Matching}\label{Amatch}
+$ELEM_{it}^{NAICS}$ is some element (e.g. labor compensation, depreciation) that I need for a NAICS industry $i$, but only reported on SIC basis as $ELEM_{jt}^{SIC}$ for industry $j$. General concept is this:
+
+\begin{equation}
+  ELEM_{it}^{NAICS} = VALU_{it}^{NAICS} \times \frac{ELEM_{jt}^{SIC}}{VALU_{jt}^{SIC}}. \label{EQ_match_app}
+\end{equation}
+
+Still requires linking a NAICS industry to an appropriate SIC industry(s). $VALU_{it}^{NAICS}$ and $VALU_{jt}^{SIC}$ are available in all cases.
+
+\end{frame}
+
+\begin{frame}{Matching}
+From easy to hard:
 \begin{itemize}
-  \item What are second-order effects for large changes in $K$ or $L$?
-  \item Are cost structures consistent with industry-level estimates?
-  \item Can infer markups from elasticities and shares. Consistent with firm-level evidence?
-  \item Expand OECD coverage over time
+  \item \textbf{One SIC to one NAICS:} 1947-62 the SIC industry ``Construction'' (SIC 1972 code C) is matched to NAICS industry ``Construction'' (NAICS code 23). 
+  \begin{itemize}
+    \item Apply formula.
+  \end{itemize}
+  \item \textbf{One SIC to many NAICS:} 1947-62 the SIC industry ``Retail trade'' (SIC code G) is matched to NAICS industries ``Retail trade'' (NAICS code 44RT) and ``Food service and drinking places'' (NAICS code 722). 
+  \begin{itemize}
+    \item Apply same SIC ratio $ELEM_{jt}^{SIC}/VALU_{jt}^{SIC}$ to multiple NAICS industries. 
+  \end{itemize}
 \end{itemize}
+
+\end{frame}
+
+\begin{frame}{Matching}
+From easy to hard:
+\begin{itemize}
+  \item \textbf{Many SIC to one NAICS:} 1947-62 ``Banking'' (SIC code 60), ``Credit agencies'' (SIC code 61), ``Security and commodity brokers'' (SIC code 62), ``Insurance carriers'' (SIC code 63), and ``Insurance agents, brokers'' (SIC code 64) all being matched to NAICS industry ``Finance and Insurance'' (NAICS code 52). 
+  \begin{itemize}
+    \item Sum SIC industry $ELEM_{jt}^{SIC}$ and sum SIC industry $VALU_{jt}^{SIC}$ and then calculate $ELEM_{jt}^{SIC}/VALU_{jt}^{SIC}$, apply to NAICS industry.
+  \end{itemize}
+
+\vspace{.25in} \hfill \hyperlink{Smatch}{\beamerbutton{Return}}
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{From Make/Use to Cost Shares}\label{Amakeuse}
+BEA I/O tables distinguish $J$ industries from $M$ commodities, although for most practical purposes these align (e.g. agriculture industry produces the agricultural commodity), but not exactly. Commodities like ``used/scrap'' or ``noncomparable imports'' exist. 
+
+\begin{itemize}
+  \item \textbf{Use Table:} $U$, is a $M \times J$ matrix. $u_{mj}$ shows the amount of a commodity $m$ used as an input by industry $j$
+  \item \textbf{Make Table:} $V$, is a $J \times M$ matrix. $v_{jm}$ shows the amount produced by industry $j$ of commodity $m$
+  \item $X_M$ measure the gross output of each of the $M$ commodities ($M$ by 1)
+  \item $X_I$ measure the gross output of each of the $J$ industries ($J$ by 1)
+  \item $F_I$ measure the final use of each of the $J$ industries ($J$ by 1)
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}{From Make/Use to Cost Shares}
+Let
+\begin{equation}
+  A = V \hat{X}_M^{-1}
+\end{equation}
+$A$ is a $J \times M$ matrix. $a_{im}$ measures the share of gross output of commodity $m$ that is produced by industry $i$. 
+\vspace{.25in}
+Let
+\begin{equation}
+  C = A U =  V \hat{X}_M^{-1} U.
+\end{equation}
+$C$ is a $J \times J$ matrix. $c_{ij}$ is the spending by industry $j$ on output of industry $i$ (working through the commodities used by $j$ and produced by $i$). 
+
+\vspace{.25in}
+
+$C$ is the matrix of costs used in the calculation of the elasticities
+\end{frame}
+
+\begin{frame}{From Make/Use to Cost Shares}
+Confirm that this logic and calculation is sound. Let:
+\begin{eqnarray}
+  X_I &=& Ce + F_I \\
+  X_I &=& C'e + V_I
+\end{eqnarray}
+where $e$ is a $Jx1$ vector of 1's, meaning gross output is the sum of intermediate sales and final use sales, or gross output is the sum of intermediate purchases plus value added.
+
+\vspace{.25in}
+
+Given $C$, $F_I$, $X_I$, can solve for $V_I$, industry value-added. Short of small rounding errors this is equal to BEA reported value-added, confirming calculations.
+
+\vspace{.25in} \hfill \hyperlink{Smakeuse}{\beamerbutton{Return}}
+\end{frame}
+
+\begin{frame}{Implementation}\label{Ausercost}
+...and $Int_{it}$ defined as
+
+\begin{equation}
+    Int_{it} = \sum_m s_{imt} Int_{mt}
+\end{equation} 
+
+\begin{itemize}
+  \item $s_{imt}$ shares of financing from source $m$ (e.g. mortgages, corp bonds). From Fed Flow of Funds.
+  \item $Int_{mt}$ are source-specific interest rates (e.g. 30-year mortgage rate, 30-year AAA bond rate). From Fed.
+\end{itemize}
+
+\end{frame}
+
+
+\begin{frame}{Implementation}
+...and $E[\pi_{ijt}]$ is
+\begin{itemize}
+  \item Proxied with average inflation over following three years.
+  \item BEA reports industry-specific, $i$, capital-type specific, $j$, price indices
+  \item Variations (backward looking, 5-year) give similar results
+\end{itemize}
+
+\vspace{.25in} \hfill \hyperlink{Susercost}{\beamerbutton{Return}}
+\end{frame}
+
+\begin{frame}{Excluding IP}\label{Aip}
+To exclude IP as a capital cost, have to remove own-account IP spending and accumulation:
+\begin{itemize}
+  \item Remove from value-added: $VALU_{it}^{NoIP} = VALU_{it} - INV_{i,IP,t}$
+  \item Remove from investment spending: $INV_{it}^{NoIP} = INV_{it} - INV_{i,IP,t}$
+  \item Remove from depreciation: $DEPR_{it}^{IP} = DEPR_{it} - DEPR_{i,IP,t}$
+  \item Remove from capital stock: $K^{NoIP}_{it} = K_{it} - K_{i,IP,t}$
+\end{itemize}
+What this does not account for is IP capital purchased from other industries. So adjustment for IP should be larger. 
+
+\vspace{.25in} \hfill \hyperlink{Aip}{\beamerbutton{Return}}
+\end{frame}
+
+\begin{frame}{Compustat}\label{Afirm}
+Two types of estimates from De Loecker, Eeckhout, Unger (2020)
+
+\begin{itemize}
+  \item \textbf{Cost data:} 
+  \begin{itemize}
+    \item DLEU calculate capital costs from firm level data. 
+    \item DLEU calculate Non-capital costs are COGS and SGA from firm-level data.
+    \item I calculate ratio of capital to non-capital costs for firms in given industry. 
+    \item Multiply that firm-derived ratio by sum of intermediate and labor costs for NAICS industry to get NAICS industry level capital costs. 
+  \end{itemize} 
+  \item \textbf{Production function:} 
+  \begin{itemize}
+    \item DLEU estimate industry-level elasticities w.r.t. capital, COGS, and SGA using firm-level data. 
+    \item I calculate ratio of capital elasticity to COGS and SGA elasticities. 
+    \item Multiply that ratio by sum of intermediate and labor costs for NAICS industry to get NAICS industry level capital costs.
+  \end{itemize}
+\end{itemize}
+
+\vspace{.25in} \hfill \hyperlink{Sfirm}{\beamerbutton{Return}}
 \end{frame}
 
 \end{document}

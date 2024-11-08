@@ -19,6 +19,9 @@
 \usepackage{subfigure}
 \usepackage{hyperref}
 \usepackage{xcolor}
+\usepackage{xr}
+
+\externaldocument{Elasticity-Master}
 
 \hypersetup{
     colorlinks,
@@ -53,7 +56,7 @@
 \begin{titlepage}
 \vspace{2in} \noindent {\large \today}
 
-\vspace{.5in} \noindent {\Large \textbf{\strut APPENDICES: The Elasticity of Aggregate Output with Respect to Capital and Labor}}
+\vspace{.5in} \noindent {\Large \textbf{\strut ONLINE APPENDIX: The Elasticity of Aggregate Output with Respect to Capital and Labor}}
 
 \vspace{.25in} \noindent {\large Dietrich Vollrath}
 
@@ -74,17 +77,14 @@
 \listoffigures
 \listoftables
 
-\section{Data and code}
-\onehalfspacing All of the code and raw data for this paper are publicly available. The site \url{https://github.com/dvollrath/Elasticity} contains both. The README file contained there includes instructions for replicating all tables, figures, and calculations in the paper. 
-
 \section{Matching historical industry data to input/output tables}
-As described in Section 3 of the main text, the first issue with creating the data series used in the estimates of $\epsilon_{Kt}$ is matching various data sources from the national accounts with different industrial classification schemes. 
+As described in Section \ref{SEC_accounts} of the main text, the first issue with creating the data series used in the estimates of $\epsilon_{Kt}$ is matching various data sources from the national accounts with different industrial classification schemes. 
 
-Figure \ref{TAB_series} is identical to Table 1 in the main text, replicated here for convenience. It shows the classification schemes used for various pieces of data. In each case the input/output is treated as the ``master'' and the other series are matched to it. 
+Figure \ref{TAB_series_app} is identical to Table \ref{TAB_series} in the main text, replicated here for convenience. It shows the classification schemes used for various pieces of data. In each case the input/output is treated as the ``master'' and the other series are matched to it. 
 
 \begin{table}[!htb]
 \begin{center}
-\label{TAB_series}
+\label{TAB_series_app}
 \caption{Industrial classification of data by year}
 \begin{tabular}{lrrrr}
 \midrule
@@ -113,7 +113,7 @@ There are three types of matches that can be found in these tables:
 For these matches, obtaining the value-added components for the IO industry (coded using NAICS) is straightforward, and follows equation (12) in the text. I've reproduced the equation here, changing some of the notation to make the matching process clearer. First, ``ELEM'' refers to a data element (e.g. compensation, proprietors income, production taxes, etc.). Second, the NAICS superscript refers to the NAICS industry that this element is calculated for. The superscript SIC refers to the match SIC industry. 
 
 \begin{equation}
-	ELEM_{it}^{NAICS} = VALU_{it}^{NAICS} \times \frac{ELEM_{jt}^{SIC}}{VALU_{jt}^{SIC}}. \label{EQ_match}
+	ELEM_{it}^{NAICS} = VALU_{it}^{NAICS} \times \frac{ELEM_{jt}^{SIC}}{VALU_{jt}^{SIC}}. \label{EQ_match_app}
 \end{equation}
 
 In the case of a one-to-one match of SIC to NAICS, this equation is simple to process. I use the ratio of the given data element in SIC to the value-added in SIC ($ELEM_{jt}^{SIC}/VALU_{jt}^{SIC}$) to multiply by the reported value-added of the NAICS industry, $VALU_{it}^{NAICS}$, to obtain the size of the data element for the NAICS industry, $ELEM_{it}^{NAICS}$. 
@@ -122,13 +122,13 @@ The assumption at work here is that because of the different classification syst
 
 \subsubsection{One SIC to many NAICS:} This is a case where the NAICS is more detailed than the SIC. An example for 1947-62 is the SIC industry ``Retail trade'' (SIC code G) which I match to NAICS industries ``Retail trade'' (NAICS code 44RT) and ``Food service and drinking places'' (NAICS code 722). 
 
-Here, what I am doing is using the \textit{ratios} from same SIC industry to infer the value-added components for multiple NAICS industries. Referring back to equation (\ref{EQ_match}) and the example given, I'm assuming that the ratio $ELEM_{jt}^{SIC}/VALU_{jt}^{SIC}$ from SIC ``Retail trade'' is a good proxy for the ratio of that element to value-added in NAICS `Retail trade'' and ``Food service and drinking places''. The proportional breakdown of value-added across different components in those two NAICS industries is thus the same, as they all are assumed to have similar breakdowns to the SIC industry. 
+Here, what I am doing is using the \textit{ratios} from same SIC industry to infer the value-added components for multiple NAICS industries. Referring back to equation (\ref{EQ_match_app}) and the example given, I'm assuming that the ratio $ELEM_{jt}^{SIC}/VALU_{jt}^{SIC}$ from SIC ``Retail trade'' is a good proxy for the ratio of that element to value-added in NAICS `Retail trade'' and ``Food service and drinking places''. The proportional breakdown of value-added across different components in those two NAICS industries is thus the same, as they all are assumed to have similar breakdowns to the SIC industry. 
 
 In this case I am losing detail, as the NAICS industries presumably have at least some differences in the breakdown of value-added components. I have experimented with several versions of the matching. For example, I've matched ``Food service and drinking places'' in the NAICS to ``Amusement and recreation services'' in the SIC. But these changes have not created any meaningful differences in the elasticity estimates.
 
 \subsubsection{Many SIC to one NAICS:} The final case is where there are multiple SIC industries matched to a single NAICS. An example here is ``Banking'' (SIC code 60), ``Credit agencies'' (SIC code 61), ``Security and commodity brokers'' (SIC code 62), ``Insurance carriers'' (SIC code 63), and ``Insurance agents, brokers'' (SIC code 64) all being matched to NAICS industry ``Finance and Insurance'' (NAICS code 52). 
 
-In this case SIC has more detail than NAICS, but I have no way of taking advantage of that detail. To get the value-added components for the NAICS industries I therefore sum up the value-added elements for the SIC industries, and use the ratio for those sums. In the example just given, I first find the sum of labor compensation in SIC industries 60, 61, 62, and 63. I then find the sum of value-added in SIC industries 60, 61, 62, and 63. The ratio of this sum of labor compensation to sum of value-added is used as the ratio $ELEM_{jt}^{SIC}/VALU_{jt}^{SIC}$. I then apply this ratio according to equation (\ref{EQ_match}) to find labor compensation for the matched NAICS industry 52. 
+In this case SIC has more detail than NAICS, but I have no way of taking advantage of that detail. To get the value-added components for the NAICS industries I therefore sum up the value-added elements for the SIC industries, and use the ratio for those sums. In the example just given, I first find the sum of labor compensation in SIC industries 60, 61, 62, and 63. I then find the sum of value-added in SIC industries 60, 61, 62, and 63. The ratio of this sum of labor compensation to sum of value-added is used as the ratio $ELEM_{jt}^{SIC}/VALU_{jt}^{SIC}$. I then apply this ratio according to equation (\ref{EQ_match_app}) to find labor compensation for the matched NAICS industry 52. 
 
 There is a loss of information here simply because of the lack of detail in the IO tables for these years. Again, reasonable alternative matches do not appear to impact the elasticity estimates in a meaningful way.
 
@@ -228,8 +228,8 @@ Tables \ref{TAB_import1} and \ref{TAB_import2} report results that exclude impor
 
 This appears similar in the other scenarios. Table \ref{TAB_import1} shows that under the depreciation cost scenario the average difference is only 0.0012. Table \ref{TAB_import2} shows that the average differences in the investment cost scenario are only 0.0009, and under the user cost scenario only 0.0021. There are cases of positive and negative differences, but the maximum difference is under 0.0066. Again, there does not appear to be substantial differences because of the inclusion of imports.
 
-\section{Comparing elasticities and cost ratios}
-Comparing the cost share, $s_{Kt}^{Cost}$, to the elasticity, $\epsilon_{Kt}$, as in Section 5.2, shows that $s_{Kt}^{Cost}$ tends to be lower than $\epsilon_{Kt}$ in the scenarios where positive profits are allowed (the labor cost share tends to be higher than the labor elasticity). Here I provide some examples and a more thorough theoretical breakdown of how and why this occurs. 
+\section{Comparing elasticities and cost ratios}\label{SEC_elasticity_theory}
+Comparing the cost share, $s_{Kt}^{Cost}$, to the elasticity, $\epsilon_{Kt}$, as in Section \ref{SEC_ratios}, shows that $s_{Kt}^{Cost}$ tends to be lower than $\epsilon_{Kt}$ in the scenarios where positive profits are allowed (the labor cost share tends to be higher than the labor elasticity). Table \ref{TAB_ratios} provides summary statistics on the ratios reported in the paper, which show that aggregate capital cost shares tend to be lower than the estimated elasticities. Here I provide some examples and a more thorough theoretical breakdown of how and why this occurs. 
 
 \subsection{A simple example}
 To set ideas, consider the following very simple economy. There are two industries. One produces final goods, $Y$, and the other produces an intermediate input, $X$, used by the first industry. Both industries use capital and labor in production. 
@@ -276,7 +276,7 @@ To help in the exposition, take the matrix $\Lambda$ from the main text equation
 	\begin{bmatrix}
 		L & \mathbf{0} \\
 		W & \mathbf{0} \\
-	\end{bmatrix} \label{EQ_Lambda}
+	\end{bmatrix} \label{EQ_Lambda_app}
 \end{equation}
 where note that this is the transpose of $\Lambda$, purely for ease in showing results. The upper-left block $L$ is the $J \times J$ matrix with entries $\lambda_{ij}$, the cost to industry $j$ (the column) of intermediate good $i$ (the row) as a share of total costs in industry $j$. 
 
@@ -296,7 +296,7 @@ As in equation (9) of the main text, the vector of elasticities $E$ is formed by
 \end{equation}
 Focusing exclusively on the elasticity with respect to capital, this is
 \begin{equation}
-	\epsilon_K = \lambda_K'RF(e_J'F)^{-1}.
+	\epsilon_K = \lambda_K'RF(e_J'F)^{-1}. \label{EQ_epK_decomp}
 \end{equation}
 The aggregate elasticity with respect to capital is the vector of industry-specific capital shares ($\lambda_K$) multiplied through by $R$, the technical requirements matrix, to get the ``full'' elasticity of each industry with respect to capital, taking into account the effect of an increase in capital in suppliers of intermediates to that industry. Those industry-specific elasticities are then weighted by the shares of final use $F(e_J'F)^{-1}$ to produce the elasticity.
 
@@ -350,10 +350,51 @@ Next, I calculate a measure of how ``upstream'' each industry is, $u_{jt}$. This
 
 Figure \ref{FIG_cap_share_intshare} plots the relationship of $s_{Kj}^{Cost}$ to $u_{jt}$, controlling for year fixed effects, and again using 100 quantiles to clarify the relationship. Here the positive relationship is apparent, with a point estimate of 0.065 and a standard error of 0.007. In the Figure one can see that for some industries $u_{jt}$ is above one, indicating that intermediate use is greater than gross output (and that final use was negative). These industry/year observations represent situations where there were significant imports of products from that industry, and these observations (about 1\% of the total) tend to be for the mining and extractive industries (e.g. oil). Excluding these does not change the overall positive relationship. Again, the relationship in Figure \ref{FIG_cap_share_intshare} is consistent with the logic from the prior sub-section that $\epsilon_K > s_K^{Cost}$ when capital costs as a share of factor costs tend to be large for industries that are more upstream (and subject to more layers of markups). 
 
-\section{Markups and profit shares}
+\section{Decomposing differences in elasticities}\label{SEC_decomp}
+In principle, the elasticity estimate $\epsilon_{K}$ is a weighted sum of the industry-specific cost shares, $\lambda_{iK}$, where the weights depend on the size of the industry (through final use) and the input/output relationships that determine how much the industry depends on other as producers and consumers of its output. More specifically, from Section \ref{SEC_elasticity_theory} the elasticity calculation can be written as follows, 
+\begin{equation}
+	\epsilon_K = \lambda'_K R F \left(e_J'F\right)^{-1} 
+\end{equation}
+where $\lambda'_K$ is the vector of capital cost shares in total costs, $R$ is the Leontief inverse based on total costs by industry, and $F \left(e_J'F\right)^{-1}$ is the vector of final use shares of total final use. The combined term $R F \left(e_J'F\right)^{-1}$ holds the weights on each industry, which are multiplied through by the capital cost shares in $\lambda'_K$.
+
+The different scenarios for capital costs affect this calculation in two fundamental ways. The choice of capital cost directly impacts the capital cost share of total costs, $\lambda'_K$. It also indirectly affects the Leontief inverse $R$, which is a function of the intermediate good cost shares, $\lambda_{ij}$. Changing the capital cost changes the total costs, and hence changes intermediate spending (which is taken as given from the I/O tables) as a fraction of total costs. Lowering capital costs, for example, raises the intermediate good share for each intermediate used. 
+
+Consider a case where capital costs are set to a lower value, as in the depreciation cost scenario. This lowers each element of $\lambda'_K$. In the notation from the prior section, $R = (I - L)^{-1}$. Each element of $L$ goes up (or at least does not decline) given the lower capital costs. Abusing matrix algebra, if $L$ get ``larger'' at each element, $I-L$ is lower, and hence $R$ is ``larger''. Multiplying $R$ through by the final use terms means the weights on each industry's capital cost share are larger. Hence there are competing effects on the overall elasticity. $\lambda'_K$ is lower, but the weights on each element are higher. 
+
+Whether $\epsilon_K$ goes up or down when capital costs are raised or lowered is a quantitative question. Here I show how to decompose the difference between the no-profit and depreciation cost estimates to see that the direct effect on capital cost shares outweighs the effect on $R$, and by a substantial amount. 
+
+Let $NP$ signify terms that are calculated using the no-profit cost assumption, and $D$ signify terms calculated using the depreciation cost assumption. To save space on notation, let the vector of final use shares be denoted by $f = F \left(e_J'F\right)^{-1}$. The difference in the elasticities under the no-profit and depreciation cost assumption can be decomposed as follows:
+\begin{eqnarray*}
+	\epsilon_K^{NP} - \epsilon_K^D &=& \lambda_K^{NP'} R^{NP} f -  \lambda_K^{D'} R^{D} f \\
+	                &=& \lambda_K^{NP'} R^{NP} f -  \lambda_K^{D'} R^{NP} f + \lambda_K^{D'} R^{NP} f -\lambda_K^{D'} R^{D} f \\
+	                &=& \left(\lambda_K^{NP'} - \lambda_K^{D'} \right) R^{NP} f + \lambda_K^{D'} \left(R^{NP} - R^D \right) f 
+\end{eqnarray*}
+In the last line, the first term captures the difference in capital cost shares only, holding constant the weights on those cost shares at $R^{NP}f$. It isolates the effect of changing the capital cost shares. The second term captures the effect of changing the weights while holding the cost share constant.\footnote{One could do this decomposition in the other direction, so that the first term had the weight $R^{D}f$ and the second term depended on the cost shares $\lambda_K^{NP'}$. The logic is similar and the results tell the same story.}
+
+Given that element-by-element $\lambda_K^{NP'} \geq \lambda_K^{D'}$, the first term is positive. This is the direct effect, and implies that by lowering capital costs in the depreciation scenario, this mechanically pushes down the overall elasticity. The second term, however, will be negative, as all the intermediate good shares in costs are weakly increasing when capital costs are lower.
+
+To see that the direct effect is larger, consider Figure \ref{FIG_cap_bound_comparison}. This plots the baseline $\epsilon_K^{NP}$ and $\epsilon_K^D$ estimates. In addition, it plots the counter-factual estimate of the elasticity with the depreciation cost shares but the no-profit scenario weights. More explicitly, the counter-factual estimate is
+\begin{equation*}
+	\epsilon_K^{CF} = \lambda_K^{D'} R^{NP} f,
+\end{equation*}
+which is just the term that is added and subtracted to the difference above to form the decomposition. This is plotted in the gray dashed line, and lies everywhere below the depreciation cost estimate. Given this, it follows
+\begin{eqnarray*}
+	\epsilon_K^{CF} - \epsilon_K^{D} &=& \lambda_K^{D'} R^{NP} f - \lambda_K^{D'} R^{D} f \\
+	                                 &=& \lambda_K^{D'} \left(R^{NP} - R^D \right) f \\
+	                                 &<& 0
+\end{eqnarray*}
+This just demonstrates that the weights in the depreciation cost case must be larger than in the no-profit case, as expected. 
+
+Notice that the gap, however, is quite small compared the gap between the no-profit baseline and the counter-factual. The direct effect of lowering cost shares is substantial, and on net the elasticity goes down. It is true that there are conflicting effects of lowering capital costs on the elasticity estimate, but given the input/output tables from the U.S. used here, the indirect effects of lowering capital costs on the Leontief weights in $R$ are much smaller than the direct effects of lowering capital costs.
+
+\section{Markups}
 This section provides equations for exactly how the gross output markup, value-added markup, gross output profit share, and value-added profit share are calculated and related in theory.
 
 As in the main text, I defined
+\begin{equation}
+    \mu^{VA}_{t} = \frac{\sum_{j=1}^{J} VA_{jt}}{\sum_{j=1}^J COST_{jKt} + COST_{jLt}}.
+\end{equation}
+In gross output terms the markup is
 \begin{equation}
     \mu^{GO}_{t} = \frac{\sum_{j=1}^{J} GO_{jt}}{\sum_{j=1}^J COST_{jMt} + COST_{jKt} + COST_{jLt}}.
 \end{equation}
@@ -363,26 +404,63 @@ To simplify terms, let $GO_t = \sum_{j=1}^{J} GO_{jt}$ be total gross output, so
 \end{equation}
 where the terms in the denominator are similarly defined to be sums across all industries. 
 
-Let the value-added markup be
-\begin{equation}
-	\mu^{VA}_t = \frac{VA_t}{COST_{Kt}+COST_{Lt}} = \frac{GO_t-COST_{Mt}}{COST_{Kt} + COST_{Lt}}.
-\end{equation}
-Both $\mu_t^{GO}$ and $\mu_t^{VA}$ can be calculated directly from the industry-level data given the observed values for gross output, value-added, cost of intermediates, costs of labor, and the costs of capital (which depend on the choice of method for estimating that: depreciation costs, no-profits, etc.). These two markups are related as follows, 
+These two markups are related as follows, 
 \begin{equation}
 	\mu^{VA}_t = \frac{\mu^{GO}_t(1-COST_{Mt}/GO_t)}{1-\mu^{GO}_tCOST_{Mt}/GO_t}.
 \end{equation}
 As can be seen here, the distinction between the two measures of markups is the size of the ratio $COST_{Mt}/GO_t$, or the share of intermediates in gross output. Based on the data in this paper, that ratio runs around 0.52 to 0.56 throughout the period 1948-2018.
 
-The profit share of gross output is
+Figure \ref{FIG_markup} in the main paper plots series $\mu_t^{VA}$ under different capital cost assumptions. In this Appendix, Figure \ref{FIG_markupgo} plots $\mu_t^{GO}$ under those same scenarios.
+
+\section{Compustat data and matching}
+In Section \ref{SEC_compustat} I briefly describe how I used Compustat firm-level data and the methodology from \cite{dleu2020} to generate elasticity estimates consistent with the firm data. I use their replication code \citep{dleudata2020}, which contains information on precisely which data to extract from Compustat. I use the Wharton Research Data Service to access Compustat to obtain the data extract. 
+
+Using that extract I run the code provided by \cite{dleudata2020} to generate their measures of costs for different inputs. Cost of goods sold (Compustat variable COGS) and selling, general, and administrative (XSGA) costs are reported directly for each firm. \cite{dleu2020} calculate a cost of capital using a simplified user cost formula. Total capital is given by variable PPEGT in Compustat (property, plant, and equipment), and the user cost of capital is based on a common nominal interest rate, common inflation, and common depreciation rate for all firms. \cite{dleu2020} provide the data series on their user cost of capital in the replication data, and I take it as a given to ensure consistency with their work. $KEXP$ is the cost of capital reported by \cite{dleu2020} using this user cost. 
+
+Let $i$ be the two-digit NAICS industry reported by Compustat for each firm. Let $N_i$ be the number of firms in that industry. Then the ratio of capital costs to non-capital costs for industry $i$ is calculated as
 \begin{equation}
-	\pi^{GO}_t = \frac{(\mu^{GO}_t - 1)(COST_{Mt} + COST_{Kt} + COST_{Lt})}{GO_t} = 1 - \frac{1}{\mu^{GO}_t}
+	\frac{COST^{Stat}_{iKt}}{COST^{Stat}_{iNonKt}} = \frac{\sum_{j}^{N_i} KEXP_{ij}}{\sum_{j}^{N_i} COGS_{ij} + SGA_{ij}} \label{EQ_compustat_cost}
 \end{equation}
-and the profit share of value-added is
+where $KEXP_{ij}$ is the capital cost of firm $j$ in industry $i$, $COGS_{ij}$ is cost of goods sold for firm $j$ in industry $i$, and $SGA_{ij}$ is the selling, general, and administrative expense of firm $j$ in industry $i$. 
+
+For each industry in the national accounts data I extract the two-digit industry NAICS code $i$, and match that to the two-digit NAICS code from Compustat. I use the associated cost ratio in (\ref{EQ_compustat_cost}) in equation (\ref{EQ_comp_cost_calc}) from the main text to find capital costs in all the industries in the two-digit industry $i$. 
+
+For the production function estimates, \cite{dleu2020} calculate elasticities for capital, COGS, and SGA as part of their ``production function 2'' estimates (PF2). Their replication package reports the elasticities in a separate data file, by two-digit industry $i$. I use these directly. The exact variables in their replication are $theta_WI2_kt$ for capital, $theta_WI2_ct$ for COGS, and $theta_WI2_xt$ for SGA. The production function elasticites are allowed to vary over time. 
+
+The ratio of capital elasticity to non-capital elasticity used in the main paper is, abusing the notation in their replication package somewhat, 
 \begin{equation}
-	\pi^{VA}_t = \frac{(\mu^{GO}_t - 1)(COST_{Mt} + COST_{Kt} + COST_{Lt})}{VA_t} = \frac{\mu^{GO}_t-1}{\mu^{GO}_t - COST_{Mt}/GO_t}.
+	\frac{ELAS^{Stat}_{iKt}}{ELAS^{Stat}_{iNonKt}} = \frac{(theta_WI2_kt)_i}{(theta_WI2_ct)_i+(theta_WI2_xt)_i}.
+\end{equation}
+I then match each industry in the national accounts data to the two-digit NAICS industry $i$ from Compustat to get this ratio, and use it in equation (\ref{EQ_comp_pf_calc}) to find capital costs. 
+
+\cite{dleu2020} estimate the elasticities for PF2 without making any assumption that the firm production functions are constant returns to scale. They find, in fact, that there is a general rise in returns to scale over time across all firms. This scale increase from around 1 in 1980 to about 1.2 by 2000, mimicking the rise in markups. \cite{dleu2020} attribute much of the rise in markups the rise in scale associated with an increase in the role of SGA in firm production. 
+
+The \cite{bfshortnote,bfprodge} technique for calculating the elasticity assumes each unit (industry, in my case) is constant returns. Hence I use the ratio of elasticities from \cite{dleu2020} rather than the absolute values. This gives the right relative importance of capital to non-capital spending on inputs, but eliminates the idea that scale of firms within industries increased. 
+
+\section{Accounting for change}
+The bounds on $\epsilon_{Kt}$ rose over time. By themselves, these changes in the bounds do not necessarily imply that the actual values of $\epsilon_{Kt}$ (or $\epsilon_{Lt}$) changed. But it seems worth exploring what drove the changes in the bounds, as they imply shifts in the aggregate elasticities were plausible.
+
+To account for the change in bounds, consider that $\epsilon_{Kt}$ is a weighted sum of entries from the Leontief inverse, with weights given by shares of final use,
+
+\begin{equation}
+	\epsilon_{Kt} = \sum_{j=1}^J \gamma_{it} \ell_{iKt}. \nonumber
 \end{equation}
 
-Figure 5 in the main paper plots series $\mu_t^{GO}$ under different capital cost assumptions. In this Appendix, Figure \ref{FIG_markupva} plots $\mu_t^{VA}$ under those same scenarios, and Figure \ref{FIG_profitshare} plots $\pi^{VA}_t$ under the same scenarios. 
+To track the changes in $\epsilon_{Kt}$ over time I perform an \cite{op1996} decomposition on this summation, yielding
+
+\begin{equation}
+	\epsilon_{Kt} = \overline{\ell}_{Kt} + \sum_{j=1}^J (\gamma_{it} - \overline{\gamma}_{t})(\ell_{iKt}-\overline{\ell}_{Kt}), \label{EQ_op}
+\end{equation}
+
+where $\overline{\ell}_{Kt}$ is the unweighted mean of the Leontief elements for capital. This mean industry-level elasticity shows how sensitive industries are to capital, ignoring their share of final use. Tracking this over time will indicate whether industries in general were becoming more or less sensitive to the use of capital.
+
+The summation term above is the ``covariance'' of final-use shares and Leontief elements. When positive, it indicates that industries that are more sensitive to capital (e.g. have $\ell_{iKt}$ above average) also tend to be large in final-use terms. When negative, it indicates that industries sensitive to capital are relatively small. Tracking this covariance term over time will show whether capital-sensitive industries were becoming larger or smaller.
+
+Figure \ref{FIG_op_comparison} plots the values of $\epsilon_{Kt}$ and $\overline{\ell}_{Kt}$ for both the upper and lower bounds of the elasticity, which are determined by the no-profit and depreciation cost assumptions on capital costs. The covariance is not plotted separately but can be inferred from examining the Figure, as it is the gap between plotted series. 
+
+For the no-profit upper bound, it is apparent that the mean industry-level elasticity, $\overline{\ell}_{Kt}$, drove the drift up over time. The gap between $\epsilon_{Kt}$ and $\overline{\ell}_{Kt}$ is accounted for by the covariance term in (\ref{EQ_op}), which is positive but small in absolute size throughout. The upper bound on the aggregate elasticity rose over time because, on average, most industries were getting more sensitive to capital. 
+
+This story is repeated with the depreciation cost lower bound. Again the mean industry-level elasticity, $\overline{\ell}_{Kt}$, lies everywhere below the aggregate elasticity, $\epsilon_{Kt}$, which implies again a small positive covariance term. The drift upward is due to higher mean capital elasticities at the industry level, and not due to changes in the covariance between final-use shares and industry elasticities. 
 
 \section{User cost details}\label{SEC_usercost}
 As described in the text, one of the alternative series used for estimating $\epsilon_{Kt}$ involves a user cost formula, as in \cite{halljorg1967}, and similar to what is used in \cite{Barkai000,rognlie2015}. This appendix section provides more detail on the construction of those user costs of capital. 
@@ -410,7 +488,7 @@ That nominal rate is a combination of several nominal rates, which can vary by t
 
 where $m$ is the type of financing, and $s_{imt}$ is the share of financing of type $m$ used by industry $i$ at time $t$. $Int_{mt}$ is the nominal interest rate of asset type $m$. Hence the industry-specific nature of the nominal interest rate comes from its mix of financing across types, but each industry faces the same nominal rate on a given financing type. For example, all corporate AAA bonds are assumed to have the same rate ($Int_{mt}$), but industries vary in what share of their financing ($s_{imt}$) comes from corporate AAA bonds. 
 
-The financing types $m$ used are 10-year Treasury bonds, municipal bonds, corporate AAA bonds, corporate Baa bonds, 30-year mortgage rate, Fed Funds rate, the 10-year Treasury plus the S\&P 500 dividend rate as a proxy for equity returns \citep{fedint,fredmort,moodys}.
+The financing types $m$ used are 10-year Treasury bonds, municipal bonds, corporate AAA bonds, corporate Baa bonds, 30-year mortgage rate, Fed Funds rate, the 10-year Treasury plus the S\&P 500 dividend rate as a proxy for equity returns \citep{fedint,fredmort,moodys,shiller}.
 
 For private industries, I use the integrated macroeconomic accounts of the U.S. \citep{beaimap} to find industry-level balances of liabilities from corporate bonds, corporate paper, loans, and equity. Specifically, I use Table S.5.a-A (annual totals). Corporate paper is series FL103169100, corporate bonds are series FL103163003, loans are series FL104123005, and equity is series FL103181005. I sum these four liabilities, and then form shares $s_{imt}$ by dividing the specific liability by this total. Note that these shares are common to all private industries. The distinction across industries $i$ will come as a difference between private industries, housing, and government. 
 
@@ -437,7 +515,7 @@ The second term in the user cost formula is $E[\pi_{ijt}]$, meaning there is an 
 BEA capital stock data \citep{beacap} includes an amount of depreciation by capital type $j$ for industry $i$ at time $t$, $DEPR_{ijt}$ In addition I have the capital stock of type $j$ for industry $i$ at time $t$, $K_{ijt}$, from the same source. The depreciation rate in the user cost formula is found as $\delta_{ijt} = DEPR_{ijt}/K_{ijt}$.
 
 \subsection{Depreciation allowance}
-The user cost formula contains an adjustment for depreciation allowance in the tax code by capital type, $z_{jt}$. Data from \cite{stan} contains information on this allowance by country, and I use the U.S. values here. The data runs only from 1979-2012, and for 2018. For 2013-2017, I use the 2012 value for each capital type: 0.35 for structures, 0.63 for intellectual property, and 0.877 for equipment. Prior to 1979, I use a value of 0.561 for structures (matching the 1979 value), 0.98 for equipment (matching the 1979 value), and 0 for intellectual property (matching the 1979 value). 
+The user cost formula contains an adjustment for depreciation allowance in the tax code by capital type, $z_{jt}$. Data from \cite{taxallow} contains information on this allowance by country, and I use the U.S. values here. The data runs only from 1979-2012, and for 2018. For 2013-2017, I use the 2012 value for each capital type: 0.35 for structures, 0.63 for intellectual property, and 0.877 for equipment. Prior to 1979, I use a value of 0.561 for structures (matching the 1979 value), 0.98 for equipment (matching the 1979 value), and 0 for intellectual property (matching the 1979 value). 
 
 \subsection{Corporate tax rate}
 The corporate tax rate is assumed to be the same across industries, but can vary with time, $\tau_t$. The only deviation is that the federal and state/local government industries are assumed to face a zero tax rate. I find the effective corporate tax rate by using aggregate profits after tax ($After$), and aggregate profits before ($Before$) tax, and setting $\tau_t = (Before - After)/Before$. 
@@ -452,7 +530,7 @@ Across the four different series, the increase from 1996 to 1997 in the estimate
 \section{Housing and government}
 In section 6.1 I calculate $\epsilon_{Kt}$ for the private business sector, which excludes owner-occupied housing and government industries. In this appendix I show summary statistics on the cost shares of those industries, which helps to illustrate why they (and housing in particular) pull the elasticity estimate up so much when included. 
 
-Panel A of Table \ref{TAB_ratios} shows the ratios $s^{COST}_{Kt}$ and $s^{VA}_{Kt}$ for owner-occupied housing. The cost ratio for capital is 0.942 on average under the no-profit assumption, and is 0.797 even in the depreciation only assumption. The capital cost share of housing is massive compared to any other industry, and hence when housing is included, as in the baseline estimates of $\epsilon_{Kt}$, this elasticity is larger. Once housing is excluded, the estimate of $\epsilon_{Kt}$ falls, even absent any input-output relationships. 
+Panel A of Table \ref{TAB_ratios_hgov} shows the ratios $s^{COST}_{Kt}$ and $s^{VA}_{Kt}$ for owner-occupied housing. The cost ratio for capital is 0.942 on average under the no-profit assumption, and is 0.797 even in the depreciation only assumption. The capital cost share of housing is massive compared to any other industry, and hence when housing is included, as in the baseline estimates of $\epsilon_{Kt}$, this elasticity is larger. Once housing is excluded, the estimate of $\epsilon_{Kt}$ falls, even absent any input-output relationships. 
 
 In comparison the government industries, as a whole, have cost shares that are similar to the overall economy, and hence their inclusion or exclusion has little impact on the overall estimate of $\epsilon_{Kt}$. Government does display one curious aspect to the cost shares, however. Note that both $s_{Kt}^{Cost}$ and $s_{Kt}^{VA}$ are smaller under the no-profit scenario than in the other scenarios. For example, the mean factor cost share under no-profits in government is 0.197, while under the depreciation assumption it is 0.221. This occurs because for many years government industries list labor compensation as \textit{larger} than their value-added, implying negative capital costs in the no-profit assumption. 
 
@@ -463,7 +541,7 @@ When I do the user cost calculation of capital costs, for government I apply the
 Figure \ref{FIG_gov_costs} plots two estimates of $\epsilon_{Kt}$. The dark dashed line is the baseline user cost estimate, where government capital costs are calculated with the user cost formula described in Section \ref{SEC_usercost}. The gray dashed line is the alternative where user costs are used for all private industries, but government capital costs are set equal to deprecation only. As can be seen, these two series are very similar. The only notable deviation is in the early 1980s, where the implied elasticity is somewhat lower when government is assumed to have deprecation costs. This occurs because the user costs for government in those years are presumed to be quite high due to high Treasury bond rates.
 
 \section{De-capitalizing IP}
-In section 6.2 of the main paper I calculate $\epsilon_{Kt}$ estimates after de-capitalizing intellectual property from the national accounts, as in \cite{ksz2020}. The details of that de-capitalizing process are as follows.
+In section \ref{SEC_decapip} of the main paper I calculate $\epsilon_{Kt}$ estimates after de-capitalizing intellectual property from the national accounts, as in \cite{ksz2020}. The details of that de-capitalizing process are as follows.
 
 For each industry $i$, value-added without IP is $VALU_{it}^{NoIP} = VALU_{it} - INV_{i,IP,t}$, where $INV_{i,IP,t}$ is own-account investment spending on IP. Second, total investment by industry $i$ is set to $INV_{it}^{NoIP} = INV_{it} - INV_{i,IP,t}$. Third, total depreciation by industry $i$ is set to $DEPR_{it}^{IP} = DEPR_{it} - DEPR_{i,IP,t}$. Finally, the stock of capital in industry $i$ is set to $K^{NoIP}_{it} = K_{it} - K_{i,IP,t}$. 
 
@@ -481,6 +559,8 @@ For the other capital cost assumptions, this issue does not arise. For depreciat
 \section{Annual estimates of elasticities}
 Tables \ref{TAB_annual_noprofit}-\ref{TAB_annual_usercost} show annual estimates of the four elasticities (labor, structures, equipment, and IP) under the baseline assumptions made in the main text. In particular, estimates are made splitting proprietors income according to \cite{gommerupert2004}, with all industries included, and with intellectual capital included in the capital stock. The four Tables differ in the assumption used to calculate capital costs: no-profit, depreciation cost, investment cost, and user cost. 
 
+\clearpage
+
 \onehalfspacing
 %\renewcommand{\refname}{\textbf{REFERENCES}}
 %\setlength{\bibsep}{1pt}
@@ -489,6 +569,7 @@ Tables \ref{TAB_annual_noprofit}-\ref{TAB_annual_usercost} show annual estimates
 \bibliography{Elasticity.bib}
 }
 
+\clearpage
 
 \begin{figure}[!htb]
 \begin{center}
@@ -521,27 +602,37 @@ Tables \ref{TAB_annual_noprofit}-\ref{TAB_annual_usercost} show annual estimates
 }
 \end{figure}
 
+\begin{figure}[!htb]
+\begin{center}
+\caption{Counter-factual elasticity calculation, U.S. 1948-2018}
+\label{FIG_cap_bound_comparison}
+\includegraphics[width=1.0\textwidth]{fig_cap_bounds_comparison.eps}
+\end{center}
+\vspace{-.5cm}\singlespacing {\footnotesize \textbf{Notes}: This shows the baseline no-profit and depreciation cost estimates of $\epsilon_K$ in black. The gray dashed line is the counterfactual estimate $\epsilon_K^{CF}$, formed by using the cost share of capital under the depreciation cost assumption but weighted by the Leontief inverse from the no-profit assumption.
+}
+\end{figure}
+
 
 \begin{figure}[!htb]
 \begin{center}
-\caption{Aggregate value-added markup under different capital cost assumptions}
-\label{FIG_markupva}
-\includegraphics[width=1.0\textwidth]{fig_cap_markupva_comparison.eps}
+\caption{Aggregate gross output markup under different capital cost assumptions}
+\label{FIG_markupgo}
+\includegraphics[width=1.0\textwidth]{fig_cap_markupgo_comparison_dleu.eps}
 \end{center}
-\vspace{-.5cm}\singlespacing {\footnotesize \textbf{Notes}: This shows the time series of $\mu_t^{VA}$, the aggregate value-added markup, under three different assumptions on capital costs: no-profits (by construction the markup is one), investment costs, and depreciation costs. These series are based on the baseline estimates, including all industries. 
+\vspace{-.5cm}\singlespacing {\footnotesize \textbf{Notes}: This shows the time series of $\mu_t^{GO}$, the aggregate gross output markup under three different assumptions on capital costs: no-profits (by construction the markup is one), investment costs, and depreciation costs. The Compustat-based series depending on production function and cost shares from that data are also plotted. These series are based on the baseline estimates, including all industries. 
 }
 \end{figure}
 
 \begin{figure}[!htb]
 \begin{center}
-\caption{Profits as a share of value-added under different capital cost assumptions}
-\label{FIG_profitshare}
-\includegraphics[width=1.0\textwidth]{fig_cap_profitsva_comparison.eps}
+\caption{Aggregate capital elasticity and mean industry-level capital elasticity, U.S. 1948-2018}
+\label{FIG_op_comparison}
+\includegraphics[width=1.0\textwidth]{fig_cap_op_comparison.eps}
 \end{center}
-\vspace{-.5cm}\singlespacing {\footnotesize \textbf{Notes}: This shows the time series of $\pi_t^{VA}$, the aggregate value-added markup, under three different assumptions on capital costs: no-profits (by construction the markup is one), investment costs, and depreciation costs. These series are based on the baseline estimates, including all industries. 
+\vspace{-.5cm}\singlespacing {\footnotesize \textbf{Notes}: The estimates of the aggregate capital elasticity (black lines), $\epsilon_{Kt}$, are made using equation (9) in the text. The two estimates differ in the assumption regarding capital costs - depreciation costs only or a no-profit assumption - as explained in the text. The mean industry-level capital elasticity (gray lines) is the term $\overline{\ell}_{Kt}$ from equation (\ref{EQ_op}) . It is the raw average of the elements $\ell_{iKt}$ from the Leontief inverse found in equation (9). The difference between the aggregate elasticity and the mean industry-level elasticity is due to the covariance of the final-use share of an industry and the industry-level elasticity. In both the depreciation and no-profit case, the covariances are positive as the aggregate elasticity lies above the mean industry-level elasticity. The figure shows the trend upward in the aggregate elasticity bounds was due to industries, on average, having higher capital elasticities over time, and not due to a change in the covariance of industry size (in final-use terms) and the size of the elasticity.
+
 }
 \end{figure}
-
 
 \begin{figure}[!htb]
 \begin{center}
@@ -585,7 +676,7 @@ Tables \ref{TAB_annual_noprofit}-\ref{TAB_annual_usercost} show annual estimates
 \multicolumn{2}{c}{SIC 1972:} & \multicolumn{2}{c}{NAICS 1948-62:} \\ \cmidrule(lr){1-2} \cmidrule(lr){3-4}
 Code  & Code text  & Code & Code text \\ 
 \midrule
-\input{tab_match_sic72_4762part1.txt}
+\csname @@input\endcsname tab_match_sic72_4762part1.txt
 \midrule
 \end{tabular}
 }
@@ -604,7 +695,7 @@ Code  & Code text  & Code & Code text \\
 \multicolumn{2}{c}{SIC 1972:} & \multicolumn{2}{c}{NAICS 1948-62:} \\ \cmidrule(lr){1-2} \cmidrule(lr){3-4}
 Code  & Code text  & Code & Code text \\ 
 \midrule
-\input{tab_match_sic72_4762part2.txt}
+\csname @@input\endcsname tab_match_sic72_4762part2.txt
 \midrule
 \end{tabular}
 }
@@ -623,7 +714,7 @@ Code  & Code text  & Code & Code text \\
 \multicolumn{2}{c}{SIC 1972:} & \multicolumn{2}{c}{NAICS 1963-86:} \\ \cmidrule(lr){1-2} \cmidrule(lr){3-4}
 Code  & Code text  & Code & Code text \\ 
 \midrule
-\input{tab_match_sic72_6386part1.txt}
+\csname @@input\endcsname tab_match_sic72_6386part1.txt
 \midrule
 \end{tabular}
 }
@@ -642,7 +733,7 @@ Code  & Code text  & Code & Code text \\
 \multicolumn{2}{c}{SIC 1972:} & \multicolumn{2}{c}{NAICS 1963-86:} \\ \cmidrule(lr){1-2} \cmidrule(lr){3-4}
 Code  & Code text  & Code & Code text \\ 
 \midrule
-\input{tab_match_sic72_6386part2.txt}
+\csname @@input\endcsname tab_match_sic72_6386part2.txt
 \midrule
 \end{tabular}
 }
@@ -661,7 +752,7 @@ Code  & Code text  & Code & Code text \\
 \multicolumn{2}{c}{SIC 1987:} & \multicolumn{2}{c}{NAICS 1987-96:} \\ \cmidrule(lr){1-2} \cmidrule(lr){3-4}
 Code  & Code text  & Code & Code text \\ 
 \midrule
-\input{tab_match_sic87_8796part1.txt}
+\csname @@input\endcsname tab_match_sic87_8796part1.txt
 \midrule
 \end{tabular}
 }
@@ -680,7 +771,7 @@ Code  & Code text  & Code & Code text \\
 \multicolumn{2}{c}{SIC 1987:} & \multicolumn{2}{c}{NAICS 1987-96:} \\ \cmidrule(lr){1-2} \cmidrule(lr){3-4}
 Code  & Code text  & Code & Code text \\ 
 \midrule
-\input{tab_match_sic87_8796part2.txt}
+\csname @@input\endcsname tab_match_sic87_8796part2.txt
 \midrule
 \end{tabular}
 }
@@ -701,7 +792,7 @@ Code  & Code text  & Code & Code text \\
  & Redef.  & Redef.  & Difference & Redef.  & Redef. & Difference \\
 Year & (1) & (2) & (3) & (4) & (5) & (6) \\
 \midrule
-\input{tab_tr_summary1.txt}
+\csname @@input\endcsname tab_tr_summary1.txt
 \midrule
 \end{tabularx}
 }
@@ -722,7 +813,7 @@ Year & (1) & (2) & (3) & (4) & (5) & (6) \\
  & Redef.  & Redef.  & Difference & Redef.  & Redef. & Difference \\
 Year & (1) & (2) & (3) & (4) & (5) & (6) \\
 \midrule
-\input{tab_tr_summary2.txt}
+\csname @@input\endcsname tab_tr_summary2.txt
 \midrule
 \end{tabularx}
 }
@@ -744,7 +835,7 @@ Year & (1) & (2) & (3) & (4) & (5) & (6) \\
  & Imports  & Imports & Difference & Imports  & Imports & Difference \\
 Year & (1) & (2) & (3) & (4) & (5) & (6) \\
 \midrule
-\input{tab_import_summary1.txt}
+\csname @@input\endcsname tab_import_summary1.txt
 \midrule
 \end{tabularx}
 }
@@ -765,7 +856,7 @@ Year & (1) & (2) & (3) & (4) & (5) & (6) \\
  & Imports  & Imports & Difference & Imports  & Imports & Difference \\
 Year & (1) & (2) & (3) & (4) & (5) & (6) \\
 \midrule
-\input{tab_import_summary2.txt}
+\csname @@input\endcsname tab_import_summary2.txt
 \midrule
 \end{tabularx}
 }
@@ -774,10 +865,9 @@ Year & (1) & (2) & (3) & (4) & (5) & (6) \\
 }
 \end{table}
 
-
 \begin{table}[!htb]
 \begin{center}
-\caption{Capital costs as share of factor costs and value-added, housing and government}
+\caption{Capital costs as share of factor costs and value-added, by sector}
 \label{TAB_ratios}
 {\footnotesize
 \begin{tabularx}{\textwidth}{lXXXXXXXX}
@@ -787,7 +877,28 @@ Year & (1) & (2) & (3) & (4) & (5) & (6) \\
  &  Mean & Median  & Minimum & Maximum  &  Mean & Median  & Minimum & Maximum \\
 Variant & (1) & (2) & (3) & (4) & (5) & (6) & (7) & (8) \\
 \midrule
-\input{tab_cost_hsgov.txt}
+\csname @@input\endcsname tab_cost_summary.txt
+\midrule
+\end{tabularx}
+}
+\end{center}
+\vspace{-.5cm}\singlespacing {\footnotesize \textbf{Notes}: T$s^{Cost}_{Kt}$ is calculated as in equations (\ref{EQ_scost}) and $s^{VA}_{Kt}$ is total capital costs as a share of value-added. The panels of the table refer to different sectors of the economy. Panel A includes all industries. Panel B is just the private business sector, which excludes owner-occupied housing and government. Owner-occupied housing refers to NAICS codes HS, ORE, and 531. Government refers to NAICS codes GFGD, GFGN, GFE, GSLG, GSLE, and GFG, which covers federal, state, and local government, both general and enterprises. In each row, the assumption made to calculate capital costs is labeled, as described in the text. Columns (1)-(4) are summary statistics over 1948-2018 for the total estimated capital costs divided by total factor costs (the sum of capital costs and labor costs). Columns (5)-(9) are summary statistics over 1948-2018 for total capital costs divided by value-added. 
+}
+\end{table}
+
+\begin{table}[!htb]
+\begin{center}
+\caption{Capital costs as share of factor costs and value-added, housing and government}
+\label{TAB_ratios_hgov}
+{\footnotesize
+\begin{tabularx}{\textwidth}{lXXXXXXXX}
+\midrule
+        & \multicolumn{8}{c}{Summary statistics, 1948-2018:} \\ \cmidrule(lr){2-9} 
+        & \multicolumn{4}{c}{Capital costs/Factor costs, $s^{Cost}_{Kt}$} & \multicolumn{4}{c}{Capital costs/Value-added, $s^{VA}_{Kt}$} \\ \cmidrule(lr){2-5} \cmidrule(lr){6-9} 
+ &  Mean & Median  & Minimum & Maximum  &  Mean & Median  & Minimum & Maximum \\
+Variant & (1) & (2) & (3) & (4) & (5) & (6) & (7) & (8) \\
+\midrule
+\csname @@input\endcsname tab_cost_hsgov.txt
 \midrule
 \end{tabularx}
 }
@@ -807,7 +918,7 @@ Variant & (1) & (2) & (3) & (4) & (5) & (6) & (7) & (8) \\
 & \multicolumn{4}{c}{Elasticity with respect to:} & & \multicolumn{4}{c}{Elasticity with respect to:} \\ \cmidrule(lr){2-5} \cmidrule(lr){7-10}
 Year  & Labor  & Structures & Equipment & IP & Year  & Labor  & Structures & Equipment & IP \\ 
 \midrule
-\input{tab_elas_noprofit_annual.txt}
+\csname @@input\endcsname tab_elas_noprofit_annual.txt
 \midrule
 \end{tabularx}
 }
@@ -826,7 +937,7 @@ Year  & Labor  & Structures & Equipment & IP & Year  & Labor  & Structures & Equ
 & \multicolumn{4}{c}{Elasticity with respect to:} & & \multicolumn{4}{c}{Elasticity with respect to:} \\ \cmidrule(lr){2-5} \cmidrule(lr){7-10}
 Year  & Labor  & Structures & Equipment & IP & Year  & Labor  & Structures & Equipment & IP \\ 
 \midrule
-\input{tab_elas_deprcost_annual.txt}
+\csname @@input\endcsname tab_elas_deprcost_annual.txt
 \midrule
 \end{tabularx}
 }
@@ -844,7 +955,7 @@ Year  & Labor  & Structures & Equipment & IP & Year  & Labor  & Structures & Equ
 & \multicolumn{4}{c}{Elasticity with respect to:} & & \multicolumn{4}{c}{Elasticity with respect to:} \\ \cmidrule(lr){2-5} \cmidrule(lr){7-10}
 Year  & Labor  & Structures & Equipment & IP & Year  & Labor  & Structures & Equipment & IP \\ 
 \midrule
-\input{tab_elas_invcost_annual.txt}
+\csname @@input\endcsname tab_elas_invcost_annual.txt
 \midrule
 \end{tabularx}
 }
@@ -863,11 +974,12 @@ Year  & Labor  & Structures & Equipment & IP & Year  & Labor  & Structures & Equ
 & \multicolumn{4}{c}{Elasticity with respect to:} & & \multicolumn{4}{c}{Elasticity with respect to:} \\ \cmidrule(lr){2-5} \cmidrule(lr){7-10}
 Year  & Labor  & Structures & Equipment & IP & Year  & Labor  & Structures & Equipment & IP \\ 
 \midrule
-\input{tab_elas_usercost_annual.txt}
+\csname @@input\endcsname tab_elas_usercost_annual.txt
 \midrule
 \end{tabularx}
 }
 \end{center}
 {\footnotesize Notes: This table shows the estimated values of the elasticities for the four factors of production - labor and three types of capital (structures, equipment, and IP) - in the baseline calculations of the paper using user costs to calculate capital costs. Proprietors income is split according to \cite{gommerupert2004}, all industries are included, and intellectual property is included as a type of capital. Details on those assumptions are available in the main text.}
 \end{table}
+
 \end{document}
